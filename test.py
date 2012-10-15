@@ -5,12 +5,16 @@ from slugify import slugify
 
 class TestSequenceFunctions(unittest.TestCase):
 
-    def test_space_dash(self):
+    def test_manager(self):
+        
         txt = "This is a test ---"
         r = slugify(txt)
         self.assertEquals(r, "this-is-a-test")
-
-    def test_special_chars(self):
+        
+        txt = "This -- is a ## test ---"
+        r = slugify(txt)
+        self.assertEquals(r, "this-is-a-test")
+        
         txt = 'C\'est déjà l\'été.'
         r = slugify(txt)
         self.assertEquals(r, "cest-deja-lete")
@@ -19,9 +23,9 @@ class TestSequenceFunctions(unittest.TestCase):
         r = slugify(txt)
         self.assertEquals(r, "nin-hao-wo-shi-zhong-guo-ren")
 
-        txt = '影師嗎'
+        txt = 'Компьютер'
         r = slugify(txt)
-        self.assertEquals(r, "ying-shi-ma")
+        self.assertEquals(r, "kompiuter")
 
 if __name__ == '__main__':
     unittest.main()

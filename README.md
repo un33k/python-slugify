@@ -43,6 +43,10 @@ How to use
     r = slugify(s)
     print r # => "ying-shi-ma"
 
+    txt = 'Компьютер'
+    r = slugify(txt)
+    print r # => "kompiuter"
+
 
 Running the tests
 =================
@@ -53,6 +57,10 @@ To run the tests against the current environment:
 
 Changelog
 =========
+
+0.0.2
+-----
+* Added more tests
 
 0.0.1
 -----
