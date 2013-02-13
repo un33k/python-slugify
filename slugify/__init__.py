@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 __all__ = ['slugify']
 
@@ -23,7 +23,22 @@ REPLACE1_REXP = re.compile(r'[\']+')
 REPLACE2_REXP = re.compile(r'[^-a-z0-9]+')
 REMOVE_REXP = re.compile('-{2,}')
 
-def slugify(text, entities=True, decimal=True, hexadecimal=True):
+def smart_truncate(text, max_length=0, word_boundaries=False):
+    if not max_length or len(text) < max_length:
+        return text
+
+    if not word_boundaries:
+        return text[:max_length].strip('-')
+
+    truncated = ''
+    for i, word in enumerate(text.split('-')):
+        if not word: continue
+        if len(truncated) + len(word) + i <= max_length:
+            truncated += '{0}{1}'.format('-' if i else '', word)
+    return truncated.strip('-')
+
+
+def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False):
     """ Make a slug from the given text """
 
     # text to unicode
@@ -64,4 +79,12 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True):
     # remove redundant -
     text = REMOVE_REXP.sub('-', text).strip('-')
 
+    # smart truncate if requested
+    if max_length > 0:
+        text = smart_truncate(text, max_length, word_boundary)
+
     return text
+
+
+
+

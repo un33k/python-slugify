@@ -27,6 +27,34 @@ class TestSequenceFunctions(unittest.TestCase):
         r = slugify(txt)
         self.assertEquals(r, "kompiuter")
 
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt)
+        self.assertEquals(r, "jaja-lol-mememeoo-a")
+
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=9)
+        self.assertEquals(r, "jaja-lol")
+
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=15)
+        self.assertEquals(r, "jaja-lol-mememe")
+
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=50)
+        self.assertEquals(r, "jaja-lol-mememeoo-a")
+
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=15, word_boundary=True)
+        self.assertEquals(r, "jaja-lol-a")
+
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=19, word_boundary=True)
+        self.assertEquals(r, "jaja-lol-mememeoo")
+
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=20, word_boundary=True)
+        self.assertEquals(r, "jaja-lol-mememeoo-a")
+
 if __name__ == '__main__':
     unittest.main()
 
