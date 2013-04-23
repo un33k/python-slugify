@@ -23,22 +23,22 @@ REPLACE1_REXP = re.compile(r'[\']+')
 REPLACE2_REXP = re.compile(r'[^-a-z0-9]+')
 REMOVE_REXP = re.compile('-{2,}')
 
-def smart_truncate(text, max_length=0, word_boundaries=False):
+def smart_truncate(text, max_length=0, word_boundaries=False,separator='-'):
     if not max_length or len(text) < max_length:
         return text
 
     if not word_boundaries:
-        return text[:max_length].strip('-')
+        return text[:max_length].strip(separator)
 
     truncated = ''
-    for i, word in enumerate(text.split('-')):
+    for i, word in enumerate(text.split(separator)):
         if not word: continue
         if len(truncated) + len(word) + i <= max_length:
             truncated += '{0}{1}'.format('-' if i else '', word)
-    return truncated.strip('-')
+    return truncated.strip(separator)
 
 
-def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False):
+def slugify(text, separator='-',entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False):
     """ Make a slug from the given text """
 
     # text to unicode
@@ -74,10 +74,10 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # replace unwanted characters
     text = REPLACE1_REXP.sub('', text.lower()) # replace ' with nothing instead with -
-    text = REPLACE2_REXP.sub('-', text.lower())
+    text = REPLACE2_REXP.sub(separator, text.lower())
 
     # remove redundant -
-    text = REMOVE_REXP.sub('-', text).strip('-')
+    text = REMOVE_REXP.sub('-', text).strip(separator)
 
     # smart truncate if requested
     if max_length > 0:
