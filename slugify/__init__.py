@@ -23,7 +23,7 @@ REPLACE1_REXP = re.compile(r'[\']+')
 REPLACE2_REXP = re.compile(r'[^-a-z0-9]+')
 REMOVE_REXP = re.compile('-{2,}')
 
-def smart_truncate(text, max_length=0, word_boundaries=False,separator='-'):
+def smart_truncate(text, max_length=0, word_boundaries=False, separator='-'):
     if not max_length or len(text) < max_length:
         return text
 
