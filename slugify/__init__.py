@@ -38,7 +38,7 @@ def smart_truncate(text, max_length=0, word_boundaries=False,separator='-'):
     return truncated.strip(separator)
 
 
-def slugify(text, separator='-',entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False):
+def slugify(text, separator='-', entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False):
     """ Make a slug from the given text """
 
     # text to unicode
