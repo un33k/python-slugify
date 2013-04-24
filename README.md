@@ -75,6 +75,13 @@ How to use
     r = slugify(txt, max_length=20, word_boundary=True)
     self.assertEquals(r, "jaja-lol-mememeoo-a")
 
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=20, word_boundary=True, separator=".")
+    self.assertEquals(r, "jaja.lol.mememeoo.a")
+
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
+    self.assertEquals(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
 
 Running the tests
 =================
@@ -86,9 +93,13 @@ To run the tests against the current environment:
 Changelog
 =========
 
+0.0.4
+-----
+* Added option to add a non-dash separator (feature request by: danilodimoia)
+
 0.0.3
 -----
-* Added the ability to truncate slugs + tests (viva Juan Riaza of Spain)
+* Added the ability to truncate slugs + tests (feature request by: Juan Riaza of Spain)
 
 0.0.2
 -----
@@ -103,7 +114,7 @@ Changelog
 License
 =======
 
-Copyright © Val Neekman
+Copyright © Val Neekman (Neekware Inc.)
 
 All rights reserved.
 

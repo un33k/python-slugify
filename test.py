@@ -55,6 +55,14 @@ class TestSequenceFunctions(unittest.TestCase):
         r = slugify(txt, max_length=20, word_boundary=True)
         self.assertEquals(r, "jaja-lol-mememeoo-a")
 
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=20, word_boundary=True, separator=".")
+        self.assertEquals(r, "jaja.lol.mememeoo.a")
+
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
+        self.assertEquals(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
+
 if __name__ == '__main__':
     unittest.main()
 

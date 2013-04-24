@@ -16,7 +16,7 @@ author_email = 'info@neekware.com'
 license = 'BSD'
 install_requires = ['Unidecode>=0.04.9']
 classifiers = [
-    'Development Status :: 3 - Alpha',
+    'Development Status :: 4 - Beta',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: BSD License',
     'Operating System :: POSIX',
