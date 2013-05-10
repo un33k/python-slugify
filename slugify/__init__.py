@@ -6,8 +6,9 @@ __all__ = ['slugify']
 
 import re
 import unicodedata
+import types
+import sys
 from htmlentitydefs import name2codepoint
-from types import UnicodeType
 from unidecode import unidecode
 
 # character entity reference
@@ -42,14 +43,15 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     """ Make a slug from the given text """
 
     # text to unicode
-    if type(text) != UnicodeType:
+    if type(text) != types.UnicodeType:
         text = unicode(text, 'utf-8', 'ignore')
 
     # decode unicode ( 影師嗎 = Ying Shi Ma)
     text = unidecode(text)
 
     # text back to unicode
-    text = unicode(text, 'utf-8', 'ignore')
+    if type(text) != types.UnicodeType:
+    	text = unicode(text, 'utf-8', 'ignore')
 
     # character entity reference
     if entities:
@@ -70,7 +72,9 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
             pass
 
     # translate
-    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')
+    text = unicodedata.normalize('NFKD', text)
+    if sys.version_info < (3,):
+    	text = text.encode('ascii', 'ignore')
 
     # replace unwanted characters
     text = REPLACE1_REXP.sub('', text.lower()) # replace ' with nothing instead with -
