@@ -60,9 +60,9 @@ def get_package_data(package):
 if sys.argv[-1] == 'publish':
     os.system("python setup.py sdist upload")
     args = {'version': get_version(package)}
-    print "You probably want to also tag the version now:"
-    print "  git tag -a %(version)s -m 'version %(version)s'" % args
-    print "  git push --tags"
+    print("You probably want to also tag the version now:")
+    print("  git tag -a %(version)s -m 'version %(version)s'" % args)
+    print("  git push --tags")
     sys.exit()
 
 
@@ -77,7 +77,8 @@ setup(
     packages=get_packages(package),
     package_data=get_package_data(package),
     install_requires=install_requires,
-    classifiers=classifiers
+    classifiers=classifiers,
+    use_2to3=True,
 )
 
 
