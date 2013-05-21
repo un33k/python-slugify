@@ -3,7 +3,7 @@ Python Slugify
 
 **A Python slugify application that handles unicode**
 
-**Author:** Val Neekman [ info@neekware.com, @vneekman ]
+**Author:** Val Neekman [ info [@] neekware.com, [@vneekman](https://twitter.com/vneekman) ]
 
 Overview
 ========
@@ -93,13 +93,17 @@ To run the tests against the current environment:
 Changelog
 =========
 
+0.0.5
+-----
+* Added Python 3.0 Support (work by: arthurdarcet@github)
+
 0.0.4
 -----
-* Added option to add a non-dash separator (feature request by: danilodimoia)
+* Added option to add a non-dash separator (feature request by: danilodimoia@github)
 
 0.0.3
 -----
-* Added the ability to truncate slugs + tests (feature request by: Juan Riaza of Spain)
+* Added the ability to truncate slugs + tests (feature request by:juanriaza@github)
 
 0.0.2
 -----
@@ -114,7 +118,7 @@ Changelog
 License
 =======
 
-Copyright © Val Neekman (Neekware Inc.)
+Copyright © Val Neekman ([Neekware Inc.](http://neekware.com))
 
 All rights reserved.
 

@@ -1,2 +1,3 @@
-Unidecode>=0.04.9
+Unidecode>=0.04.12
+
 
