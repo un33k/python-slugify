@@ -95,7 +95,7 @@ Changelog
 
 0.0.5
 -----
-* Added Python 3.0 Support (work by: arthurdarcet@github)
+* Added Python 3.2/3.3 Support. (work done by: arthurdarcet@github)
 
 0.0.4
 -----
