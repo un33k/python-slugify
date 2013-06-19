@@ -34,7 +34,7 @@ def smart_truncate(text, max_length=0, word_boundaries=False):
     truncated = ''
     for i, word in enumerate(text.split('-')):
         if not word: continue
-        if len(truncated) + len(word) + i <= max_length:
+        if len(truncated) + len(word) + 1 <= max_length:
             truncated += '{0}{1}'.format('-' if i else '', word)
     return truncated.strip('-')
 
