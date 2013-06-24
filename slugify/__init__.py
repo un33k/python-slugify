@@ -24,19 +24,32 @@ REPLACE1_REXP = re.compile(r'[\']+')
 REPLACE2_REXP = re.compile(r'[^-a-z0-9]+')
 REMOVE_REXP = re.compile('-{2,}')
 
-def smart_truncate(text, max_length=0, word_boundaries=False):
-    if not max_length or len(text) < max_length:
-        return text
+def smart_truncate(string, max_length=0, word_boundaries=False, separator=' '):
+    """ Truncate a string """
+
+    string = string.strip(separator)
+
+    if not max_length:
+        return string
+
+    if len(string) < max_length:
+        return string
 
     if not word_boundaries:
-        return text[:max_length].strip('-')
+        return string[:max_length].strip(separator)
+
+    if separator not in string:
+        return string[:max_length]
 
     truncated = ''
-    for i, word in enumerate(text.split('-')):
-        if not word: continue
-        if len(truncated) + len(word) + i <= max_length:
-            truncated += '{0}{1}'.format('-' if i else '', word)
-    return truncated.strip('-')
+    for word in string.split(separator):
+        if word:
+            next_len = len(truncated) + len(word) + len(separator)
+            if next_len <= max_length:
+                truncated += '{0}{1}'.format(word, separator)
+    if not truncated:
+        truncated = string[:max_length]
+    return truncated.strip(separator)
 
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False, separator='-'):
@@ -85,7 +98,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # smart truncate if requested
     if max_length > 0:
-        text = smart_truncate(text, max_length, word_boundary)
+        text = smart_truncate(text, max_length, word_boundary, '-')
 
     if separator != '-':
         text = text.replace('-', separator)
