@@ -93,6 +93,10 @@ To run the tests against the current environment:
 Changelog
 =========
 
+0.0.6
+-----
+* Update for smart_truncate
+
 0.0.5
 -----
 * Added Python 3.2/3.3 Support. (work done by: arthurdarcet@github)
