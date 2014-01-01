@@ -129,7 +129,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-Note: Django is a registered trademark of the Django Software Foundation.
+Note: Python is a registered trademark of the Python Software Foundation.
 
 
 [build-status-image-travis]: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
