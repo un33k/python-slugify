@@ -101,11 +101,6 @@ Credits
 ====================
 **Author:** Val Neekman, [ info@neekware.com, [@vneekman](https://twitter.com/vneekman) ]
 
-Also:
-    -- arthurdarcet@github
-    -- danilodimoia@github
-    -- juanriaza@github
-
 
 License (BSD)
 ====================
