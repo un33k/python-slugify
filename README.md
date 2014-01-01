@@ -97,7 +97,7 @@ To run the tests against the current environment:
     python test.py
 
 
-License (BSD)
+License
 ====================
 
 Protected by ([BSD](LICENSE.md))
