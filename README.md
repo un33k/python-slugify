@@ -104,7 +104,7 @@ Released under ([BSD](LICENSE.md)).
 
 
 [build-status-image-travis]: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
-[travis]: http://travis-ci.org/tomchristie/python-slugify?branch=master
+[travis]: http://travis-ci.org/un33k/python-slugify?branch=master
 
 [build-status-image-fury]: https://badge.fury.io/py/python-slugify.png
 [fury]: http://badge.fury.io/py/python-slugify
