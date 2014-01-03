@@ -100,7 +100,7 @@ To run the tests against the current environment:
 License
 ====================
 
-Protected by ([BSD](LICENSE.md))
+Released under ([BSD](LICENSE.md)).
 
 
 [build-status-image-travis]: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
