@@ -5,6 +5,7 @@ from setuptools import setup
 import re
 import os
 import sys
+import codecs
 
 
 name = 'python-slugify'
@@ -28,7 +29,7 @@ def get_version(package):
     """
     Return package version as listed in `__version__` in `init.py`.
     """
-    init_py = open(os.path.join(package, '__init__.py')).read()
+    init_py = codecs.open(os.path.join(package, '__init__.py'), encoding='utf-8').read()
     return re.search("^__version__ = ['\"]([^'\"]+)['\"]", init_py, re.MULTILINE).group(1)
 
 
