@@ -1,4 +1,12 @@
 
+## 0.0.7
+
+Enhancement:
+
+  - Handle encoding in setup file
+  - Update ReadME, ChangeLog, License files
+
+
 ## 0.0.6
 
 Enhancement:
@@ -31,11 +39,4 @@ Features:
 
 Enhancement:
 
-  - Added more test
-
-
-## 0.0.1
-
-Features:
-
-  - Initial Release
+  - A

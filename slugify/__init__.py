@@ -104,7 +104,3 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
         text = text.replace('-', separator)
 
     return text
-
-
-
-

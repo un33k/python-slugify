@@ -10,4 +10,3 @@ before_script:
   - if [[ $TRAVIS_PYTHON_VERSION == '3.2' ]]; then 2to3 --no-diffs --write --nobackups slugify; fi
   - if [[ $TRAVIS_PYTHON_VERSION == '3.3' ]]; then 2to3 --no-diffs --write --nobackups slugify; fi
 script: python test.py
-

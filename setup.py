@@ -81,5 +81,3 @@ setup(
     classifiers=classifiers,
     use_2to3=True,
 )
-
-
