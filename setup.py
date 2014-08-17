@@ -80,5 +80,5 @@ setup(
     install_requires=install_requires,
     classifiers=classifiers,
     use_2to3=True,
-    entry_points={'console_scripts': ['slugify=slugify:main']},
+    entry_points={'console_scripts': ['slugify=slugify.slugify:main']},
 )

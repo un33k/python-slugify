@@ -1,3 +1,9 @@
+## 0.0.9
+
+Enhancement:
+
+  - Enable console_scripts
+
 
 ## 0.0.8
 
