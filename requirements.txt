@@ -1,1 +1,1 @@
-Unidecode>=0.04.12
+Unidecode>=0.04.16

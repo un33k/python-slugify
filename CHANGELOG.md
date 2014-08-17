@@ -1,4 +1,14 @@
 
+## 0.0.8
+
+Enhancement:
+
+  - Move logic out of __init__.py
+  - Added console_scripts (@ekamil)
+  - Updated pep8.sh
+  - Added pypy support
+
+
 ## 0.0.7
 
 Enhancement:

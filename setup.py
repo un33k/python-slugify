@@ -10,12 +10,12 @@ import codecs
 
 name = 'python-slugify'
 package = 'slugify'
-description = 'A Python slugify application that handles unicode'
+description = 'A Python Slugify application that handles Unicode'
 url = 'https://github.com/un33k/python-slugify'
 author = 'Val Neekman'
 author_email = 'info@neekware.com'
 license = 'BSD'
-install_requires = ['Unidecode>=0.04.12']
+install_requires = ['Unidecode>=0.04.16']
 classifiers = [
     'Development Status :: 4 - Beta',
     'Intended Audience :: Developers',

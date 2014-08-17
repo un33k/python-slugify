@@ -3,18 +3,23 @@
 import unittest
 from slugify import slugify
 
+
 class TestSequenceFunctions(unittest.TestCase):
 
     def test_manager(self):
-        
+
         txt = "This is a test ---"
         r = slugify(txt)
         self.assertEqual(r, "this-is-a-test")
-        
+
         txt = "This -- is a ## test ---"
         r = slugify(txt)
         self.assertEqual(r, "this-is-a-test")
-        
+
+        txt = '影師嗎'
+        r = slugify(txt)
+        self.assertEqual(r, "ying-shi-ma")
+
         txt = 'C\'est déjà l\'été.'
         r = slugify(txt)
         self.assertEqual(r, "cest-deja-lete")
