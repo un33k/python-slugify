@@ -1,3 +1,10 @@
+## 0.1.0
+
+Enhancement:
+
+  - Added more test
+  - Added test for python 3.4
+
 ## 0.0.9
 
 Enhancement:

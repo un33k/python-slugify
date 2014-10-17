@@ -68,5 +68,13 @@ class TestSequenceFunctions(unittest.TestCase):
         r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
         self.assertEqual(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
 
+        txt = "___This is a test ---"
+        r = slugify(txt)
+        self.assertEqual(r, "this-is-a-test")
+
+        txt = "___This is a test___"
+        r = slugify(txt)
+        self.assertEqual(r, "this-is-a-test")
+
 if __name__ == '__main__':
     unittest.main()
