@@ -23,7 +23,7 @@ REPLACE2_REXP = re.compile(r'[^-a-z0-9]+')
 REMOVE_REXP = re.compile('-{2,}')
 
 
-def smart_truncate(string, max_length=0, word_boundaries=False, save_order=False, separator=' '):
+def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', save_order=False):
     """Truncate a string.
     :param string (str): string for modification
     :param max_length (int): output string length
@@ -64,8 +64,8 @@ def smart_truncate(string, max_length=0, word_boundaries=False, save_order=False
     return truncated.strip(separator)
 
 
-def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False, save_order=False,
-            separator='-'):
+def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
+            separator='-', save_order=False):
     """Make a slug from the given text.
     :param text (str): initial text
     :param entities (bool):
@@ -121,7 +121,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # smart truncate if requested
     if max_length > 0:
-        text = smart_truncate(text, max_length, word_boundary, save_order, '-')
+        text = smart_truncate(text, max_length, word_boundary, '-', save_order)
 
     if separator != '-':
         text = text.replace('-', separator)
