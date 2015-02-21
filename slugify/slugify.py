@@ -23,15 +23,8 @@ REPLACE2_REXP = re.compile(r'[^-a-z0-9]+')
 REMOVE_REXP = re.compile('-{2,}')
 
 
-def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', save_order=False):
-    """Truncate a string.
-    :param string (str): string for modification
-    :param max_length (int): output string length
-    :param word_boundaries (bool):
-    :param save_order (bool): if True then word order output string is like input string
-    :param separator (str): separator between words
-    :return:
-    """
+def smart_truncate(string, max_length=0, word_boundaries=False, separator=' '):
+    """ Truncate a string """
 
     string = string.strip(separator)
 
@@ -51,32 +44,15 @@ def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', s
     for word in string.split(separator):
         if word:
             next_len = len(truncated) + len(word)
-            if next_len < max_length:
+            if next_len <= max_length:
                 truncated += '{0}{1}'.format(word, separator)
-            elif next_len == max_length:
-                truncated += '{0}'.format(word)
-                break
-            else:
-                if save_order:
-                    break
     if not truncated:
         truncated = string[:max_length]
     return truncated.strip(separator)
 
 
-def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
-            separator='-', save_order=False):
-    """Make a slug from the given text.
-    :param text (str): initial text
-    :param entities (bool):
-    :param decimal (bool):
-    :param hexadecimal (bool):
-    :param max_length (int): output string length
-    :param word_boundary (bool):
-    :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
-    :param separator (str): separator between words
-    :return (str):
-    """
+def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False, separator='-'):
+    """ Make a slug from the given text """
 
     # text to unicode
     if not isinstance(text, types.UnicodeType):
@@ -121,7 +97,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # smart truncate if requested
     if max_length > 0:
-        text = smart_truncate(text, max_length, word_boundary, '-', save_order)
+        text = smart_truncate(text, max_length, word_boundary, '-')
 
     if separator != '-':
         text = text.replace('-', separator)
