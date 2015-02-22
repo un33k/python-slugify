@@ -80,5 +80,22 @@ class TestSequenceFunctions(unittest.TestCase):
         r = slugify(txt)
         self.assertEqual(r, "this-is-a-test")
 
+        txt = 'Тестирование полных слов без замены'
+        r = slugify(txt, max_length=20, word_boundary=True, save_order=False)
+        self.assertEqual(r, "testirovanie-polnykh")
+
+        txt = 'Тестирование полных слов без замены'
+        r = slugify(txt, max_length=19, word_boundary=True, save_order=False)
+        self.assertEqual(r, "testirovanie-slov")
+
+        txt = 'Тестирование полных слов без замены'
+        r = slugify(txt, max_length=20, word_boundary=True, save_order=True)
+        self.assertEqual(r, "testirovanie-polnykh")
+
+        txt = 'Тестирование полных слов без замены'
+        r = slugify(txt, max_length=19, word_boundary=True, save_order=True)
+        self.assertEqual(r, "testirovanie")
+
+
 if __name__ == '__main__':
     unittest.main()
