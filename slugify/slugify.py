@@ -43,7 +43,7 @@ def smart_truncate(string, max_length=0, word_boundaries=False, separator=' '):
     truncated = ''
     for word in string.split(separator):
         if word:
-            next_len = len(truncated) + len(word) + len(separator)
+            next_len = len(truncated) + len(word)
             if next_len <= max_length:
                 truncated += '{0}{1}'.format(word, separator)
     if not truncated:

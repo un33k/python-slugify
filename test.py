@@ -53,11 +53,15 @@ class TestSequenceFunctions(unittest.TestCase):
         self.assertEqual(r, "jaja-lol-a")
 
         txt = 'jaja---lol-méméméoo--a'
-        r = slugify(txt, max_length=19, word_boundary=True)
+        r = slugify(txt, max_length=17, word_boundary=True)
         self.assertEqual(r, "jaja-lol-mememeoo")
 
         txt = 'jaja---lol-méméméoo--a'
-        r = slugify(txt, max_length=20, word_boundary=True)
+        r = slugify(txt, max_length=18, word_boundary=True)
+        self.assertEqual(r, "jaja-lol-mememeoo")
+
+        txt = 'jaja---lol-méméméoo--a'
+        r = slugify(txt, max_length=19, word_boundary=True)
         self.assertEqual(r, "jaja-lol-mememeoo-a")
 
         txt = 'jaja---lol-méméméoo--a'
