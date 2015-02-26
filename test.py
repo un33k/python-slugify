@@ -97,6 +97,5 @@ class TestSequenceFunctions(unittest.TestCase):
         self.assertEqual(r, "one-two")
 
 
-
 if __name__ == '__main__':
     unittest.main()
