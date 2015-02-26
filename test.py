@@ -80,5 +80,22 @@ class TestSequenceFunctions(unittest.TestCase):
         r = slugify(txt)
         self.assertEqual(r, "this-is-a-test")
 
+        txt = 'one two three four five'
+        r = slugify(txt, max_length=13, word_boundary=True, save_order=True)
+        self.assertEqual(r, "one-two-three")
+
+        txt = 'one two three four five'
+        r = slugify(txt, max_length=13, word_boundary=True, save_order=False)
+        self.assertEqual(r, "one-two-three")
+
+        txt = 'one two three four five'
+        r = slugify(txt, max_length=12, word_boundary=True, save_order=False)
+        self.assertEqual(r, "one-two-four")
+
+        txt = 'one two three four five'
+        r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
+        self.assertEqual(r, "one-two")
+
+
 if __name__ == '__main__':
     unittest.main()
