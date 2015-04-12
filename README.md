@@ -42,6 +42,10 @@ How to use
     r = slugify(txt)
     self.assertEqual(r, "this-is-a-test")
 
+    txt = '影師嗎'
+    r = slugify(txt)
+    self.assertEqual(r, "ying-shi-ma")
+
     txt = 'C\'est déjà l\'été.'
     r = slugify(txt)
     self.assertEqual(r, "cest-deja-lete")
@@ -75,11 +79,15 @@ How to use
     self.assertEqual(r, "jaja-lol-a")
 
     txt = 'jaja---lol-méméméoo--a'
-    r = slugify(txt, max_length=19, word_boundary=True)
+    r = slugify(txt, max_length=17, word_boundary=True)
     self.assertEqual(r, "jaja-lol-mememeoo")
 
     txt = 'jaja---lol-méméméoo--a'
-    r = slugify(txt, max_length=20, word_boundary=True)
+    r = slugify(txt, max_length=18, word_boundary=True)
+    self.assertEqual(r, "jaja-lol-mememeoo")
+
+    txt = 'jaja---lol-méméméoo--a'
+    r = slugify(txt, max_length=19, word_boundary=True)
     self.assertEqual(r, "jaja-lol-mememeoo-a")
 
     txt = 'jaja---lol-méméméoo--a'
@@ -137,4 +145,3 @@ Released under a ([BSD](LICENSE.md)) license.
 
 [build-status-image-pypi]: https://pypip.in/d/python-slugify/badge.png
 [pypi]: https://crate.io/packages/python-slugify?version=latest
-
