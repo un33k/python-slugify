@@ -1,3 +1,9 @@
+## 1.0.1
+
+Enhancement:
+
+  - Promoting to production grade
+
 ## 0.1.1
 
 Enhancement:
