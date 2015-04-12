@@ -9,6 +9,6 @@ echo -e "\nRunning: pep8 ... \n"
 #  -- E225 missing whitespace around operator
 #  -- E501 line too long
 
-pep8 --exclude=migrations --ignore=E128,E225,E501 slugify test.py setup.py
+pep8 --ignore=E128,E225,E501 slugify test.py setup.py
 
 echo -e "Done.\n"
