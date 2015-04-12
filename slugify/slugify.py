@@ -2,12 +2,17 @@ import re
 import unicodedata
 import types
 import sys
+
 try:
     from htmlentitydefs import name2codepoint
+    _unicode = unicode
+    _unicode_type = types.UnicodeType
 except ImportError:
     from html.entities import name2codepoint
+    _unicode = str
+    _unicode_type = str
 
-from unidecode import unidecode
+import unidecode
 
 
 __all__ = ['slugify']
@@ -82,8 +87,16 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     :return (str):
     """
 
+    # ensure text is unicode
+    if not isinstance(text, _unicode_type):
+        text = _unicode(text, 'utf-8', 'ignore')
+
     # decode unicode
-    text = unidecode(text)
+    text = unidecode.unidecode(text)
+
+    # ensure text is still in unicode
+    if not isinstance(text, _unicode_type):
+        text = _unicode(text, 'utf-8', 'ignore')
 
     # character entity reference
     if entities:
