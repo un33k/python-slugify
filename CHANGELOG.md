@@ -1,3 +1,11 @@
+## 0.1.1
+
+Enhancement:
+
+  - Added more test
+  - Added option to save word order
+  - Removed 2to3 dependency
+
 ## 0.1.0
 
 Enhancement:

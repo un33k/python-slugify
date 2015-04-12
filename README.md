@@ -89,6 +89,30 @@ How to use
     txt = 'jaja---lol-méméméoo--a'
     r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
     self.assertEqual(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
+
+    txt = "___This is a test ---"
+    r = slugify(txt)
+    self.assertEqual(r, "this-is-a-test")
+
+    txt = "___This is a test___"
+    r = slugify(txt)
+    self.assertEqual(r, "this-is-a-test")
+
+    txt = 'one two three four five'
+    r = slugify(txt, max_length=13, word_boundary=True, save_order=True)
+    self.assertEqual(r, "one-two-three")
+
+    txt = 'one two three four five'
+    r = slugify(txt, max_length=13, word_boundary=True, save_order=False)
+    self.assertEqual(r, "one-two-three")
+
+    txt = 'one two three four five'
+    r = slugify(txt, max_length=12, word_boundary=True, save_order=False)
+    self.assertEqual(r, "one-two-four")
+
+    txt = 'one two three four five'
+    r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
+    self.assertEqual(r, "one-two")
    ```
 
 Running the tests

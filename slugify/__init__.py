@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
+from .slugify import *
 
-__version__ = '0.1.0'
 
-from slugify import *
+__author__ = 'Val Neekman @ Neekware Inc. [@vneekman]'
+__description__ = 'A Python slugify application that also handles Unicode'
+__version__ = '0.1.1'

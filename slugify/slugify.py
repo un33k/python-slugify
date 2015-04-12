@@ -1,13 +1,17 @@
-# -*- coding: utf-8 -*-
-
-__all__ = ['slugify']
-
 import re
 import unicodedata
 import types
 import sys
-from htmlentitydefs import name2codepoint
+try:
+    from htmlentitydefs import name2codepoint
+except ImportError:
+    from html.entities import name2codepoint
+
 from unidecode import unidecode
+
+
+__all__ = ['slugify']
+
 
 # character entity reference
 CHAR_ENTITY_REXP = re.compile('&(%s);' % '|'.join(name2codepoint))
@@ -78,16 +82,8 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     :return (str):
     """
 
-    # text to unicode
-    if not isinstance(text, types.UnicodeType):
-        text = unicode(text, 'utf-8', 'ignore')
-
-    # decode unicode ( 影師嗎 = Ying Shi Ma)
+    # decode unicode
     text = unidecode(text)
-
-    # text back to unicode
-    if not isinstance(text, types.UnicodeType):
-        text = unicode(text, 'utf-8', 'ignore')
 
     # character entity reference
     if entities:
@@ -131,7 +127,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
 def main():
     if len(sys.argv) < 2:
-        print "Usage %s TEXT TO SLUGIFY" % sys.argv[0]
-        return
-    text = ' '.join(sys.argv[1:])
-    print slugify(text)
+        print("Usage %s TEXT TO SLUGIFY" % sys.argv[0])
+    else:
+        text = ' '.join(sys.argv[1:])
+        print(slugify(text))

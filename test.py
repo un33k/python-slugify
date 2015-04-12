@@ -96,6 +96,5 @@ class TestSequenceFunctions(unittest.TestCase):
         r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
         self.assertEqual(r, "one-two")
 
-
 if __name__ == '__main__':
     unittest.main()
