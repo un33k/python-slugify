@@ -23,4 +23,3 @@ script: coverage run --source=slugify test.py
 
 after_success:
   coveralls
-  
