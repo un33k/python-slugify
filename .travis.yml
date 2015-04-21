@@ -12,10 +12,14 @@ install:
   - pip install -q -r requirements.txt --use-mirrors
   - pip install -e .
   - pip install pep8
+  - pip install coveralls
   - pip install https://github.com/un33k/pyflakes/tarball/master
 
 before_script:
   - "pep8 --exclude=migrations --ignore=E501,E225,E128 ."
   - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pyflakes -x W slugify; fi
 
-script: python test.py
+script: coverage run --source=slugify test.py
+
+after_success:
+  coveralls
