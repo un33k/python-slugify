@@ -1,3 +1,9 @@
+## 1.0.2
+
+BugFix:
+
+  - A new PyPI release
+
 ## 1.0.1
 
 Enhancement:
