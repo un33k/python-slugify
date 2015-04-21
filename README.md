@@ -147,5 +147,5 @@ Released under a ([BSD](LICENSE.md)) license.
 [build-status-image-pypi]: https://pypip.in/d/python-slugify/badge.png
 [pypi]: https://crate.io/packages/python-slugify?version=latest
 
-[build-status-image-coverage]: https://coveralls.io/repos/un33k/python-slugify/badge.svg?branch=master
-[coverage]: https://coveralls.io/r/un33k/python-slugify?branch=master
+[build-status-image-coverage]: https://coveralls.io/repos/un33k/python-slugify/badge.svg
+[coverage]: https://coveralls.io/r/un33k/python-slugify
