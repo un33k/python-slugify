@@ -107,6 +107,25 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
         self.assertEqual(r, "one-two")
 
+    def test_stopword_removal(self):
+        txt = 'this has a stopword'
+        r = slugify(txt, stopwords=['stopword'])
+        self.assertEqual(r, 'this-has-a')
+
+    def test_multiple_stopword_occurances(self):
+        txt = 'the quick brown fox jumps over the lazy dog'
+        r = slugify(txt, stopwords=['the'])
+        self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
+
+    def test_differently_cased_stopword_match(self):
+        txt = 'Foo A FOO B foo C'
+        r = slugify(txt, stopwords=['foo'])
+        self.assertEqual(r, 'a-b-c')
+
+        txt = 'Foo A FOO B foo C'
+        r = slugify(txt, stopwords=['FOO'])
+        self.assertEqual(r, 'a-b-c')
+
 
 if __name__ == '__main__':
     unittest.main()
