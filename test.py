@@ -4,22 +4,33 @@ import unittest
 from slugify import slugify
 
 
-class TestSequenceFunctions(unittest.TestCase):
+class TestSlugification(unittest.TestCase):
 
-    def test_manager(self):
+    def test_extraneous_seperators(self):
 
         txt = "This is a test ---"
         r = slugify(txt)
         self.assertEqual(r, "this-is-a-test")
 
+        txt = "___This is a test ---"
+        r = slugify(txt)
+        self.assertEqual(r, "this-is-a-test")
+
+        txt = "___This is a test___"
+        r = slugify(txt)
+        self.assertEqual(r, "this-is-a-test")
+
+    def test_non_word_characters(self):
         txt = "This -- is a ## test ---"
         r = slugify(txt)
         self.assertEqual(r, "this-is-a-test")
 
+    def test_phonetic_conversion_of_eastern_scripts(self):
         txt = '影師嗎'
         r = slugify(txt)
         self.assertEqual(r, "ying-shi-ma")
 
+    def test_accented_text(self):
         txt = 'C\'est déjà l\'été.'
         r = slugify(txt)
         self.assertEqual(r, "cest-deja-lete")
@@ -28,14 +39,17 @@ class TestSequenceFunctions(unittest.TestCase):
         r = slugify(txt)
         self.assertEqual(r, "nin-hao-wo-shi-zhong-guo-ren")
 
-        txt = 'Компьютер'
-        r = slugify(txt)
-        self.assertEqual(r, "kompiuter")
-
+    def test_accented_text_with_non_word_characters(self):
         txt = 'jaja---lol-méméméoo--a'
         r = slugify(txt)
         self.assertEqual(r, "jaja-lol-mememeoo-a")
 
+    def test_cyrillic_text(self):
+        txt = 'Компьютер'
+        r = slugify(txt)
+        self.assertEqual(r, "kompiuter")
+
+    def test_max_length(self):
         txt = 'jaja---lol-méméméoo--a'
         r = slugify(txt, max_length=9)
         self.assertEqual(r, "jaja-lol")
@@ -44,10 +58,12 @@ class TestSequenceFunctions(unittest.TestCase):
         r = slugify(txt, max_length=15)
         self.assertEqual(r, "jaja-lol-mememe")
 
+    def test_max_length_cutoff_not_required(self):
         txt = 'jaja---lol-méméméoo--a'
         r = slugify(txt, max_length=50)
         self.assertEqual(r, "jaja-lol-mememeoo-a")
 
+    def test_word_boundary(self):
         txt = 'jaja---lol-méméméoo--a'
         r = slugify(txt, max_length=15, word_boundary=True)
         self.assertEqual(r, "jaja-lol-a")
@@ -64,22 +80,17 @@ class TestSequenceFunctions(unittest.TestCase):
         r = slugify(txt, max_length=19, word_boundary=True)
         self.assertEqual(r, "jaja-lol-mememeoo-a")
 
+    def test_custom_separator(self):
         txt = 'jaja---lol-méméméoo--a'
         r = slugify(txt, max_length=20, word_boundary=True, separator=".")
         self.assertEqual(r, "jaja.lol.mememeoo.a")
 
+    def test_multi_character_separator(self):
         txt = 'jaja---lol-méméméoo--a'
         r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
         self.assertEqual(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
 
-        txt = "___This is a test ---"
-        r = slugify(txt)
-        self.assertEqual(r, "this-is-a-test")
-
-        txt = "___This is a test___"
-        r = slugify(txt)
-        self.assertEqual(r, "this-is-a-test")
-
+    def test_save_order(self):
         txt = 'one two three four five'
         r = slugify(txt, max_length=13, word_boundary=True, save_order=True)
         self.assertEqual(r, "one-two-three")
@@ -95,6 +106,7 @@ class TestSequenceFunctions(unittest.TestCase):
         txt = 'one two three four five'
         r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
         self.assertEqual(r, "one-two")
+
 
 if __name__ == '__main__':
     unittest.main()
