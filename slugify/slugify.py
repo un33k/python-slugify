@@ -74,7 +74,7 @@ def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', s
 
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
-            separator='-', save_order=False):
+            separator='-', save_order=False, stopwords=()):
     """Make a slug from the given text.
     :param text (str): initial text
     :param entities (bool):
@@ -84,6 +84,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     :param word_boundary (bool):
     :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
     :param separator (str): separator between words
+    :param stopwords (iterable): words to discount
     :return (str):
     """
 
@@ -127,6 +128,12 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # remove redundant -
     text = REMOVE_REXP.sub('-', text).strip('-')
+
+    # remove stopwords
+    if stopwords:
+        stopwords_lower = [s.lower() for s in stopwords]
+        words = [w for w in text.split(separator) if w not in stopwords_lower]
+        text = separator.join(words)
 
     # smart truncate if requested
     if max_length > 0:
