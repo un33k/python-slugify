@@ -39,6 +39,14 @@ How to use
     r = slugify(txt)
     self.assertEqual(r, "this-is-a-test")
 
+    txt = "___This is a test ---"
+    r = slugify(txt)
+    self.assertEqual(r, "this-is-a-test")
+
+    txt = "___This is a test___"
+    r = slugify(txt)
+    self.assertEqual(r, "this-is-a-test")
+
     txt = "This -- is a ## test ---"
     r = slugify(txt)
     self.assertEqual(r, "this-is-a-test")
@@ -55,13 +63,13 @@ How to use
     r = slugify(txt)
     self.assertEqual(r, "nin-hao-wo-shi-zhong-guo-ren")
 
-    txt = 'Компьютер'
-    r = slugify(txt)
-    self.assertEqual(r, "kompiuter")
-
     txt = 'jaja---lol-méméméoo--a'
     r = slugify(txt)
     self.assertEqual(r, "jaja-lol-mememeoo-a")
+
+    txt = 'Компьютер'
+    r = slugify(txt)
+    self.assertEqual(r, "kompiuter")
 
     txt = 'jaja---lol-méméméoo--a'
     r = slugify(txt, max_length=9)
@@ -99,14 +107,6 @@ How to use
     r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
     self.assertEqual(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
 
-    txt = "___This is a test ---"
-    r = slugify(txt)
-    self.assertEqual(r, "this-is-a-test")
-
-    txt = "___This is a test___"
-    r = slugify(txt)
-    self.assertEqual(r, "this-is-a-test")
-
     txt = 'one two three four five'
     r = slugify(txt, max_length=13, word_boundary=True, save_order=True)
     self.assertEqual(r, "one-two-three")
@@ -122,6 +122,26 @@ How to use
     txt = 'one two three four five'
     r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
     self.assertEqual(r, "one-two")
+
+    txt = 'this has a stopword'
+    r = slugify(txt, stopwords=['stopword'])
+    self.assertEqual(r, 'this-has-a')
+
+    txt = 'the quick brown fox jumps over the lazy dog'
+    r = slugify(txt, stopwords=['the'])
+    self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
+
+    txt = 'Foo A FOO B foo C'
+    r = slugify(txt, stopwords=['foo'])
+    self.assertEqual(r, 'a-b-c')
+
+    txt = 'Foo A FOO B foo C'
+    r = slugify(txt, stopwords=['FOO'])
+    self.assertEqual(r, 'a-b-c')
+
+    txt = 'the quick brown fox jumps over the lazy dog in a hurry'
+    r = slugify(txt, stopwords=['the', 'in', 'a', 'hurry'])
+    self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
    ```
 
 Running the tests
@@ -137,6 +157,14 @@ License
 
 Released under a ([BSD](LICENSE.md)) license.
 
+
+Version
+====================
+X.Y.Z Version
+
+MAJOR version when you make incompatible API changes,
+MINOR version when you add functionality in a backwards-compatible manner, and
+PATCH version when you make backwards-compatible bug fixes.
 
 [build-status-image-travis]: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
 [travis]: http://travis-ci.org/un33k/python-slugify?branch=master

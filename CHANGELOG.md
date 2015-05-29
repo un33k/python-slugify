@@ -1,14 +1,23 @@
+## 1.1.2
+
+Enhancement:
+
+  - Ability to remove `stopwords` from string
+
+
 ## 1.0.2
 
-BugFix:
+Enhancement:
 
   - A new PyPI release
+
 
 ## 1.0.1
 
 Enhancement:
 
   - Promoting to production grade
+
 
 ## 0.1.1
 
@@ -18,12 +27,14 @@ Enhancement:
   - Removed 2to3 dependency
   - Added more tests
 
+
 ## 0.1.0
 
 Enhancement:
 
   - Added more test
   - Added test for python 3.4
+
 
 ## 0.0.9
 
@@ -82,4 +93,9 @@ Features:
 
 Enhancement:
 
-  - A
+  - Incremental update
+
+
+## 0.0.1
+
+  - Initial version
