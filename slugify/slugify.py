@@ -11,6 +11,7 @@ except ImportError:
     from html.entities import name2codepoint
     _unicode = str
     _unicode_type = str
+    unichr = chr
 
 import unidecode
 
