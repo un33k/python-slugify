@@ -142,6 +142,10 @@ How to use
     txt = 'the quick brown fox jumps over the lazy dog in a hurry'
     r = slugify(txt, stopwords=['the', 'in', 'a', 'hurry'])
     self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
+
+    txt = 'foo &amp; bar'
+    r = slugify(txt)
+    self.assertEqual(r, 'foo-bar')
    ```
 
 Running the tests
@@ -169,8 +173,8 @@ X.Y.Z Version
 [status-image]: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
 [status-link]: http://travis-ci.org/un33k/python-slugify?branch=master
 
-[version-image]: https://img.shields.io/pypi/v/djangorestframework.svg
-[version-link]: https://pypi.python.org/pypi/djangorestframework
+[version-image]: https://img.shields.io/pypi/v/python-slugify.svg
+[version-link]: https://pypi.python.org/pypi/python-slugify
 
 [coverage-image]: https://coveralls.io/repos/un33k/python-slugify/badge.svg
 [coverage-link]: https://coveralls.io/r/un33k/python-slugify

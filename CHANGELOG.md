@@ -1,3 +1,10 @@
+## 1.1.3
+
+Bugfix:
+
+  - Handle unichar in python 3.x
+
+
 ## 1.1.2
 
 Enhancement:
