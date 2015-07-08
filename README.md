@@ -3,10 +3,10 @@ Python Slugify
 
 **A Python slugify application that handles unicode**
 
-[![build-status-image-travis]][travis]
-[![build-status-image-fury]][fury]
-[![build-status-image-pypi]][pypi]
-[![build-status-image-coverage]][coverage]
+[![status-image]][status-link]
+[![version-image]][version-link]
+[![coverage-image]][coverage-link]
+[![download-image]][download-link]
 
 
 Overview
@@ -166,14 +166,14 @@ X.Y.Z Version
     `MINOR` version -- when you add functionality in a backwards-compatible manner, and
     `PATCH` version -- when you make backwards-compatible bug fixes.
 
-[build-status-image-travis]: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
-[travis]: http://travis-ci.org/un33k/python-slugify?branch=master
+[status-image]: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
+[status-link]: http://travis-ci.org/un33k/python-slugify?branch=master
 
-[build-status-image-fury]: https://badge.fury.io/py/python-slugify.png
-[fury]: http://badge.fury.io/py/python-slugify
+[version-image]: https://img.shields.io/pypi/v/djangorestframework.svg
+[version-link]: https://pypi.python.org/pypi/djangorestframework
 
-[build-status-image-pypi]: https://pypip.in/d/python-slugify/badge.png
-[pypi]: https://crate.io/packages/python-slugify?version=latest
+[coverage-image]: https://coveralls.io/repos/un33k/python-slugify/badge.svg
+[coverage-link]: https://coveralls.io/r/un33k/python-slugify
 
-[build-status-image-coverage]: https://coveralls.io/repos/un33k/python-slugify/badge.svg
-[coverage]: https://coveralls.io/r/un33k/python-slugify
+[download-image]: https://img.shields.io/pypi/dm/python-slugify.svg
+[download-link]: https://pypi.python.org/pypi/python-slugify
