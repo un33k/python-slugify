@@ -124,7 +124,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
         text = text.encode('ascii', 'ignore')
 
     # replace unwanted characters
-    text = REPLACE1_REXP.sub('', text.lower())  # replace ' with nothing instead with -
+    text = REPLACE1_REXP.sub('-', text.lower())
     text = REPLACE2_REXP.sub('-', text.lower())
 
     # remove redundant -
