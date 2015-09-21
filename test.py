@@ -156,7 +156,7 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt)
         self.assertEqual(r, '404')
 
-   def test_numbers_and_symbols(self):
+    def test_numbers_and_symbols(self):
         txt = '1,000 reasons you are #1'
         r = slugify(txt)
         self.assertEqual(r, '1000-reasons-you-are-1')
