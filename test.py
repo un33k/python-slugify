@@ -33,7 +33,7 @@ class TestSlugification(unittest.TestCase):
     def test_accented_text(self):
         txt = 'C\'est déjà l\'été.'
         r = slugify(txt)
-        self.assertEqual(r, "c-est-deja-l-ete")
+        self.assertEqual(r, "cest-deja-lete")
 
         txt = 'Nín hǎo. Wǒ shì zhōng guó rén'
         r = slugify(txt)
