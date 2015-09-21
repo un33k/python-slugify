@@ -1,3 +1,10 @@
+## 1.1.4
+
+Bugfix:
+
+  - Add more test cases, dropped `official` support for python 3.2
+
+
 ## 1.1.3
 
 Bugfix:
