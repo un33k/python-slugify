@@ -75,7 +75,7 @@ def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', s
 
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
-            separator='-', save_order=False, stopwords=()):
+            separator='-', save_order=False, stopwords=(), comma_replacement=""):
     """Make a slug from the given text.
     :param text (str): initial text
     :param entities (bool):
@@ -85,7 +85,8 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     :param word_boundary (bool):
     :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
     :param separator (str): separator between words
-    :param stopwords (iterable): words to discount
+    :param stopwords (iterable): words to discard
+    :param comma_replacement (str) : replace comma by this character (default empty string)
     :return (str):
     """
 
@@ -124,7 +125,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
         text = text.encode('ascii', 'ignore')
 
     # replace unwanted characters
-    text = REPLACE1_REXP.sub('', text.lower())  # replace ' with nothing instead with -
+    text = REPLACE1_REXP.sub(comma_replacement, text.lower())  # by default replace ' with nothing instead of -
     text = REPLACE2_REXP.sub('-', text.lower())
 
     # remove redundant -

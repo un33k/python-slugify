@@ -136,6 +136,15 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt)
         self.assertEqual(r, 'foo-bar')
 
+    def test_comma_separator(self):
+        txt = 'C\'est déjà l\'été.'
+        r = slugify(txt, comma_replacement="-")
+        self.assertEqual(r, "c-est-deja-l-ete")
+
+        txt = 'Компьютер'
+        r = slugify(txt, comma_replacement="-")
+        self.assertEqual(r, "komp-iuter")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -59,6 +59,11 @@ How to use
     r = slugify(txt)
     self.assertEqual(r, "cest-deja-lete")
 
+    # If you want commas replaced by a dash
+    txt = 'C\'est déjà l\'été.'
+    r = slugify(txt, comma_replacement="-")
+    self.assertEqual(r, "c-est-deja-l-ete")
+
     txt = 'Nín hǎo. Wǒ shì zhōng guó rén'
     r = slugify(txt)
     self.assertEqual(r, "nin-hao-wo-shi-zhong-guo-ren")
