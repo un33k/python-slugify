@@ -19,18 +19,13 @@ import unidecode
 __all__ = ['slugify']
 
 
-# character entity reference
-CHAR_ENTITY_REXP = re.compile('&(%s);' % '|'.join(name2codepoint))
-
-# decimal character reference
-DECIMAL_REXP = re.compile('&#(\d+);')
-
-# hexadecimal character reference
-HEX_REXP = re.compile('&#x([\da-fA-F]+);')
-
-REPLACE1_REXP = re.compile(r'[\']+')
-REPLACE2_REXP = re.compile(r'[^-a-z0-9]+')
-REMOVE_REXP = re.compile('-{2,}')
+CHAR_ENTITY_PATTERN = re.compile('&(%s);' % '|'.join(name2codepoint))
+DECIMAL_PATTERN = re.compile('&#(\d+);')
+HEX_PATTERN = re.compile('&#x([\da-fA-F]+);')
+QUOTE_PATTERN = re.compile(r'[\']+')
+ALLOWED_CHARS_PATTERN = re.compile(r'[^-a-z0-9]+')
+DUPLICATE_DASH_PATTERN = re.compile('-{2,}')
+NUMBERS_PATTERN = re.compile('(?<=\d),(?=\d)')
 
 
 def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', save_order=False):
@@ -102,19 +97,19 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # character entity reference
     if entities:
-        text = CHAR_ENTITY_REXP.sub(lambda m: unichr(name2codepoint[m.group(1)]), text)
+        text = CHAR_ENTITY_PATTERN.sub(lambda m: unichr(name2codepoint[m.group(1)]), text)
 
     # decimal character reference
     if decimal:
         try:
-            text = DECIMAL_REXP.sub(lambda m: unichr(int(m.group(1))), text)
+            text = DECIMAL_PATTERN.sub(lambda m: unichr(int(m.group(1))), text)
         except:
             pass
 
     # hexadecimal character reference
     if hexadecimal:
         try:
-            text = HEX_REXP.sub(lambda m: unichr(int(m.group(1), 16)), text)
+            text = HEX_PATTERN.sub(lambda m: unichr(int(m.group(1), 16)), text)
         except:
             pass
 
@@ -124,11 +119,12 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
         text = text.encode('ascii', 'ignore')
 
     # replace unwanted characters
-    text = REPLACE1_REXP.sub('', text.lower())  # replace ' with nothing instead with -
-    text = REPLACE2_REXP.sub('-', text.lower())
+    text = QUOTE_PATTERN.sub('', text.lower())  # replace ' with nothing instead with -
+    text = NUMBERS_PATTERN.sub('', text.lower())
+    text = ALLOWED_CHARS_PATTERN.sub('-', text.lower())
 
     # remove redundant -
-    text = REMOVE_REXP.sub('-', text).strip('-')
+    text = DUPLICATE_DASH_PATTERN.sub('-', text).strip('-')
 
     # remove stopwords
     if stopwords:
