@@ -136,6 +136,31 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt)
         self.assertEqual(r, 'foo-bar')
 
+    def test_starts_with_number(self):
+        txt = '10 amazing secrets'
+        r = slugify(txt)
+        self.assertEqual(r, '10-amazing-secrets')
+
+    def test_contains_numbers(self):
+        txt = 'buildings with 1000 windows'
+        r = slugify(txt)
+        self.assertEqual(r, 'buildings-with-1000-windows')
+
+    def test_ends_with_number(self):
+        txt = 'recipe number 3'
+        r = slugify(txt)
+        self.assertEqual(r, 'recipe-number-3')
+
+    def test_numbers_only(self):
+        txt = '404'
+        r = slugify(txt)
+        self.assertEqual(r, '404')
+
+   def test_numbers_and_symbols(self):
+        txt = '1,000 reasons you are #1'
+        r = slugify(txt)
+        self.assertEqual(r, '1000-reasons-you-are-1')
+
 
 if __name__ == '__main__':
     unittest.main()
