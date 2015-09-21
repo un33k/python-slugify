@@ -1,3 +1,10 @@
+## 1.1.4
+
+Enhancement:
+
+  - Added a comma_replacement parameter, which default to an empty string
+
+
 ## 1.1.3
 
 Bugfix:
