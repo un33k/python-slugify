@@ -120,8 +120,8 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # replace unwanted characters
     text = QUOTE_PATTERN.sub('', text.lower())  # replace ' with nothing instead with -
-    text = NUMBERS_PATTERN.sub('', text.lower())
-    text = ALLOWED_CHARS_PATTERN.sub('-', text.lower())
+    text = NUMBERS_PATTERN.sub('', text)
+    text = ALLOWED_CHARS_PATTERN.sub('-', text)
 
     # remove redundant -
     text = DUPLICATE_DASH_PATTERN.sub('-', text).strip('-')
