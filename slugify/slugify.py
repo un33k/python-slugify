@@ -129,8 +129,8 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     # remove stopwords
     if stopwords:
         stopwords_lower = [s.lower() for s in stopwords]
-        words = [w for w in text.split(separator) if w not in stopwords_lower]
-        text = separator.join(words)
+        words = [w for w in text.split('-') if w not in stopwords_lower]
+        text = '-'.join(words)
 
     # smart truncate if requested
     if max_length > 0:
