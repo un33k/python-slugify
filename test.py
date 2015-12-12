@@ -131,6 +131,11 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt, stopwords=['the', 'in', 'a', 'hurry'])
         self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
 
+    def test_stopwords_with_different_separator(self):
+        txt = 'the quick brown fox jumps over the lazy dog'
+        r = slugify(txt, stopwords=['the'], separator=' ')
+        self.assertEqual(r, 'quick brown fox jumps over lazy dog')
+
     def test_html_entities(self):
         txt = 'foo &amp; bar'
         r = slugify(txt)
