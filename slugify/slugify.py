@@ -88,9 +88,11 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     if not isinstance(text, _unicode_type):
         text = _unicode(text, 'utf-8', 'ignore')
 
+    text = QUOTE_PATTERN.sub('-', text)
+    
     # decode unicode
     text = unidecode.unidecode(text)
-
+    
     # ensure text is still in unicode
     if not isinstance(text, _unicode_type):
         text = _unicode(text, 'utf-8', 'ignore')
@@ -118,8 +120,11 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     if sys.version_info < (3,):
         text = text.encode('ascii', 'ignore')
 
+    # make the text lowercase
+    text = text.lower()
+    
     # replace unwanted characters
-    text = QUOTE_PATTERN.sub('', text.lower())  # replace ' with nothing instead with -
+    text = QUOTE_PATTERN.sub('', text)
     text = NUMBERS_PATTERN.sub('', text)
     text = ALLOWED_CHARS_PATTERN.sub('-', text)
 
