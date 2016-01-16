@@ -29,7 +29,8 @@ NUMBERS_PATTERN = re.compile('(?<=\d),(?=\d)')
 
 
 def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', save_order=False):
-    """Truncate a string.
+    """
+    Truncate a string.
     :param string (str): string for modification
     :param max_length (int): output string length
     :param word_boundaries (bool):
@@ -71,7 +72,8 @@ def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', s
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
             separator='-', save_order=False, stopwords=()):
-    """Make a slug from the given text.
+    """
+    Make a slug from the given text.
     :param text (str): initial text
     :param entities (bool):
     :param decimal (bool):
@@ -88,11 +90,12 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     if not isinstance(text, _unicode_type):
         text = _unicode(text, 'utf-8', 'ignore')
 
+    # replace quotes with dashes - pre-process
     text = QUOTE_PATTERN.sub('-', text)
-    
+
     # decode unicode
     text = unidecode.unidecode(text)
-    
+
     # ensure text is still in unicode
     if not isinstance(text, _unicode_type):
         text = _unicode(text, 'utf-8', 'ignore')
@@ -122,9 +125,11 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # make the text lowercase
     text = text.lower()
-    
-    # replace unwanted characters
+
+    # remove generated quotes -- post-process
     text = QUOTE_PATTERN.sub('', text)
+
+    # replace unwanted characters
     text = NUMBERS_PATTERN.sub('', text)
     text = ALLOWED_CHARS_PATTERN.sub('-', text)
 

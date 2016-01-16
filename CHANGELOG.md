@@ -1,3 +1,13 @@
+## 1.2.0
+
+Backward incompatible change: (@fabiocaccamo)
+
+  - In version < 1.2.0 all single quotes ( ' ) were removed, and
+    moving forward, >= 1.2.0, they will be replaced with ( - ).
+    Example:
+      <  1.2.0 -- ('C\'est déjà l\'été.' -> "cest-deja-lete")
+      >= 1.2.0 -- ('C\'est déjà l\'été.' -> "c-est-deja-l-ete")
+
 ## 1.1.4
 
 Bugfix:
