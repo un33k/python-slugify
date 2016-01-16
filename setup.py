@@ -68,8 +68,7 @@ if sys.argv[-1] == 'publish':
     os.system("python setup.py sdist upload")
     args = {'version': get_version(package)}
     print("You probably want to also tag the version now:")
-    print("  git tag -a %(version)s -m 'version %(version)s'" % args)
-    print("  git push --tags")
+    print("  git tag -a %(version)s -m 'version %(version)s' && git push --tags" % args)
     sys.exit()
 
 
