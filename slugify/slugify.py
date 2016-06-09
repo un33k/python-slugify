@@ -154,9 +154,13 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     return text
 
 
-if __name__ == '__main__':
+def main():
     if len(sys.argv) < 2:
         print("Usage: %s TEXT TO SLUGIFY" % sys.argv[0])
     else:
         text = ' '.join(sys.argv[1:])
         print(slugify(text))
+
+
+if __name__ == '__main__':
+    main()
