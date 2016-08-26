@@ -6,17 +6,19 @@ python:
   - "2.7"
   - "3.3"
   - "3.4"
+  - "3.5"
   - pypy
 
 install:
-  - pip install -q -r requirements.txt --use-mirrors
+  - pip install pip -U
+  - pip install -q -r requirements.txt
   - pip install -e .
   - pip install pep8
   - pip install coveralls
   - pip install https://github.com/un33k/pyflakes/tarball/master
 
 before_script:
-  - "pep8 --exclude=migrations --ignore=E501,E225,E128 ."
+  - "bash pep8.sh"
   - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pyflakes -x W slugify; fi
 
 script: coverage run --source=slugify test.py

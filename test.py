@@ -2,6 +2,7 @@
 
 import unittest
 from slugify import slugify
+from slugify import smart_truncate
 
 
 class TestSlugification(unittest.TestCase):
@@ -166,6 +167,18 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt)
         self.assertEqual(r, '1000-reasons-you-are-1')
 
+
+class TestUtils(unittest.TestCase):
+
+    def test_smart_truncate_no_max_length(self):
+        txt = '1,000 reasons you are #1'
+        r = smart_truncate(txt)
+        self.assertEqual(r, txt)
+
+    def test_smart_truncate_no_seperator(self):
+        txt = '1,000 reasons you are #1'
+        r = smart_truncate(txt, max_length=100, separator='_')
+        self.assertEqual(r, txt)
 
 if __name__ == '__main__':
     unittest.main()

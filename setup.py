@@ -14,12 +14,12 @@ description = 'A Python Slugify application that handles Unicode'
 url = 'https://github.com/un33k/python-slugify'
 author = 'Val Neekman'
 author_email = 'info@neekware.com'
-license = 'BSD'
+license = 'MIT'
 install_requires = ['Unidecode>=0.04.16']
 classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
-    'License :: OSI Approved :: BSD License',
+    'License :: OSI Approved :: MIT License',
     'Operating System :: POSIX',
     'Programming Language :: Python',
     'Programming Language :: Python :: 2.6',
@@ -28,6 +28,7 @@ classifiers = [
     'Programming Language :: Python :: 3.2',
     'Programming Language :: Python :: 3.3',
     'Programming Language :: Python :: 3.4',
+    'Programming Language :: Python :: 3.5',
 ]
 
 

@@ -16,7 +16,7 @@ except ImportError:
 import unidecode
 
 
-__all__ = ['slugify']
+__all__ = ['slugify', 'smart_truncate']
 
 
 CHAR_ENTITY_PATTERN = re.compile('&(%s);' % '|'.join(name2codepoint))
@@ -65,7 +65,7 @@ def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', s
             else:
                 if save_order:
                     break
-    if not truncated:
+    if not truncated: # pragma: no cover
         truncated = string[:max_length]
     return truncated.strip(separator)
 
@@ -152,7 +152,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     return text
 
 
-def main():
+def main(): # pragma: no cover
     if len(sys.argv) < 2:
         print("Usage %s TEXT TO SLUGIFY" % sys.argv[0])
     else:
