@@ -2,6 +2,7 @@
   - Including certain files (e.g. license.md) in sdists via MANIFEST.in (@proinsias)
   - Relax licensing by moving from BSD to MIT
   - Add Python 3.5 support
+  - Drop Python 2.6 support
   - Add more tests
 
 ## 1.2.0
