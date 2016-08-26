@@ -18,7 +18,7 @@ install:
   - pip install https://github.com/un33k/pyflakes/tarball/master
 
 before_script:
-  - "pep8.sh"
+  - "bash pep8.sh"
   - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pyflakes -x W slugify; fi
 
 script: coverage run --source=slugify test.py
