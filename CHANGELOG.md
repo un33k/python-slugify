@@ -1,3 +1,8 @@
+## 1.2.1
+  - Including certain files (e.g. license.md) in sdists via MANIFEST.in (@proinsias)
+  - Relax licensing by moving from BSD to MIT
+  - Add Python 3.5 support
+
 ## 1.2.0
 
 Backward incompatible change: (@fabiocaccamo)
