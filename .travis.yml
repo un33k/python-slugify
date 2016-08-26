@@ -11,7 +11,7 @@ python:
 
 install:
   - pip install pip -U
-  - pip install -q -r requirements.txt --use-mirrors
+  - pip install -q -r requirements.txt
   - pip install -e .
   - pip install pep8
   - pip install coveralls
