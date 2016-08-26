@@ -10,6 +10,7 @@ python:
   - pypy
 
 install:
+  - pip install pip -U
   - pip install -q -r requirements.txt --use-mirrors
   - pip install -e .
   - pip install pep8
