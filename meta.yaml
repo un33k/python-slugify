@@ -1,0 +1,23 @@
+package:
+  name: python-slugify
+  version: "1.2.1"
+
+source:
+  path: .
+
+requirements:
+  build:
+    - python
+    - unidecode >=0.04.16
+  run:
+    - python
+    - unidecode >=0.04.16
+
+build:
+  preserve_egg_dir: True
+  script: python setup.py install
+
+about:
+  home: https://github.com/un33k/python-slugify
+  license: MIT
+  license_file: LICENSE
