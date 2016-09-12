@@ -14,6 +14,9 @@ requirements:
     - unidecode >=0.04.16
 
 build:
+  python_noarch: True
+  build: 1
+  noarch: True
   preserve_egg_dir: True
   script: python setup.py install
 
