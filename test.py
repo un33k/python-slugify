@@ -169,7 +169,7 @@ class TestSlugification(unittest.TestCase):
 
     def test_underscore(self):
         txt = "___This is a test___"
-        r = slugify(txt, allow_underscore=True)
+        r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
         self.assertEqual(r, "___this-is-a-test___")
 
 

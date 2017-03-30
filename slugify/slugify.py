@@ -24,7 +24,6 @@ DECIMAL_PATTERN = re.compile('&#(\d+);')
 HEX_PATTERN = re.compile('&#x([\da-fA-F]+);')
 QUOTE_PATTERN = re.compile(r'[\']+')
 ALLOWED_CHARS_PATTERN = re.compile(r'[^-a-z0-9]+')
-ALLOWED_CHARS_WITH_UNDERSCORE = re.compile(r'[^-a-z0-9_]+')
 DUPLICATE_DASH_PATTERN = re.compile('-{2,}')
 NUMBERS_PATTERN = re.compile('(?<=\d),(?=\d)')
 
@@ -72,7 +71,7 @@ def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', s
 
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
-            separator='-', save_order=False, stopwords=(), allow_underscore=False):
+            separator='-', save_order=False, stopwords=(), allowed_characters=None):
     """
     Make a slug from the given text.
     :param text (str): initial text
@@ -132,11 +131,11 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # replace unwanted characters
     text = NUMBERS_PATTERN.sub('', text)
-    if allow_underscore:
-        allowed_pattern = ALLOWED_CHARS_WITH_UNDERSCORE
+    print(text)
+    if allowed_characters:
+        text = re.sub(allowed_characters, '-', text)
     else:
-        allowed_pattern = ALLOWED_CHARS_PATTERN
-    text = allowed_pattern.sub('-', text)
+        text = ALLOWED_CHARS_PATTERN.sub('-', text)
 
     # remove redundant -
     text = DUPLICATE_DASH_PATTERN.sub('-', text).strip('-')
