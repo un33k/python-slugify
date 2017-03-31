@@ -167,6 +167,11 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt)
         self.assertEqual(r, '1000-reasons-you-are-1')
 
+    def test_underscore(self):
+        txt = "___This is a test___"
+        r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
+        self.assertEqual(r, "___this-is-a-test___")
+
 
 class TestUtils(unittest.TestCase):
 
