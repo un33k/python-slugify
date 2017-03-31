@@ -145,7 +145,7 @@ How to use
     r = slugify(txt)
     self.assertEqual(r, 'foo-bar')
 
-    xt = "___This is a test___"
+    txt = "___This is a test___"
     r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
     self.assertEqual(r, "___this-is-a-test___")
 
