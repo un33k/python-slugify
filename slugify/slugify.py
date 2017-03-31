@@ -71,7 +71,7 @@ def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', s
 
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
-            separator='-', save_order=False, stopwords=()):
+            separator='-', save_order=False, stopwords=(), allowed_characters=None):
     """
     Make a slug from the given text.
     :param text (str): initial text
@@ -131,7 +131,10 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # replace unwanted characters
     text = NUMBERS_PATTERN.sub('', text)
-    text = ALLOWED_CHARS_PATTERN.sub('-', text)
+    if allowed_characters:
+        text = re.sub(allowed_characters, '-', text)
+    else:
+        text = ALLOWED_CHARS_PATTERN.sub('-', text)
 
     # remove redundant -
     text = DUPLICATE_DASH_PATTERN.sub('-', text).strip('-')

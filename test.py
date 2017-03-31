@@ -167,6 +167,38 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt)
         self.assertEqual(r, '1000-reasons-you-are-1')
 
+    def test_underscore(self):
+        txt = "___This is a test___"
+        r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
+        self.assertEqual(r, "___this-is-a-test___")
+
+    def test_underscore_middle(self):
+        txt = "___This is a test_for-underscore___"
+        r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
+        self.assertEqual(r, "___this-is-a-test_for-underscore___")
+
+    def test_underscore_unicode(self):
+        txt = "___Test_sa čičkom, ćupom i šišarkom i crtom___"
+        r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
+        self.assertEqual(r, "___test_sa-cickom-cupom-i-sisarkom-i-crtom___")
+
+    def test_multiple_allowed_characters(self):
+        txt = "___This is a $#* test___"
+        r = slugify(txt, allowed_characters=r'[^-a-z0-9_#$*]+')
+        self.assertEqual(r, "___this-is-a-$#*-test___")
+
+
+class TestUtils(unittest.TestCase):
+
+    def test_smart_truncate_no_max_length(self):
+        txt = '1,000 reasons you are #1'
+        r = smart_truncate(txt)
+        self.assertEqual(r, txt)
+
+    def test_smart_truncate_no_seperator(self):
+        txt = '1,000 reasons you are #1'
+        r = smart_truncate(txt, max_length=100, separator='_')
+        self.assertEqual(r, txt)
 
 class TestUtils(unittest.TestCase):
 

@@ -144,6 +144,22 @@ How to use
     txt = 'foo &amp; bar'
     r = slugify(txt)
     self.assertEqual(r, 'foo-bar')
+
+    txt = "___This is a test___"
+    r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
+    self.assertEqual(r, "___this-is-a-test___")
+
+    txt = "___This is a test_for-underscore___"
+    r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
+    self.assertEqual(r, "___this-is-a-test_for-underscore___")
+
+    txt = "___Test_sa čičkom, ćupom i šišarkom i crtom___"
+    r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
+    self.assertEqual(r, "___test_sa-cickom-cupom-i-sisarkom-i-crtom___")
+
+    txt = "___This is a $#* test___"
+    r = slugify(txt, allowed_characters=r'[^-a-z0-9_#$*]+')
+    self.assertEqual(r, "___this-is-a-$#*-test___")
    ```
 
 Running the tests
@@ -157,7 +173,7 @@ To run the tests against the current environment:
 License
 ====================
 
-Released under a ([BSD](LICENSE.md)) license.
+Released under a ([MIT](LICENSE)) license.
 
 
 Version
