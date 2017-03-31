@@ -172,6 +172,21 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
         self.assertEqual(r, "___this-is-a-test___")
 
+    def test_underscore_middle(self):
+        txt = "___This is a test_for-underscore___"
+        r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
+        self.assertEqual(r, "___this-is-a-test_for-underscore___")
+
+    def test_underscore_unicode(self):
+        txt = "___Test_sa čičkom, ćupom i šišarkom i crtom___"
+        r = slugify(txt, allowed_characters=r'[^-a-z0-9_]+')
+        self.assertEqual(r, "___test_sa-cickom-cupom-i-sisarkom-i-crtom___")
+
+    def test_multiple_allowed_characters(self):
+        txt = "___This is a $#* test___"
+        r = slugify(txt, allowed_characters=r'[^-a-z0-9_#$*]+')
+        self.assertEqual(r, "___this-is-a-$#*-test___")
+
 
 class TestUtils(unittest.TestCase):
 

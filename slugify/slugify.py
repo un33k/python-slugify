@@ -131,7 +131,6 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # replace unwanted characters
     text = NUMBERS_PATTERN.sub('', text)
-    print(text)
     if allowed_characters:
         text = re.sub(allowed_characters, '-', text)
     else:
