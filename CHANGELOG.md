@@ -1,3 +1,6 @@
+## 1.2.2
+  - Add `allowed_cahar
+
 ## 1.2.1
   - Including certain files (e.g. license.md) in sdists via MANIFEST.in (@proinsias)
   - Relax licensing by moving from BSD to MIT

@@ -26,6 +26,7 @@ QUOTE_PATTERN = re.compile(r'[\']+')
 ALLOWED_CHARS_PATTERN = re.compile(r'[^-a-z0-9]+')
 DUPLICATE_DASH_PATTERN = re.compile('-{2,}')
 NUMBERS_PATTERN = re.compile('(?<=\d),(?=\d)')
+DEFAULT_SEPARATOR = '-'
 
 
 def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', save_order=False):
@@ -71,7 +72,7 @@ def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', s
 
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
-            separator='-', save_order=False, stopwords=()):
+            separator=DEFAULT_SEPARATOR, save_order=False, stopwords=(), regex_pattern=None):
     """
     Make a slug from the given text.
     :param text (str): initial text
@@ -83,6 +84,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
     :param separator (str): separator between words
     :param stopwords (iterable): words to discount
+    :param regex_pattern (str): regex pattern for allowed characters
     :return (str):
     """
 
@@ -91,7 +93,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
         text = _unicode(text, 'utf-8', 'ignore')
 
     # replace quotes with dashes - pre-process
-    text = QUOTE_PATTERN.sub('-', text)
+    text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
 
     # decode unicode
     text = unidecode.unidecode(text)
@@ -129,25 +131,28 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     # remove generated quotes -- post-process
     text = QUOTE_PATTERN.sub('', text)
 
-    # replace unwanted characters
+    # cleanup numbers
     text = NUMBERS_PATTERN.sub('', text)
-    text = ALLOWED_CHARS_PATTERN.sub('-', text)
 
-    # remove redundant -
-    text = DUPLICATE_DASH_PATTERN.sub('-', text).strip('-')
+    # replace all other unwanted characters
+    pattern = regex_pattern or ALLOWED_CHARS_PATTERN
+    text = re.sub(pattern, DEFAULT_SEPARATOR, text)
+
+    # remove redundant
+    text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
 
     # remove stopwords
     if stopwords:
         stopwords_lower = [s.lower() for s in stopwords]
-        words = [w for w in text.split('-') if w not in stopwords_lower]
-        text = '-'.join(words)
+        words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords_lower]
+        text = DEFAULT_SEPARATOR.join(words)
 
     # smart truncate if requested
     if max_length > 0:
-        text = smart_truncate(text, max_length, word_boundary, '-', save_order)
+        text = smart_truncate(text, max_length, word_boundary, DEFAULT_SEPARATOR, save_order)
 
-    if separator != '-':
-        text = text.replace('-', separator)
+    if separator != DEFAULT_SEPARATOR:
+        text = text.replace(DEFAULT_SEPARATOR, separator)
 
     return text
 

@@ -1,36 +1,52 @@
 Python Slugify
-===============
+==============
 
-**A Python slugify application that handles unicode**
-
-[![status-image]][status-link]
-[![version-image]][version-link]
-[![coverage-image]][coverage-link]
+|status-image| |version-image| |coverage-image|
 
 Overview
-========
+--------
 
 A Python **slugify** application that handles **unicode**.
 
 
 How to install
-==============
+--------------
 
-    1. easy_install python-slugify
-    2. pip install python-slugify
-    3. git clone http://github.com/un33k/python-slugify
-        a. cd python-slugify
-        b. run python setup.py
-    4. wget https://github.com/un33k/python-slugify/zipball/master
-        a. unzip the downloaded file
-        b. cd into python-slugify-* directory
-        c. run python setup.py
+Via ``pip``:
+
+.. code:: bash
+
+    $ pip install python-slugify
+
+Via ``easy_install``:
+
+.. code:: bash
+
+    $ easy_install python-slugify
+
+From sources via ``git``:
+
+.. code:: bash
+
+    $ git clone http://github.com/un33k/python-slugify
+    $ cd python-slugify
+    $ python setup.py
+
+From sources:
+
+.. code:: bash
+
+    $ wget https://github.com/un33k/python-slugify/zipball/master
+    # unzip the downloaded file
+    # cd into python-slugify-* directory
+    $ python setup.py
 
 
 How to use
-===========
+----------
 
-   ```python
+.. code:: python
+
     from slugify import slugify
 
     txt = "This is a test ---"
@@ -144,38 +160,54 @@ How to use
     txt = 'foo &amp; bar'
     r = slugify(txt)
     self.assertEqual(r, 'foo-bar')
-   ```
+
+    txt = "___This is a test___"
+    regex_pattern = r'[^-a-z0-9_]+'
+    r = slugify(txt, regex_pattern=regex_pattern)
+    self.assertEqual(r, "___this-is-a-test___")
+
+    txt = "___This is a test___"
+    regex_pattern = r'[^-a-z0-9_]+'
+    r = slugify(txt, separator='_', regex_pattern=regex_pattern)
+    self.assertNotEqual(r, "_this_is_a_test_")
 
 Running the tests
-=================
+-----------------
 
 To run the tests against the current environment:
+
+.. code:: bash
 
     python test.py
 
 
 License
-====================
+-------
 
-Released under a ([BSD](LICENSE.md)) license.
+Released under a (`MIT`_) license.
 
 
 Version
-====================
+-------
+
 X.Y.Z Version
+
+::
 
     `MAJOR` version -- when you make incompatible API changes,
     `MINOR` version -- when you add functionality in a backwards-compatible manner, and
     `PATCH` version -- when you make backwards-compatible bug fixes.
 
-[status-image]: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
-[status-link]: http://travis-ci.org/un33k/python-slugify?branch=master
+.. |status-image| image:: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
+    :target: http://travis-ci.org/un33k/python-slugify?branch=master
 
-[version-image]: https://img.shields.io/pypi/v/python-slugify.svg
-[version-link]: https://pypi.python.org/pypi/python-slugify
+.. |version-image| image:: https://img.shields.io/pypi/v/python-slugify.svg
+    :target: https://pypi.python.org/pypi/python-slugify
 
-[coverage-image]: https://coveralls.io/repos/un33k/python-slugify/badge.svg
-[coverage-link]: https://coveralls.io/r/un33k/python-slugify
+.. |coverage-image| image:: https://coveralls.io/repos/un33k/python-slugify/badge.svg
+    :target: https://coveralls.io/r/un33k/python-slugify
 
-[download-image]: https://img.shields.io/pypi/dm/python-slugify.svg
-[download-link]: https://pypi.python.org/pypi/python-slugify
+.. |download-image| image:: https://img.shields.io/pypi/dm/python-slugify.svg
+    :target: https://pypi.python.org/pypi/python-slugify
+
+.. _MIT: https://github.com/un33k/python-slugify/blob/master/LICENSE
