@@ -1,5 +1,6 @@
 ## 1.2.2
-  - Add `allowed_cahar
+  - Add `regex_pattern` option. (@vrbaskiz)
+  - Add Python 3.6 support
 
 ## 1.2.1
   - Including certain files (e.g. license.md) in sdists via MANIFEST.in (@proinsias)
