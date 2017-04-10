@@ -1,3 +1,6 @@
+## 1.2.3
+  - Republish - possible corrupt 1.2.2 build
+
 ## 1.2.2
   - Add `regex_pattern` option. (@vrbaskiz)
   - Add Python 3.6 support
