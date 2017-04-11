@@ -19,8 +19,9 @@ install_requires = ['Unidecode>=0.04.16']
 classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
+    'Topic :: Software Development :: Build Tools',
     'License :: OSI Approved :: MIT License',
-    'Operating System :: POSIX',
+    'Operating System :: OS Independent',
     'Programming Language :: Python',
     'Programming Language :: Python :: 2.6',
     'Programming Language :: Python :: 2.7',
@@ -42,12 +43,13 @@ def get_version(package):
 
 
 if sys.argv[-1] == 'publish':
-    os.system("python setup.py sdist upload")
+    os.system("python setup.py sdist bdist bdist_wheel")
     args = {'version': get_version(package)}
     print("You probably want to also tag the version now:")
     print("  git tag -a %(version)s -m 'version %(version)s' && git push --tags" % args)
     sys.exit()
 
+EXCLUDE_FROM_PACKAGES = []
 
 setup(
     name=name,
@@ -55,9 +57,10 @@ setup(
     url=url,
     license=license,
     description=description,
+    long_description=description,
     author=author,
     author_email=author_email,
-    packages=find_packages(),
+    packages=find_packages(exclude=EXCLUDE_FROM_PACKAGES),
     install_requires=install_requires,
     classifiers=classifiers,
     entry_points={'console_scripts': ['slugify=slugify.slugify:main']},
