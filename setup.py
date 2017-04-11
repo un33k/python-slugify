@@ -42,8 +42,11 @@ def get_version(package):
     return re.search("^__version__ = ['\"]([^'\"]+)['\"]", init_py, re.MULTILINE).group(1)
 
 
+if sys.argv[-1] == 'build':
+    os.system("python setup.py sdist bdist_wheel")
+
 if sys.argv[-1] == 'publish':
-    os.system("python setup.py sdist bdist bdist_wheel")
+    os.system("twine upload dist/*")
     args = {'version': get_version(package)}
     print("You probably want to also tag the version now:")
     print("  git tag -a %(version)s -m 'version %(version)s' && git push --tags" % args)
