@@ -13,7 +13,7 @@ python:
 install:
   - pip install pip -U
   - pip install -q -r requirements.txt
-  - pip install -e .
+  - pip install .
   - pip install pep8
   - pip install coveralls
   - pip install https://github.com/un33k/pyflakes/tarball/master
@@ -22,7 +22,9 @@ before_script:
   - "bash pep8.sh"
   - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pyflakes -x W slugify; fi
 
-script: coverage run --source=slugify test.py
+script:
+  - slugify --help
+  - coverage run --source=slugify test.py
 
 after_success:
   coveralls
