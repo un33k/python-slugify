@@ -1,4 +1,4 @@
-## 1.2.3
+## 1.2.4
   - Remove build artifacts during packaging
   - Simplify the setup.py file (@reece)
 
