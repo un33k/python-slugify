@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import re
 import unicodedata
 import types
@@ -159,7 +161,11 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
 def main(): # pragma: no cover
     if len(sys.argv) < 2:
-        print("Usage %s TEXT TO SLUGIFY" % sys.argv[0])
+        print("Usage: %s TEXT TO SLUGIFY" % sys.argv[0])
     else:
         text = ' '.join(sys.argv[1:])
         print(slugify(text))
+
+
+if __name__ == '__main__':
+    main()
