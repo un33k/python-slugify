@@ -13,7 +13,7 @@ except ImportError:
     _unicode_type = str
     unichr = chr
 
-import unidecode
+import text_unidecode
 
 
 __all__ = ['slugify', 'smart_truncate']
@@ -96,7 +96,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
 
     # decode unicode
-    text = unidecode.unidecode(text)
+    text = text_unidecode.unidecode(text)
 
     # ensure text is still in unicode
     if not isinstance(text, _unicode_type):
