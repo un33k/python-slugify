@@ -23,10 +23,9 @@ CHAR_ENTITY_PATTERN = re.compile('&(%s);' % '|'.join(name2codepoint))
 DECIMAL_PATTERN = re.compile('&#(\d+);')
 HEX_PATTERN = re.compile('&#x([\da-fA-F]+);')
 QUOTE_PATTERN = re.compile(r'[\']+')
-ALLOWED_CHARS_PATTERN = re.compile(r'[^-a-z0-9]+')
-DUPLICATE_DASH_PATTERN = re.compile('-{2,}')
 NUMBERS_PATTERN = re.compile('(?<=\d),(?=\d)')
 DEFAULT_SEPARATOR = '-'
+ALLOWED_CHARS = 'a-z0-9'
 
 
 def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', save_order=False):
@@ -93,7 +92,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
         text = _unicode(text, 'utf-8', 'ignore')
 
     # replace quotes with dashes - pre-process
-    text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
+    text = QUOTE_PATTERN.sub(separator, text)
 
     # decode unicode
     text = unidecode.unidecode(text)
@@ -135,24 +134,21 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     text = NUMBERS_PATTERN.sub('', text)
 
     # replace all other unwanted characters
-    pattern = regex_pattern or ALLOWED_CHARS_PATTERN
-    text = re.sub(pattern, DEFAULT_SEPARATOR, text)
+    pattern = regex_pattern or re.compile(r'[^{0}{1}]+'.format(separator, ALLOWED_CHARS))
+    text = re.sub(pattern, separator, text)
 
-    # remove redundant
-    text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
+    # collapse multiple separators
+    text = re.sub(re.escape(separator) + r'{2,}', separator, text).strip(separator)
 
     # remove stopwords
     if stopwords:
         stopwords_lower = [s.lower() for s in stopwords]
-        words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords_lower]
-        text = DEFAULT_SEPARATOR.join(words)
+        words = [w for w in text.split(separator) if w not in stopwords_lower]
+        text = separator.join(words)
 
     # smart truncate if requested
     if max_length > 0:
-        text = smart_truncate(text, max_length, word_boundary, DEFAULT_SEPARATOR, save_order)
-
-    if separator != DEFAULT_SEPARATOR:
-        text = text.replace(DEFAULT_SEPARATOR, separator)
+        text = smart_truncate(text, max_length, word_boundary, separator, save_order)
 
     return text
 
