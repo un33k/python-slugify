@@ -89,7 +89,7 @@ class TestSlugification(unittest.TestCase):
     def test_multi_character_separator(self):
         txt = 'jaja---lol-méméméoo--a'
         r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
-        self.assertEqual(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
+        self.assertEqual(r, "jajaZZZZZZlolZZZZZZa")
 
     def test_save_order(self):
         txt = 'one two three four five'
@@ -182,7 +182,7 @@ class TestSlugification(unittest.TestCase):
         txt = "___This is a test___"
         regex_pattern = r'[^-a-z0-9_]+'
         r = slugify(txt, separator='_', regex_pattern=regex_pattern)
-        self.assertNotEqual(r, "_this_is_a_test_")
+        self.assertEqual(r, "this_is_a_test")
 
 
 class TestUtils(unittest.TestCase):
