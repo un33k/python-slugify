@@ -184,6 +184,19 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt, separator='_', regex_pattern=regex_pattern)
         self.assertEqual(r, "this_is_a_test")
 
+    def test_separator_remove_hyphens(self):
+        """With an overridden separator, hyphens should be stripped."""
+        txt = "___This is a hyphen-containing test."
+        r = slugify(txt, separator='_')
+        self.assertEqual(r, "this_is_a_hyphen_containing_test")
+
+    def test_regex_pattern_allow_hyphens(self):
+        """With an overridden separator and a regex, it should be possible to preserve hyphens."""
+        txt = "___This is a hyphen-containing test."
+        regex_pattern = r'[^-a-z0-9_]+'
+        r = slugify(txt, separator='_', regex_pattern=regex_pattern)
+        self.assertEqual(r, "this_is_a_hyphen-containing_test")
+
 
 class TestUtils(unittest.TestCase):
 
