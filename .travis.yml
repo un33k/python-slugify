@@ -11,12 +11,12 @@ python:
   - pypy
 
 env:
-  - SLUGIFY_USE_TEXT_UNIDECODE=yes
-  - SLUGIFY_USE_UNIDECODE=yes # this is redundant but otherwise travis will only trigger one build type
+  - SLUGIFY_USES_TEXT_UNIDECODE=yes
+  - SLUGIFY_USES_UNIDECODE=yes # this is redundant but otherwise travis will only trigger one build type
 
 install:
   - pip install pip -U
-  - if [[ -z "${SLUGIFY_USE_TEXT_UNIDECODE}" ]]; then pip install -q -r requirements.txt; else pip install -q -r alt_requirements.txt; fi
+  - if [[ -z "${SLUGIFY_USES_TEXT_UNIDECODE}" ]]; then pip install -q -r requirements.txt; else pip install -q -r alt_requirements.txt; fi
   - pip install -e .
   - pip install pycodestyle
   - pip install coveralls
