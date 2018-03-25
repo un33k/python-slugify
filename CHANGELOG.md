@@ -7,10 +7,6 @@
   - Simplify the setup.py file (@reece)
 
 ## 1.2.3
-  - Remove build artifacts during packaging
-  - Simplify the setup.py file (@reece)
-
-## 1.2.3
   - Republish - possible corrupt 1.2.2 build
 
 ## 1.2.2
