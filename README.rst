@@ -46,7 +46,7 @@ Note:
 By default *python-slugify* installs **unidecode** (GPL) for its decoding needs.
 
 Alternatively *python-slugify* can install and use **text-unidecode** (GPL & Perl Artistic) instead. This is done by setting up
-an environment variable  *SLUGIFY_USES_TEXT_UNIDECODE=yes* prior to installing `python-slugify`.
+an environment variable  *SLUGIFY_USES_TEXT_UNIDECODE=yes* prior to installing and/or upgrading `python-slugify`.
 
 In cases where both **unidecode** and **text-unidecode** are installed, *python-slugify* always defaults to using **unidecode** regardless of the *SLUGIFY_USES_TEXT_UNIDECODE=yes* environment variable.
 
