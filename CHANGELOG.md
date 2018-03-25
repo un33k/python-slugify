@@ -1,3 +1,10 @@
+## 1.2.5
+  - Add support for using text-unidecode (@bolkedebruin)
+
+## 1.2.4
+  - Remove build artifacts during packaging
+  - Simplify the setup.py file (@reece)
+
 ## 1.2.3
   - Remove build artifacts during packaging
   - Simplify the setup.py file (@reece)

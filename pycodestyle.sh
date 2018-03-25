@@ -8,4 +8,4 @@
 #  -- E225 missing whitespace around operator
 #  -- E501 line too long
 
-pep8 --ignore=E128,E261,E225,E501 slugify test.py setup.py
+pycodestyle --ignore=E128,E261,E225,E501 slugify test.py setup.py

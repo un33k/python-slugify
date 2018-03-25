@@ -210,5 +210,6 @@ class TestUtils(unittest.TestCase):
         r = smart_truncate(txt, max_length=100, separator='_')
         self.assertEqual(r, txt)
 
+
 if __name__ == '__main__':
     unittest.main()

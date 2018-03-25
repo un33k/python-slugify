@@ -15,7 +15,10 @@ url = 'https://github.com/un33k/python-slugify'
 author = 'Val Neekman'
 author_email = 'info@neekware.com'
 license = 'MIT'
-install_requires = ['Unidecode>=0.04.16']
+if "SLUGIFY_USE_TEXT_UNIDECODE" in os.environ:
+    install_requires = ['text-unidecode>=1.2']
+else:
+    install_requires = ['Unidecode>=0.04.16']
 classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
