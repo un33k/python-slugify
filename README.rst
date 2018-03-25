@@ -30,7 +30,7 @@ From sources via ``git``:
 
     $ git clone http://github.com/un33k/python-slugify
     $ cd python-slugify
-    $ python setup.py
+    $ python setup.py install
 
 From sources:
 
@@ -39,7 +39,16 @@ From sources:
     $ wget https://github.com/un33k/python-slugify/zipball/master
     # unzip the downloaded file
     # cd into python-slugify-* directory
-    $ python setup.py
+    $ python setup.py install
+
+Note:
+
+By default *python-slugify* installs **unidecode** (GPL) for its decoding needs.
+
+Alternatively *python-slugify* can install and use **text-unidecode** (GPL & Perl Artistic) instead. This is done by setting up
+an environment variable  *SLUGIFY_USES_TEXT_UNIDECODE=yes* prior to installing and/or upgrading `python-slugify`.
+
+In cases where both **unidecode** and **text-unidecode** are installed, *python-slugify* always defaults to using **unidecode** regardless of the *SLUGIFY_USES_TEXT_UNIDECODE=yes* environment variable.
 
 
 How to use
@@ -117,10 +126,6 @@ How to use
     r = slugify(txt, max_length=20, word_boundary=True, separator=".")
     self.assertEqual(r, "jaja.lol.mememeoo.a")
 
-    txt = 'jaja---lol-méméméoo--a'
-    r = slugify(txt, max_length=20, word_boundary=True, separator="ZZZZZZ")
-    self.assertEqual(r, "jajaZZZZZZlolZZZZZZmememeooZZZZZZa")
-
     txt = 'one two three four five'
     r = slugify(txt, max_length=13, word_boundary=True, save_order=True)
     self.assertEqual(r, "one-two-three")
@@ -186,6 +191,11 @@ License
 
 Released under a (`MIT`_) license.
 
+**Note:**
+
+*python-slugify* relies on thirdparty **API** for decoding unicode strings.  This dependency is kept at the public **API** ONLY in
+order to ensure that *python-slugify* never becomes a **derivative work** of any other packages. MIT license holds.
+
 
 Version
 -------
@@ -212,18 +222,3 @@ X.Y.Z Version
 
 .. _MIT: https://github.com/un33k/python-slugify/blob/master/LICENSE
 
-
-GPL
----
-
-By default python-slugify depends on **unidecode** which is released under GPL. In case this is
-a concern to you it is possible to install slugify with **text-unidecode** which is dual licensed
-Perl Artistic and GPL. This can be done by:
-
-.. code:: bash
-    
-    $ export WITH_TEXTUNIDECODE=yes
-
-And then proceed with the normal installation instructions. Please note that this needs to be specified
-for every upgrade. Also be aware that in case **unidecode* is present on the system python-slugify will
-still default to using it.

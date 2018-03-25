@@ -11,19 +11,19 @@ python:
   - pypy
 
 env:
-  - WITH_TEXTUNIDECODE=yes
-  - WITH_UNIDECODE=yes # this is redundant but otherwise travis will only trigger one build type
+  - SLUGIFY_USES_TEXT_UNIDECODE=yes
+  - SLUGIFY_USES_UNIDECODE=yes # dummy: tell travis to run more than one build types
 
 install:
   - pip install pip -U
-  - if [[ -z "${WITH_TEXTUNIDECODE}" ]]; then pip install -q -r requirements.txt; else pip install -q -r alt_requirements.txt; fi
+  - if [[ -z "${SLUGIFY_USES_TEXT_UNIDECODE}" ]]; then pip install -q -r requirements.txt; else pip install -q -r requirements_alt.txt; fi
   - pip install -e .
-  - pip install pep8
+  - pip install pycodestyle
   - pip install coveralls
   - pip install https://github.com/un33k/pyflakes/tarball/master
 
 before_script:
-  - "bash pep8.sh"
+  - "bash pycodestyle.sh"
   - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pyflakes -x W slugify; fi
 
 script: coverage run --source=slugify test.py

@@ -112,14 +112,14 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     if decimal:
         try:
             text = DECIMAL_PATTERN.sub(lambda m: unichr(int(m.group(1))), text)
-        except:
+        except Exception:
             pass
 
     # hexadecimal character reference
     if hexadecimal:
         try:
             text = HEX_PATTERN.sub(lambda m: unichr(int(m.group(1), 16)), text)
-        except:
+        except Exception:
             pass
 
     # translate
