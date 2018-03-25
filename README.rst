@@ -211,3 +211,19 @@ X.Y.Z Version
     :target: https://pypi.python.org/pypi/python-slugify
 
 .. _MIT: https://github.com/un33k/python-slugify/blob/master/LICENSE
+
+
+GPL
+---
+
+By default python-slugify depends on **unidecode** which is released under GPL. In case this is
+a concern to you it is possible to install slugify with **text-unidecode** which is dual licensed
+Perl Artistic and GPL. This can be done by:
+
+.. code:: bash
+    
+    $ export WITH_TEXTUNIDECODE=yes
+
+And then proceed with the normal installation instructions. Please note that this needs to be specified
+for every upgrade. Also be aware that in case **unidecode* is present on the system python-slugify will
+still default to using it.
