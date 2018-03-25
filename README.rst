@@ -194,7 +194,7 @@ Released under a (`MIT`_) license.
 **Note:**
 
 *python-slugify* relies on thirdparty **API** for decoding unicode strings.  This dependency is kept at the public **API** ONLY in
-order to ensure that *python-slugify* never becomes a **derivative work** of any other packages.
+order to ensure that *python-slugify* never becomes a **derivative work** of any other packages. MIT license holds.
 
 
 Version
