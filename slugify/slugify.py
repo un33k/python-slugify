@@ -155,7 +155,6 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
             words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords_lower]
         else:
             words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords]
-        
         text = DEFAULT_SEPARATOR.join(words)
 
     # smart truncate if requested
