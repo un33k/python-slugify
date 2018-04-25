@@ -26,6 +26,7 @@ DECIMAL_PATTERN = re.compile('&#(\d+);')
 HEX_PATTERN = re.compile('&#x([\da-fA-F]+);')
 QUOTE_PATTERN = re.compile(r'[\']+')
 ALLOWED_CHARS_PATTERN = re.compile(r'[^-a-z0-9]+')
+ALLOWED_CHARS_PATTERN_WITH_UPPERCASE = re.compile(r'[^-a-zA-Z0-9]+')
 DUPLICATE_DASH_PATTERN = re.compile('-{2,}')
 NUMBERS_PATTERN = re.compile('(?<=\d),(?=\d)')
 DEFAULT_SEPARATOR = '-'
@@ -74,7 +75,7 @@ def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', s
 
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
-            separator=DEFAULT_SEPARATOR, save_order=False, stopwords=(), regex_pattern=None):
+            separator=DEFAULT_SEPARATOR, save_order=False, stopwords=(), regex_pattern=None, lowercase=True):
     """
     Make a slug from the given text.
     :param text (str): initial text
@@ -127,8 +128,9 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     if sys.version_info < (3,):
         text = text.encode('ascii', 'ignore')
 
-    # make the text lowercase
-    text = text.lower()
+    # make the text lowercase (optional)
+    if lowercase:
+        text = text.lower()
 
     # remove generated quotes -- post-process
     text = QUOTE_PATTERN.sub('', text)
@@ -137,7 +139,10 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     text = NUMBERS_PATTERN.sub('', text)
 
     # replace all other unwanted characters
-    pattern = regex_pattern or ALLOWED_CHARS_PATTERN
+    if lowercase:
+        pattern = regex_pattern or ALLOWED_CHARS_PATTERN
+    else:
+        pattern = regex_pattern or ALLOWED_CHARS_PATTERN_WITH_UPPERCASE
     text = re.sub(pattern, DEFAULT_SEPARATOR, text)
 
     # remove redundant
@@ -145,8 +150,12 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # remove stopwords
     if stopwords:
-        stopwords_lower = [s.lower() for s in stopwords]
-        words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords_lower]
+        if lowercase:
+            stopwords_lower = [s.lower() for s in stopwords]
+            words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords_lower]
+        else:
+            words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords]
+        
         text = DEFAULT_SEPARATOR.join(words)
 
     # smart truncate if requested
