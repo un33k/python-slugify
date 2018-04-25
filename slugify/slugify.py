@@ -88,6 +88,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     :param separator (str): separator between words
     :param stopwords (iterable): words to discount
     :param regex_pattern (str): regex pattern for allowed characters
+    :param lowercase (bool): activate case sensitivity by setting it to False
     :return (str):
     """
 
