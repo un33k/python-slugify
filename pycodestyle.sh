@@ -7,5 +7,7 @@
 #  -- E261 at least two spaces before inline comment
 #  -- E225 missing whitespace around operator
 #  -- E501 line too long
+# Ignoring warning codes
+#  -- W605 invalid escape sequence '\d'
 
-pycodestyle --ignore=E128,E261,E225,E501 slugify test.py setup.py
+pycodestyle --ignore=E128,E261,E225,E501,W605 slugify test.py setup.py
