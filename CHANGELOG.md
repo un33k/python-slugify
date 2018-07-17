@@ -1,3 +1,7 @@
+## 1.2.6
+  - Added support for case-sensitivity (@s-m-e)
+  - Add Python 3.7 support (@s-m-e)
+
 ## 1.2.5
   - Add support for using text-unidecode (@bolkedebruin)
   - Switch to pycodestyle instead of pep8
