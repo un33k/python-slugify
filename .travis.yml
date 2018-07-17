@@ -41,11 +41,13 @@ matrix:
         - dist: xenial
           python: "3.6"
         - dist: xenial
-          python: "3.7-dev"
+          python: "3.7"
+          sudo: true # Ugly HACK, remove line when Tavis supports Python 3.7 officially
           env:
             - SLUGIFY_USES_TEXT_UNIDECODE=yes
         - dist: xenial
-          python: "3.7-dev"
+          python: "3.7"
+          sudo: true # Ugly HACK, remove line when Tavis supports Python 3.7 officially
         - dist: trusty
           python: "pypy"
           env:
