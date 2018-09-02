@@ -195,7 +195,7 @@ To run the tests against the current environment:
 License
 -------
 
-Released under a (`TEST`_) license.
+Released under a (`MIT`_) license.
 
 **Note:**
 
