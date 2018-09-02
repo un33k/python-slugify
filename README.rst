@@ -180,7 +180,7 @@ How to use
     r = slugify(txt, separator='_', regex_pattern=regex_pattern)
     self.assertNotEqual(r, "_this_is_a_test_")
 
-    # for more examples, have a look at the (`TEST` _) file.
+For more examples, have a look at the (`TEST` _) file.
 
 Running the tests
 -----------------
