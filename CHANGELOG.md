@@ -1,3 +1,6 @@
+## 1.2.6
+  - Add support for case sensitive slugs (@s-m-e)
+
 ## 1.2.5
   - Add support for using text-unidecode (@bolkedebruin)
   - Switch to pycodestyle instead of pep8
