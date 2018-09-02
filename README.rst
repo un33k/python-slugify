@@ -162,6 +162,10 @@ How to use
     r = slugify(txt, stopwords=['the', 'in', 'a', 'hurry'])
     self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
 
+    txt = 'thIs Has a stopword Stopword'
+    r = slugify(txt, stopwords=['Stopword'], lowercase=False)
+    self.assertEqual(r, 'thIs-Has-a-stopword')
+
     txt = 'foo &amp; bar'
     r = slugify(txt)
     self.assertEqual(r, 'foo-bar')
@@ -176,6 +180,8 @@ How to use
     r = slugify(txt, separator='_', regex_pattern=regex_pattern)
     self.assertNotEqual(r, "_this_is_a_test_")
 
+For more examples, have a look at the (`TEST`_) file.
+
 Running the tests
 -----------------
 
@@ -189,7 +195,7 @@ To run the tests against the current environment:
 License
 -------
 
-Released under a (`MIT`_) license.
+Released under a (`TEST`_) license.
 
 **Note:**
 
@@ -222,3 +228,4 @@ X.Y.Z Version
 
 .. _MIT: https://github.com/un33k/python-slugify/blob/master/LICENSE
 
+.. _TEST: https://github.com/un33k/python-slugify/blob/master/test.py

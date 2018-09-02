@@ -113,6 +113,11 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt, stopwords=['stopword'])
         self.assertEqual(r, 'this-has-a')
 
+    def test_stopword_removal_casesensitive(self):
+        txt = 'thIs Has a stopword Stopword'
+        r = slugify(txt, stopwords=['Stopword'], lowercase=False)
+        self.assertEqual(r, 'thIs-Has-a-stopword')
+
     def test_multiple_stopword_occurances(self):
         txt = 'the quick brown fox jumps over the lazy dog'
         r = slugify(txt, stopwords=['the'])
