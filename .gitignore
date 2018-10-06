@@ -60,3 +60,6 @@ docs/_build/
 target/
 
 *.*DS_Store
+
+# VS Code
+.vscode
