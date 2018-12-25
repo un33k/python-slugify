@@ -1,3 +1,5 @@
 {
-  "python.linting.pylintEnabled": false
+  "python.linting.pylintEnabled": false,
+  "restructuredtext.confPath": "",
+  "python.pythonPath": "/usr/local/opt/python/bin/python3.6"
 }

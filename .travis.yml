@@ -2,21 +2,14 @@ sudo: false
 language: python
 
 python:
-  - "2.6"
   - "2.7"
-  - "3.3"
   - "3.4"
   - "3.5"
   - "3.6"
   - pypy
 
-env:
-  - SLUGIFY_USES_TEXT_UNIDECODE=yes
-  - SLUGIFY_USES_UNIDECODE=yes # dummy: tell travis to run more than one build types
-
 install:
   - pip install pip -U
-  - if [[ -z "${SLUGIFY_USES_TEXT_UNIDECODE}" ]]; then pip install -q -r requirements.txt; else pip install -q -r requirements_alt.txt; fi
   - pip install -e .
   - pip install pycodestyle
   - pip install coveralls

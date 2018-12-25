@@ -7,6 +7,11 @@ import os
 import sys
 import codecs
 
+install_requires = []
+try:
+    import text_unidecode
+except ImportError:
+    install_requires.append('Unidecode>=0.04.16')
 
 name = 'python-slugify'
 package = 'slugify'
@@ -15,10 +20,7 @@ url = 'https://github.com/un33k/python-slugify'
 author = 'Val Neekman'
 author_email = 'info@neekware.com'
 license = 'MIT'
-if "SLUGIFY_USES_TEXT_UNIDECODE" in os.environ:
-    install_requires = ['text-unidecode>=1.2']
-else:
-    install_requires = ['Unidecode>=0.04.16']
+
 classifiers = [
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',

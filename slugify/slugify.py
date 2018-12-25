@@ -21,14 +21,14 @@ except ImportError:
 __all__ = ['slugify', 'smart_truncate']
 
 
-CHAR_ENTITY_PATTERN = re.compile('&(%s);' % '|'.join(name2codepoint))
-DECIMAL_PATTERN = re.compile('&#(\d+);')
-HEX_PATTERN = re.compile('&#x([\da-fA-F]+);')
+CHAR_ENTITY_PATTERN = re.compile(r'&(%s);' % '|'.join(name2codepoint))
+DECIMAL_PATTERN = re.compile(r'&#(\d+);')
+HEX_PATTERN = re.compile(r'&#x([\da-fA-F]+);')
 QUOTE_PATTERN = re.compile(r'[\']+')
 ALLOWED_CHARS_PATTERN = re.compile(r'[^-a-z0-9]+')
 ALLOWED_CHARS_PATTERN_WITH_UPPERCASE = re.compile(r'[^-a-zA-Z0-9]+')
-DUPLICATE_DASH_PATTERN = re.compile('-{2,}')
-NUMBERS_PATTERN = re.compile('(?<=\d),(?=\d)')
+DUPLICATE_DASH_PATTERN = re.compile(r'-{2,}')
+NUMBERS_PATTERN = re.compile(r'(?<=\d),(?=\d)')
 DEFAULT_SEPARATOR = '-'
 
 
