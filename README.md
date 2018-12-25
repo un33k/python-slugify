@@ -1,61 +1,43 @@
 Python Slugify
-==============
+====================
 
-|status-image| |version-image| |coverage-image|
+**A Python slugify application that handles unicode**.
+
+[![status-image]][status-link]
+[![version-image]][version-link]
+[![coverage-image]][coverage-link]
 
 Overview
---------
+====================
 
-A Python **slugify** application that handles **unicode**.
+**Best attempt** to unicode strings while keeping it **DRY**.
+
+Notice
+====================
+
+By default, this modules installs and uses [Unidecode](https://github.com/avian2/unidecode) *(GPL)* for its decoding needs.  However if you wish to use [text-unidecode](https://github.com/kmike/text-unidecode) *(GPL & Perl Artistic)* instead, ensure it is installed prior to `python-slugify` installation.
+
+In cases where both `Unidecode` and `text-unidecode` are installed, the `Unidecode` is used as the default decoding module.
 
 
 How to install
---------------
+====================
 
-Via ``pip``:
-
-.. code:: bash
-
-    $ pip install python-slugify
-
-Via ``easy_install``:
-
-.. code:: bash
-
-    $ easy_install python-slugify
-
-From sources via ``git``:
-
-.. code:: bash
-
-    $ git clone http://github.com/un33k/python-slugify
-    $ cd python-slugify
-    $ python setup.py install
-
-From sources:
-
-.. code:: bash
-
-    $ wget https://github.com/un33k/python-slugify/zipball/master
-    # unzip the downloaded file
-    # cd into python-slugify-* directory
-    $ python setup.py install
-
-Note:
-
-By default *python-slugify* installs **unidecode** (GPL) for its decoding needs.
-
-Alternatively *python-slugify* can install and use **text-unidecode** (GPL & Perl Artistic) instead. This is done by setting up
-an environment variable  *SLUGIFY_USES_TEXT_UNIDECODE=yes* prior to installing and/or upgrading `python-slugify`.
-
-In cases where both **unidecode** and **text-unidecode** are installed, *python-slugify* always defaults to using **unidecode** regardless of the *SLUGIFY_USES_TEXT_UNIDECODE=yes* environment variable.
+    1. easy_install python-slugify
+    2. pip install python-slugify
+    3. git clone http://github.com/un33k/python-slugify
+        a. cd python-slugify
+        b. python setup.py install
+    4. wget https://github.com/un33k/python-slugify/zipball/master
+        a. unzip the downloaded file
+        b. cd python-slugify-*
+        c. python setup.py install
 
 
 How to use
-----------
+====================
 
-.. code:: python
-
+   ```python
     from slugify import slugify
 
     txt = "This is a test ---"
@@ -180,52 +162,47 @@ How to use
     r = slugify(txt, separator='_', regex_pattern=regex_pattern)
     self.assertNotEqual(r, "_this_is_a_test_")
 
-For more examples, have a look at the (`TEST`_) file.
+   ```
+   
+For more examples, have a look at the [test.py](test.py) file.
+
 
 Running the tests
------------------
+====================
 
 To run the tests against the current environment:
-
-.. code:: bash
 
     python test.py
 
 
 License
--------
+====================
 
-Released under a (`MIT`_) license.
-
-**Note:**
-
-*python-slugify* relies on thirdparty **API** for decoding unicode strings.  This dependency is kept at the public **API** ONLY in
-order to ensure that *python-slugify* never becomes a **derivative work** of any other packages. MIT license holds.
+Released under a ([MIT](LICENSE)) license.
 
 
 Version
--------
-
+====================
 X.Y.Z Version
-
-::
 
     `MAJOR` version -- when you make incompatible API changes,
     `MINOR` version -- when you add functionality in a backwards-compatible manner, and
     `PATCH` version -- when you make backwards-compatible bug fixes.
 
-.. |status-image| image:: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
-    :target: http://travis-ci.org/un33k/python-slugify?branch=master
+[status-image]: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
+[status-link]: http://travis-ci.org/un33k/python-slugify?branch=master
 
-.. |version-image| image:: https://img.shields.io/pypi/v/python-slugify.svg
-    :target: https://pypi.python.org/pypi/python-slugify
+[version-image]: https://img.shields.io/pypi/v/python-slugify.svg
+[version-link]: https://pypi.python.org/pypi/python-slugify
 
-.. |coverage-image| image:: https://coveralls.io/repos/un33k/python-slugify/badge.svg
-    :target: https://coveralls.io/r/un33k/python-slugify
+[coverage-image]: https://coveralls.io/repos/un33k/python-slugify/badge.svg
+[coverage-link]: https://coveralls.io/r/un33k/python-slugify
 
-.. |download-image| image:: https://img.shields.io/pypi/dm/python-slugify.svg
-    :target: https://pypi.python.org/pypi/python-slugify
+[download-image]: https://img.shields.io/pypi/dm/python-slugify.svg
+[download-link]: https://pypi.python.org/pypi/python-slugify
 
-.. _MIT: https://github.com/un33k/python-slugify/blob/master/LICENSE
 
-.. _TEST: https://github.com/un33k/python-slugify/blob/master/test.py
+Sponsors
+====================
+
+[![Surge](https://www.surgeforward.com/wp-content/themes/understrap-master/images/logo.png)](https://github.com/surgeforward)

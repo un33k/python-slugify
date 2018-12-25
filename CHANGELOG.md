@@ -1,3 +1,6 @@
+## 2.0.0
+  - Fix alternative dependency installation
+
 ## 1.2.6
   - Add support for case sensitive slugs (@s-m-e)
 
