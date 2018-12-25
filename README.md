@@ -10,7 +10,7 @@ Python Slugify
 Overview
 ====================
 
-**Best attempt** to unicode strings while keeping it **DRY**.
+**Best attempt** to create slugs from unicode strings while keeping it **DRY**.
 
 Notice
 ====================
