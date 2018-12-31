@@ -15,9 +15,9 @@ Overview
 Notice
 ====================
 
-By default, this modules installs and uses [Unidecode](https://github.com/avian2/unidecode) *(GPL)* for its decoding needs.  However if you wish to use [text-unidecode](https://github.com/kmike/text-unidecode) *(GPL & Perl Artistic)* instead, plesea ensure it is installed prior to `python-slugify` installation.
+By default, this modules installs and uses [Unidecode](https://github.com/avian2/unidecode) *(GPL)* for its decoding needs.  However if you wish to use [text-unidecode](https://github.com/kmike/text-unidecode) *(GPL & Perl Artistic)* instead, please ensure it is installed prior to `python-slugify` installation.
 
-In cases where both `Unidecode` and `text-unidecode` are installed, the `Unidecode` is used as the default decoding module.
+In cases where both `Unidecode` and `text-unidecode` are installed, `Unidecode` is used as the default decoding module.
 
 
 How to install

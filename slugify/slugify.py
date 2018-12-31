@@ -32,12 +32,12 @@ NUMBERS_PATTERN = re.compile(r'(?<=\d),(?=\d)')
 DEFAULT_SEPARATOR = '-'
 
 
-def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', save_order=False):
+def smart_truncate(string, max_length=0, word_boundary=False, separator=' ', save_order=False):
     """
     Truncate a string.
     :param string (str): string for modification
     :param max_length (int): output string length
-    :param word_boundaries (bool):
+    :param word_boundary (bool):
     :param save_order (bool): if True then word order of output string is like input string
     :param separator (str): separator between words
     :return:
@@ -51,7 +51,7 @@ def smart_truncate(string, max_length=0, word_boundaries=False, separator=' ', s
     if len(string) < max_length:
         return string
 
-    if not word_boundaries:
+    if not word_boundary:
         return string[:max_length].strip(separator)
 
     if separator not in string:
