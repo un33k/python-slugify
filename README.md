@@ -99,7 +99,7 @@ How to use
     self.assertNotEqual(r, "_this_is_a_test_")
 
     txt = '10 | 20 %'
-    r = slugify(txt, custom_replacements=[['|', 'or'], ['%', 'percent']])
+    r = slugify(txt, replacements=[['|', 'or'], ['%', 'percent']])
     self.assertEqual(r, "10-or-20-percent")
 
    ```

@@ -191,11 +191,11 @@ class TestSlugification(unittest.TestCase):
 
     def test_custom_replacements(self):
         txt = '10 | 20 %'
-        r = slugify(txt, custom_replacements=[['|', 'or'], ['%', 'percent']])
+        r = slugify(txt, replacements=[['|', 'or'], ['%', 'percent']])
         self.assertEqual(r, "10-or-20-percent")
 
         txt = 'I ♥ 🦄'
-        r = slugify(txt, custom_replacements=[['♥', 'amour'], ['🦄', 'licorne']])
+        r = slugify(txt, replacements=[['♥', 'amour'], ['🦄', 'licorne']])
         self.assertEqual(r, "i-amour-licorne")
 
 
