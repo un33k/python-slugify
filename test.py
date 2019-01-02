@@ -189,6 +189,15 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt, separator='_', regex_pattern=regex_pattern)
         self.assertNotEqual(r, "_this_is_a_test_")
 
+    def test_custom_replacements(self):
+        txt = '10 | 20 %'
+        r = slugify(txt, custom_replacements=[['|', 'or'], ['%', 'percent']])
+        self.assertEqual(r, "10-or-20-percent")
+
+        txt = 'I ♥ 🦄'
+        r = slugify(txt, custom_replacements=[['♥', 'amour'], ['🦄', 'licorne']])
+        self.assertEqual(r, "i-amour-licorne")
+
 
 class TestUtils(unittest.TestCase):
 
