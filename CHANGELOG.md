@@ -1,3 +1,6 @@
+## 2.0.1
+  - Add replacements option e.g. [['|', 'or'], ['%', 'percent'], ['-', '_']] (@andriyor)
+
 ## 2.0.0
   - Fix alternative dependency installation
 

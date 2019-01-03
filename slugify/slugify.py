@@ -165,6 +165,11 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
             words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords]
         text = DEFAULT_SEPARATOR.join(words)
 
+    # finalize user-specific replacements
+    if replacements:
+        for old, new in replacements:
+            text = text.replace(old, new)
+
     # smart truncate if requested
     if max_length > 0:
         text = smart_truncate(text, max_length, word_boundary, DEFAULT_SEPARATOR, save_order)
