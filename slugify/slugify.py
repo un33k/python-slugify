@@ -75,7 +75,8 @@ def smart_truncate(string, max_length=0, word_boundary=False, separator=' ', sav
 
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
-            separator=DEFAULT_SEPARATOR, save_order=False, stopwords=(), regex_pattern=None, lowercase=True):
+            separator=DEFAULT_SEPARATOR, save_order=False, stopwords=(), regex_pattern=None, lowercase=True,
+            replacements=()):
     """
     Make a slug from the given text.
     :param text (str): initial text
@@ -89,8 +90,14 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     :param stopwords (iterable): words to discount
     :param regex_pattern (str): regex pattern for allowed characters
     :param lowercase (bool): activate case sensitivity by setting it to False
+    :param replacements (iterable): list of replacement rules e.g. [['|', 'or'], ['%', 'percent']]
     :return (str):
     """
+
+    # user-specific replacements
+    if replacements:
+        for old, new in replacements:
+            text = text.replace(old, new)
 
     # ensure text is unicode
     if not isinstance(text, _unicode_type):
@@ -157,6 +164,11 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
         else:
             words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords]
         text = DEFAULT_SEPARATOR.join(words)
+
+    # finalize user-specific replacements
+    if replacements:
+        for old, new in replacements:
+            text = text.replace(old, new)
 
     # smart truncate if requested
     if max_length > 0:

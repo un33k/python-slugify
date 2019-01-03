@@ -98,6 +98,10 @@ How to use
     r = slugify(txt, separator='_', regex_pattern=regex_pattern)
     self.assertNotEqual(r, "_this_is_a_test_")
 
+    txt = '10 | 20 %'
+    r = slugify(txt, replacements=[['|', 'or'], ['%', 'percent']])
+    self.assertEqual(r, "10-or-20-percent")
+
    ```
    
 For more examples, have a look at the [test.py](test.py) file.
