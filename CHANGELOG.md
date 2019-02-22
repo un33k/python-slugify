@@ -1,3 +1,7 @@
+## 3.0.0
+  - Upgrade Unidecode
+  - Allow install of text-unidecode as extra. "pip install python-slugify[text-unidecode]"
+
 ## 2.0.1
   - Add replacements option e.g. [['|', 'or'], ['%', 'percent'], ['-', '_']] (@andriyor)
 
