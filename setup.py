@@ -14,8 +14,8 @@ url = 'https://github.com/un33k/python-slugify'
 author = 'Val Neekman'
 author_email = 'info@neekware.com'
 license = 'MIT'
-install_requires = ['Unidecode==1.0.23']
-extras_require = {'text-unidecode': ['text-unidecode==1.2']}
+install_requires = ['text-unidecode==1.2']
+extras_require = {'unidecode': ['Unidecode==1.0.23']}
 
 classifiers = [
     'Development Status :: 5 - Production/Stable',
