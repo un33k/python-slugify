@@ -1,1 +1,0 @@
-text-unidecode>=1.2

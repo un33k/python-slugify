@@ -15,24 +15,16 @@ Overview
 Notice
 ====================
 
-By default, this modules installs and uses [Unidecode](https://github.com/avian2/unidecode) *(GPL)* for its decoding needs.  However if you wish to use [text-unidecode](https://github.com/kmike/text-unidecode) *(GPL & Perl Artistic)* instead, please ensure it is installed prior to `python-slugify` installation.
+This module, by default installs and uses [text-unidecode](https://github.com/kmike/text-unidecode) *(GPL & Perl Artistic)* for its decoding needs.
 
-In cases where both `Unidecode` and `text-unidecode` are installed, `Unidecode` is used as the default decoding module.
+However, there is an alternative decoding package called [Unidecode](https://github.com/avian2/unidecode) *(GPL)*. It can be installed as `python-slugify[unidecode]` for those who prefer it.
 
 
 How to install
 ====================
-
-    1. easy_install python-slugify
-    2. pip install python-slugify
-    3. git clone http://github.com/un33k/python-slugify
-        a. cd python-slugify
-        b. python setup.py install
-    4. wget https://github.com/un33k/python-slugify/zipball/master
-        a. unzip the downloaded file
-        b. cd python-slugify-*
-        c. python setup.py install
-
+    easy_install python-slugify |OR| easy_install python-slugify[unidecode]
+    -- OR --
+    pip install python-slugify |OR| pip install python-slugify[unidecode]
 
 How to use
 ====================

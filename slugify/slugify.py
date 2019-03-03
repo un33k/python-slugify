@@ -14,9 +14,9 @@ except ImportError:
     unichr = chr
 
 try:
-    import unidecode
-except ImportError:
     import text_unidecode as unidecode
+except ImportError:
+    import unidecode
 
 __all__ = ['slugify', 'smart_truncate']
 
