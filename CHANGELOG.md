@@ -1,3 +1,6 @@
+## 3.0.1
+  - Add test.py to manifest
+
 ## 3.0.0
   - Upgrade Unidecode
   - Promote text-unidecode as the primary decoding package
