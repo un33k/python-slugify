@@ -3,6 +3,7 @@
 import unittest
 from slugify import slugify
 from slugify import smart_truncate
+from slugify import UniqueSlugify
 
 
 class TestSlugification(unittest.TestCase):
@@ -223,6 +224,34 @@ class TestUtils(unittest.TestCase):
         txt = '1,000 reasons you are #1'
         r = smart_truncate(txt, max_length=100, separator='_')
         self.assertEqual(r, txt)
+
+
+class TestUniqueSlugify(unittest.TestCase):
+
+    def test_unique_slugify(self):
+        unique_slugify = UniqueSlugify()
+
+        txt = 'this is a test'
+        r = unique_slugify(txt)
+        self.assertEqual(r, 'this-is-a-test')
+
+        txt = "___This is a test ---"
+        r = unique_slugify(txt)
+        self.assertEqual(r, 'this-is-a-test-1')
+
+    def test_unique_slugify_custom_separator(self):
+        unique_slugify = UniqueSlugify()
+
+        txt = 'this is a test'
+        r = unique_slugify(txt, separator='_')
+        self.assertEqual(r, "this_is_a_test")
+
+        txt = "___This is a test ---"
+        r = unique_slugify(txt, separator='_')
+        self.assertEqual(r, 'this_is_a_test_1')
+
+        r = unique_slugify(txt, separator='-')
+        self.assertEqual(r, 'this-is-a-test')
 
 
 if __name__ == '__main__':

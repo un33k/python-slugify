@@ -18,7 +18,7 @@ try:
 except ImportError:
     import unidecode
 
-__all__ = ['slugify', 'smart_truncate']
+__all__ = ['slugify', 'smart_truncate', 'UniqueSlugify']
 
 
 CHAR_ENTITY_PATTERN = re.compile(r'&(%s);' % '|'.join(name2codepoint))
@@ -178,6 +178,24 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
         text = text.replace(DEFAULT_SEPARATOR, separator)
 
     return text
+
+
+class UniqueSlugify(object):
+    """Callable class for generating unique slugs."""
+    def __init__(self):
+        self._used = set()
+
+    def __call__(self, text, *args, **kwargs):
+        """Make a slug form the given text. Takes the same arguments as ``slugify``."""
+        slugified = slugify(text, *args, **kwargs)
+        ret = slugified
+        count = 0
+        separator = kwargs.get('separator', DEFAULT_SEPARATOR)
+        while ret in self._used:
+            count += 1
+            ret = "{}{}{}".format(slugified, separator, count)
+        self._used.add(ret)
+        return ret
 
 
 def main(): # pragma: no cover

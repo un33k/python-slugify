@@ -94,6 +94,18 @@ How to use
     r = slugify(txt, replacements=[['|', 'or'], ['%', 'percent']])
     self.assertEqual(r, "10-or-20-percent")
 
+    from slugify import UniqueSlugify
+
+    unique_slugify = UniqueSlugify()
+
+    txt = 'this is a test'
+    r = unique_slugify(txt)
+    self.assertEqual(r, 'this-is-a-test')
+
+    txt = "___This is a test ---"
+    r = unique_slugify(txt)
+    self.assertEqual(r, 'this-is-a-test-1')
+
    ```
    
 For more examples, have a look at the [test.py](test.py) file.
