@@ -1,12 +1,13 @@
-sudo: false
 language: python
+dist: xenial
 
 python:
   - "2.7"
   - "3.4"
   - "3.5"
   - "3.6"
-  - pypy
+  - "3.7"
+  - "pypy2.7-6.0"
 
 install:
   - pip install pip -U
