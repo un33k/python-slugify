@@ -1,3 +1,6 @@
+## 3.0.2
+  - Add official support of Py 3.7
+
 ## 3.0.1
   - Add test.py to manifest
 
