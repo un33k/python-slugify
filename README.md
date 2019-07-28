@@ -19,82 +19,117 @@ This module, by default installs and uses [text-unidecode](https://github.com/km
 
 However, there is an alternative decoding package called [Unidecode](https://github.com/avian2/unidecode) *(GPL)*. It can be installed as `python-slugify[unidecode]` for those who prefer it.
 
-
 How to install
 ====================
     easy_install python-slugify |OR| easy_install python-slugify[unidecode]
     -- OR --
     pip install python-slugify |OR| pip install python-slugify[unidecode]
 
+Parammeters 
+===================
+```python
+def slugify(
+    text,
+    entities=True,
+    decimal=True,
+    hexadecimal=True,
+    max_length=0,
+    word_boundary=False,
+    separator='-',
+    save_order=False,
+    stopwords=(),
+    regex_pattern=None,
+    lowercase=True,
+    replacements=()
+  ):
+  """
+  Make a slug from the given text.
+  :param text (str): initial text
+  :param entities (bool): converts html entities to unicode (foo &amp; bar -> foo-bar)
+  :param decimal (bool): converts html decimal to unicode (&#381; -> Ž -> z)
+  :param hexadecimal (bool): converts html hexadecimal to unicode (&#x17D; -> Ž -> z)
+  :param max_length (int): output string length
+  :param word_boundary (bool): truncates to end of full words (length may be shorter than max_length)
+  :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
+  :param separator (str): separator between words
+  :param stopwords (iterable): words to discount
+  :param regex_pattern (str): regex pattern for allowed characters
+  :param lowercase (bool): activate case sensitivity by setting it to False
+  :param replacements (iterable): list of replacement rules e.g. [['|', 'or'], ['%', 'percent']]
+  :return (str): slugify text
+  """
+  {}
+```
+
 How to use
 ====================
 
-   ```python
-    from slugify import slugify
+```python
+from slugify import slugify
 
-    txt = "This is a test ---"
-    r = slugify(txt)
-    self.assertEqual(r, "this-is-a-test")
+txt = "This is a test ---"
+r = slugify(txt)
+self.assertEqual(r, "this-is-a-test")
 
-    txt = '影師嗎'
-    r = slugify(txt)
-    self.assertEqual(r, "ying-shi-ma")
+txt = '影師嗎'
+r = slugify(txt)
+self.assertEqual(r, "ying-shi-ma")
 
-    txt = 'C\'est déjà l\'été.'
-    r = slugify(txt)
-    self.assertEqual(r, "c-est-deja-l-ete")
+txt = 'C\'est déjà l\'été.'
+r = slugify(txt)
+self.assertEqual(r, "c-est-deja-l-ete")
 
-    txt = 'Nín hǎo. Wǒ shì zhōng guó rén'
-    r = slugify(txt)
-    self.assertEqual(r, "nin-hao-wo-shi-zhong-guo-ren")
+txt = 'Nín hǎo. Wǒ shì zhōng guó rén'
+r = slugify(txt)
+self.assertEqual(r, "nin-hao-wo-shi-zhong-guo-ren")
 
-    txt = 'Компьютер'
-    r = slugify(txt)
-    self.assertEqual(r, "kompiuter")
+txt = 'Компьютер'
+r = slugify(txt)
+self.assertEqual(r, "kompiuter")
 
-    txt = 'jaja---lol-méméméoo--a'
-    r = slugify(txt, max_length=9)
-    self.assertEqual(r, "jaja-lol")
+txt = 'jaja---lol-méméméoo--a'
+r = slugify(txt, max_length=9)
+self.assertEqual(r, "jaja-lol")
 
-    txt = 'jaja---lol-méméméoo--a'
-    r = slugify(txt, max_length=15, word_boundary=True)
-    self.assertEqual(r, "jaja-lol-a")
+txt = 'jaja---lol-méméméoo--a'
+r = slugify(txt, max_length=15, word_boundary=True)
+self.assertEqual(r, "jaja-lol-a")
 
-    txt = 'jaja---lol-méméméoo--a'
-    r = slugify(txt, max_length=20, word_boundary=True, separator=".")
-    self.assertEqual(r, "jaja.lol.mememeoo.a")
+txt = 'jaja---lol-méméméoo--a'
+r = slugify(txt, max_length=20, word_boundary=True, separator=".")
+self.assertEqual(r, "jaja.lol.mememeoo.a")
 
-    txt = 'one two three four five'
-    r = slugify(txt, max_length=13, word_boundary=True, save_order=True)
-    self.assertEqual(r, "one-two-three")
+txt = 'one two three four five'
+r = slugify(txt, max_length=13, word_boundary=True, save_order=True)
+self.assertEqual(r, "one-two-three")
 
-    txt = 'the quick brown fox jumps over the lazy dog'
-    r = slugify(txt, stopwords=['the'])
-    self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
+txt = 'the quick brown fox jumps over the lazy dog'
+r = slugify(txt, stopwords=['the'])
+self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
 
-    txt = 'the quick brown fox jumps over the lazy dog in a hurry'
-    r = slugify(txt, stopwords=['the', 'in', 'a', 'hurry'])
-    self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
+txt = 'the quick brown fox jumps over the lazy dog in a hurry'
+r = slugify(txt, stopwords=['the', 'in', 'a', 'hurry'])
+self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
 
-    txt = 'thIs Has a stopword Stopword'
-    r = slugify(txt, stopwords=['Stopword'], lowercase=False)
-    self.assertEqual(r, 'thIs-Has-a-stopword')
+txt = 'thIs Has a stopword Stopword'
+r = slugify(txt, stopwords=['Stopword'], lowercase=False)
+self.assertEqual(r, 'thIs-Has-a-stopword')
 
-    txt = "___This is a test___"
-    regex_pattern = r'[^-a-z0-9_]+'
-    r = slugify(txt, regex_pattern=regex_pattern)
-    self.assertEqual(r, "___this-is-a-test___")
+txt = "___This is a test___"
+regex_pattern = r'[^-a-z0-9_]+'
+r = slugify(txt, regex_pattern=regex_pattern)
+self.assertEqual(r, "___this-is-a-test___")
 
-    txt = "___This is a test___"
-    regex_pattern = r'[^-a-z0-9_]+'
-    r = slugify(txt, separator='_', regex_pattern=regex_pattern)
-    self.assertNotEqual(r, "_this_is_a_test_")
+txt = "___This is a test___"
+regex_pattern = r'[^-a-z0-9_]+'
+r = slugify(txt, separator='_', regex_pattern=regex_pattern)
+self.assertNotEqual(r, "_this_is_a_test_")
 
-    txt = '10 | 20 %'
-    r = slugify(txt, replacements=[['|', 'or'], ['%', 'percent']])
-    self.assertEqual(r, "10-or-20-percent")
+txt = '10 | 20 %'
+r = slugify(txt, replacements=[['|', 'or'], ['%', 'percent']])
+self.assertEqual(r, "10-or-20-percent")
 
-   ```
+```
    
 For more examples, have a look at the [test.py](test.py) file.
 
@@ -137,4 +172,4 @@ X.Y.Z Version
 Sponsors
 ====================
 
-[![Surge](https://www.surgeforward.com/wp-content/themes/understrap-master/images/logo.png)](https://github.com/surgeforward)
+[Surge](https://github.com/surgeforward)

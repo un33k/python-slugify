@@ -80,11 +80,11 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     """
     Make a slug from the given text.
     :param text (str): initial text
-    :param entities (bool):
-    :param decimal (bool):
-    :param hexadecimal (bool):
+    :param entities (bool): converts html entities to unicode (foo &amp; bar -> foo-bar)
+    :param decimal (bool): converts html decimal to unicode (&#381; -> Ž -> z)
+    :param hexadecimal (bool): converts html hexadecimal to unicode (&#x17D; -> Ž -> z)
     :param max_length (int): output string length
-    :param word_boundary (bool):
+    :param word_boundary (bool): truncates to complete word even if length ends up shorter than max_length
     :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
     :param separator (str): separator between words
     :param stopwords (iterable): words to discount
