@@ -58,7 +58,6 @@ def slugify(
   :param replacements (iterable): list of replacement rules e.g. [['|', 'or'], ['%', 'percent']]
   :return (str): slugify text
   """
-  {}
 ```
 
 How to use
