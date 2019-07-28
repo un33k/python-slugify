@@ -1,3 +1,7 @@
+## 3.0.3
+  - Add Options to readme
+  - Add more unit tests
+
 ## 3.0.2
   - Add official support of Py 3.7
 
