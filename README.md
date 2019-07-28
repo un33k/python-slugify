@@ -25,7 +25,7 @@ How to install
     -- OR --
     pip install python-slugify |OR| pip install python-slugify[unidecode]
 
-Parammeters 
+Options 
 ===================
 ```python
 def slugify(
