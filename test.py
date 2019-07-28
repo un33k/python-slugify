@@ -142,10 +142,35 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt, stopwords=['the'], separator=' ')
         self.assertEqual(r, 'quick brown fox jumps over lazy dog')
 
-    def test_html_entities(self):
+    def test_html_entities_on(self):
         txt = 'foo &amp; bar'
         r = slugify(txt)
         self.assertEqual(r, 'foo-bar')
+
+    def test_html_entities_off(self):
+        txt = 'foo &amp; bar'
+        r = slugify(txt, entities=False)
+        self.assertEqual(r, 'foo-amp-bar')
+
+    def test_html_decimal_on(self):
+        txt = '&#381;'
+        r = slugify(txt, decimal=True)
+        self.assertEqual(r, 'z')
+
+    def test_html_decimal_off(self):
+        txt = '&#381;'
+        r = slugify(txt, entities=False, decimal=False)
+        self.assertEqual(r, '381')
+
+    def test_html_hexadecimal_on(self):
+        txt = '&#x17D;'
+        r = slugify(txt, hexadecimal=True)
+        self.assertEqual(r, 'z')
+
+    def test_html_hexadecimal_off(self):
+        txt = '&#x17D;'
+        r = slugify(txt, hexadecimal=False)
+        self.assertEqual(r, 'x17d')
 
     def test_starts_with_number(self):
         txt = '10 amazing secrets'
