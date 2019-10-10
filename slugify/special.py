@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 def add_uppercase_char(char_list):
     """ Given a replacement char list, this adds uppercase chars to the list """
 

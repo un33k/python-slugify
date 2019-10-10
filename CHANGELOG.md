@@ -1,3 +1,6 @@
+## 3.0.6
+  - Fixed encoding in special.py
+
 ## 3.0.5
   - Add test for pre-translation (e.g German Umlaut)
   - Add special char supports (optional Use)
