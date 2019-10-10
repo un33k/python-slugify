@@ -128,6 +128,10 @@ txt = '10 | 20 %'
 r = slugify(txt, replacements=[['|', 'or'], ['%', 'percent']])
 self.assertEqual(r, "10-or-20-percent")
 
+txt = 'ÜBER Über German Umlaut'
+r = slugify(txt, replacements=[['Ü', 'UE'], ['ü', 'ue']])
+self.assertEqual(r, "ueber-ueber-german-umlaut")
+
 ```
    
 For more examples, have a look at the [test.py](test.py) file.

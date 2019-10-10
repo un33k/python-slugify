@@ -223,6 +223,11 @@ class TestSlugification(unittest.TestCase):
         r = slugify(txt, replacements=[['♥', 'amour'], ['🦄', 'licorne']])
         self.assertEqual(r, "i-amour-licorne")
 
+    def test_replacements_german_umlaut_custom(self):
+        txt = 'ÜBER Über German Umlaut'
+        r = slugify(txt, replacements=[['Ü', 'UE'], ['ü', 'ue']])
+        self.assertEqual(r, "ueber-ueber-german-umlaut")
+
 
 class TestUtils(unittest.TestCase):
 

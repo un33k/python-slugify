@@ -1,6 +1,13 @@
+## 3.0.5
+  - Add test for pre-translation (e.g German Umlaut)
+  - Add special char supports (optional Use)
+
 ## 3.0.4
   - Now supporting text-unidecode>=1.3
   - Now supporting Unidecode>=1.1.1 
+
+## 3.0.3
+  - Remove unicode chars from file
 
 ## 3.0.2
   - Add official support of Py 3.7
