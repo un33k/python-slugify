@@ -242,18 +242,5 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(r, txt)
 
 
-class TestUtils(unittest.TestCase):
-
-    def test_smart_truncate_no_max_length(self):
-        txt = '1,000 reasons you are #1'
-        r = smart_truncate(txt)
-        self.assertEqual(r, txt)
-
-    def test_smart_truncate_no_seperator(self):
-        txt = '1,000 reasons you are #1'
-        r = smart_truncate(txt, max_length=100, separator='_')
-        self.assertEqual(r, txt)
-
-
 if __name__ == '__main__':
     unittest.main()
