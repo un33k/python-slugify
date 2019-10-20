@@ -1,3 +1,6 @@
+## 4.0.0
+  - Drop support from 2.6, & < 3.4.5
+
 ## 3.0.6
   - Fixed encoding in special.py
 
