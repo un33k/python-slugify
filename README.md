@@ -145,6 +145,12 @@ To run the tests against the current environment:
     python test.py
 
 
+Contribution
+====================
+
+Please read the ([wiki](https://github.com/un33k/python-slugify/wiki/Python-Slugify-Wiki)) page prior to raising any PRs. 
+
+
 License
 ====================
 
