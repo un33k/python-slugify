@@ -165,8 +165,8 @@ X.Y.Z Version
     `MINOR` version -- when you add functionality in a backwards-compatible manner, and
     `PATCH` version -- when you make backwards-compatible bug fixes.
 
-[status-image]: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
-[status-link]: http://travis-ci.org/un33k/python-slugify?branch=master
+[status-image]: https://travis-ci.org/un33k/python-slugify.svg?branch=master
+[status-link]: https://travis-ci.org/un33k/python-slugify
 
 [version-image]: https://img.shields.io/pypi/v/python-slugify.svg
 [version-link]: https://pypi.python.org/pypi/python-slugify
