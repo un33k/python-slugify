@@ -351,6 +351,13 @@ class TestCommandParams(unittest.TestCase):
         self.assertEqual(err.exception.code, 2)
         self.assertIn("Input strings and --stdin cannot work together", cse.getvalue())
 
+    def test_multivalued_options_with_text(self):
+        text = "the quick brown fox jumps over the lazy dog in a hurry"
+        cli_args = "--stopwords the in a hurry -- {}".format(text).split()
+        params = self.get_params_from_cli(*cli_args)
+        self.assertEqual(params['text'], text)
+        self.assertEqual(params['stopwords'], ['the', 'in', 'a', 'hurry'])
+
 
 if __name__ == '__main__':
     unittest.main()
