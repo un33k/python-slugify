@@ -67,5 +67,5 @@ setup(
     extras_require=extras_require,
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*',
     classifiers=classifiers,
-    entry_points={'console_scripts': ['slugify=slugify.__main__:entrypoint']},
+    entry_points={'console_scripts': ['slugify=slugify.__main__:main']},
 )
