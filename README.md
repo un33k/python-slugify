@@ -137,6 +137,32 @@ self.assertEqual(r, "ueber-ueber-german-umlaut")
 For more examples, have a look at the [test.py](test.py) file.
 
 
+Command Line Options
+====================
+
+With the package, a command line tool called `slugify` is also installed.
+
+It allows convenient command line access to all the features the `slugify` function supports. Call it with `-h` for help.
+
+The command can take its input directly on the command line or from STDIN (when the `--stdin` flag is passed):
+
+```
+$ echo "Taking input from STDIN" | slugify --stdin
+taking-input-from-stdin
+```
+```
+$ slugify taking input from the command line
+taking-input-from-the-command-line
+```
+
+Please note that when a multi-valued option such as `--stopwords` or `--replacements` is passed, you need to use `--` as separator before you start with the input:
+
+```
+$ slugify --stopwords the in a hurry -- the quick brown fox jumps over the lazy dog in a hurry
+quick-brown-fox-jumps-over-lazy-dog
+```
+
+
 Running the tests
 ====================
 
