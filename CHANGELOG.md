@@ -1,3 +1,6 @@
+## 4.0.1
+  - Add support for Py 3.8
+
 ## 4.0.0
   - Drop support from 2.6, & < 3.4.5
 
