@@ -207,4 +207,4 @@ X.Y.Z Version
 Sponsors
 ====================
 
-[Neekware Inc.](neekware.com)
+[Neekware Inc.](http://neekware.com)
