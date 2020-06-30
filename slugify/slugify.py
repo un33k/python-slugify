@@ -178,11 +178,3 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
         text = text.replace(DEFAULT_SEPARATOR, separator)
 
     return text
-
-
-def main(): # pragma: no cover
-    if len(sys.argv) < 2:
-        print("Usage %s TEXT TO SLUGIFY" % sys.argv[0])
-    else:
-        text = ' '.join(sys.argv[1:])
-        print(slugify(text))

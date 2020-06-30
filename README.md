@@ -137,6 +137,32 @@ self.assertEqual(r, "ueber-ueber-german-umlaut")
 For more examples, have a look at the [test.py](test.py) file.
 
 
+Command Line Options
+====================
+
+With the package, a command line tool called `slugify` is also installed.
+
+It allows convenient command line access to all the features the `slugify` function supports. Call it with `-h` for help.
+
+The command can take its input directly on the command line or from STDIN (when the `--stdin` flag is passed):
+
+```
+$ echo "Taking input from STDIN" | slugify --stdin
+taking-input-from-stdin
+```
+```
+$ slugify taking input from the command line
+taking-input-from-the-command-line
+```
+
+Please note that when a multi-valued option such as `--stopwords` or `--replacements` is passed, you need to use `--` as separator before you start with the input:
+
+```
+$ slugify --stopwords the in a hurry -- the quick brown fox jumps over the lazy dog in a hurry
+quick-brown-fox-jumps-over-lazy-dog
+```
+
+
 Running the tests
 ====================
 
@@ -165,8 +191,8 @@ X.Y.Z Version
     `MINOR` version -- when you add functionality in a backwards-compatible manner, and
     `PATCH` version -- when you make backwards-compatible bug fixes.
 
-[status-image]: https://secure.travis-ci.org/un33k/python-slugify.png?branch=master
-[status-link]: http://travis-ci.org/un33k/python-slugify?branch=master
+[status-image]: https://travis-ci.org/un33k/python-slugify.svg?branch=master
+[status-link]: https://travis-ci.org/un33k/python-slugify
 
 [version-image]: https://img.shields.io/pypi/v/python-slugify.svg
 [version-link]: https://pypi.python.org/pypi/python-slugify
