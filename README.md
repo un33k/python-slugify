@@ -166,6 +166,10 @@ quick-brown-fox-jumps-over-lazy-dog
 Running the tests
 ====================
 
+To run the tests against all environments:
+
+    tox
+
 To run the tests against the current environment:
 
     python test.py

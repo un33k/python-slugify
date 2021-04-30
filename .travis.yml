@@ -7,6 +7,7 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
+  - "3.9"
   - "pypy"
   - "pypy3"
 
@@ -14,7 +15,8 @@ install:
   - pip install pip -U
   - pip install -e .
   - pip install pycodestyle
-  - pip install coveralls
+  # Avoid cryptography compilation problems with pypy and 2.7
+  - pip install coveralls 'cryptography<=3.0;python_version=="2.7"'
   - pip install https://github.com/un33k/pyflakes/tarball/master
 
 before_script:
