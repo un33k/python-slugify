@@ -1,5 +1,4 @@
-Python Slugify
-====================
+# Python Slugify
 
 **A Python slugify application that handles unicode**.
 
@@ -7,26 +6,29 @@ Python Slugify
 [![version-image]][version-link]
 [![coverage-image]][coverage-link]
 
-Overview
-====================
+# Overview
 
 **Best attempt** to create slugs from unicode strings while keeping it **DRY**.
 
-Notice
-====================
+# Notice
 
-This module, by default installs and uses [text-unidecode](https://github.com/kmike/text-unidecode) *(GPL & Perl Artistic)* for its decoding needs.
+This module, by default installs and uses [text-unidecode](https://github.com/kmike/text-unidecode) _(GPL & Perl Artistic)_ for its decoding needs.
 
-However, there is an alternative decoding package called [Unidecode](https://github.com/avian2/unidecode) *(GPL)*. It can be installed as `python-slugify[unidecode]` for those who prefer it.
+However, there is an alternative decoding package called [Unidecode](https://github.com/avian2/unidecode) _(GPL)_. It can be installed as `python-slugify[unidecode]` for those who prefer it.
 
-How to install
-====================
+### Python Versions & `Official` Support
+
+- Python `2.7` <-> python-slugify `< 5.0.0`
+- Python `3.6+` <-> python-slugify `>= 5.0.0`
+
+# How to install
+
     easy_install python-slugify |OR| easy_install python-slugify[unidecode]
     -- OR --
     pip install python-slugify |OR| pip install python-slugify[unidecode]
 
-Options 
-===================
+# Options
+
 ```python
 def slugify(
     text,
@@ -60,8 +62,7 @@ def slugify(
   """
 ```
 
-How to use
-====================
+# How to use
 
 ```python
 from slugify import slugify
@@ -133,12 +134,10 @@ r = slugify(txt, replacements=[['Ü', 'UE'], ['ü', 'ue']])
 self.assertEqual(r, "ueber-ueber-german-umlaut")
 
 ```
-   
+
 For more examples, have a look at the [test.py](test.py) file.
 
-
-Command Line Options
-====================
+# Command Line Options
 
 With the package, a command line tool called `slugify` is also installed.
 
@@ -150,6 +149,7 @@ The command can take its input directly on the command line or from STDIN (when 
 $ echo "Taking input from STDIN" | slugify --stdin
 taking-input-from-stdin
 ```
+
 ```
 $ slugify taking input from the command line
 taking-input-from-the-command-line
@@ -162,9 +162,7 @@ $ slugify --stopwords the in a hurry -- the quick brown fox jumps over the lazy 
 quick-brown-fox-jumps-over-lazy-dog
 ```
 
-
-Running the tests
-====================
+# Running the tests
 
 To run the tests against all environments:
 
@@ -174,21 +172,16 @@ To run the tests against the current environment:
 
     python test.py
 
+# Contribution
 
-Contribution
-====================
+Please read the ([wiki](https://github.com/un33k/python-slugify/wiki/Python-Slugify-Wiki)) page prior to raising any PRs.
 
-Please read the ([wiki](https://github.com/un33k/python-slugify/wiki/Python-Slugify-Wiki)) page prior to raising any PRs. 
-
-
-License
-====================
+# License
 
 Released under a ([MIT](LICENSE)) license.
 
+# Version
 
-Version
-====================
 X.Y.Z Version
 
     `MAJOR` version -- when you make incompatible API changes,
@@ -197,18 +190,13 @@ X.Y.Z Version
 
 [status-image]: https://travis-ci.org/un33k/python-slugify.svg?branch=master
 [status-link]: https://travis-ci.org/un33k/python-slugify
-
 [version-image]: https://img.shields.io/pypi/v/python-slugify.svg
 [version-link]: https://pypi.python.org/pypi/python-slugify
-
 [coverage-image]: https://coveralls.io/repos/un33k/python-slugify/badge.svg
 [coverage-link]: https://coveralls.io/r/un33k/python-slugify
-
 [download-image]: https://img.shields.io/pypi/dm/python-slugify.svg
 [download-link]: https://pypi.python.org/pypi/python-slugify
 
-
-Sponsors
-====================
+# Sponsors
 
 [Neekware Inc.](http://neekware.com)
