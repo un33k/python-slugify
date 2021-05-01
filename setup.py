@@ -64,7 +64,7 @@ setup(
     packages=find_packages(exclude=EXCLUDE_FROM_PACKAGES),
     install_requires=install_requires,
     extras_require=extras_require,
-    python_requires='!=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*',
+    python_requires='>=3.6',
     classifiers=classifiers,
     entry_points={'console_scripts': ['slugify=slugify.__main__:main']},
 )
