@@ -1,3 +1,7 @@
+## 5.0.1
+
+- Drop support for python 2.7, 3.5 & tox, clean up
+
 ## 5.0.0
 
 - Add support for Py 3.9 - added tox (@jon-betts - Thx)
