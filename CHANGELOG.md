@@ -1,3 +1,7 @@
+## 5.0.2
+
+- Enable twine publish
+
 ## 5.0.1
 
 - Drop support for python 2.7, 3.5 & tox, clean up
