@@ -1,5 +1,6 @@
 import re
 import unicodedata
+import typing
 import types
 import sys
 
@@ -76,7 +77,7 @@ def smart_truncate(string, max_length=0, word_boundary=False, separator=' ', sav
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
             separator=DEFAULT_SEPARATOR, save_order=False, stopwords=(), regex_pattern=None, lowercase=True,
-            replacements=()):
+            replacements: typing.Iterable[typing.Iterable[str]]=()):
     """
     Make a slug from the given text.
     :param text (str): initial text
