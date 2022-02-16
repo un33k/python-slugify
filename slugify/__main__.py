@@ -31,7 +31,7 @@ def parse_args(argv):
     parser.add_argument("--stopwords", nargs='+',
                         help="Words to discount")
     parser.add_argument("--regex-pattern",
-                        help="Python regex pattern for allowed characters")
+                        help="Python regex pattern for disallowed characters")
     parser.add_argument("--no-lowercase", action='store_false', dest='lowercase', default=True,
                         help="Activate case sensitivity")
     parser.add_argument("--replacements", nargs='+',
