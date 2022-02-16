@@ -1,71 +1,84 @@
 #!/usr/bin/env python
-
-# -*- coding: utf-8 -*-
-from setuptools import setup, find_packages
-import re
+# Learn more: https://github.com/un33k/setup.py
 import os
 import sys
-import codecs
 
-name = 'python-slugify'
+from codecs import open
+from shutil import rmtree
+from setuptools import setup
+
+
 package = 'slugify'
-description = 'A Python Slugify application that handles Unicode'
-url = 'https://github.com/un33k/python-slugify'
-author = 'Val Neekman'
-author_email = 'info@neekware.com'
-license = 'MIT'
+python_requires = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+here = os.path.abspath(os.path.dirname(__file__))
+
 install_requires = ['text-unidecode>=1.3']
-extras_require = {'unidecode': ['Unidecode>=1.1.1']}
+extras_requires = {'unidecode': ['Unidecode>=1.1.1']}
+test_requires = []
 
-classifiers = [
-    'Development Status :: 5 - Production/Stable',
-    'Intended Audience :: Developers',
-    'Topic :: Software Development :: Build Tools',
-    'License :: OSI Approved :: MIT License',
-    'Operating System :: OS Independent',
-    'Programming Language :: Python',
-    'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.6',
-    'Programming Language :: Python :: 3.7',
-    'Programming Language :: Python :: 3.8',
-    'Programming Language :: Python :: 3.9',
-    'Programming Language :: Python :: 3.10',
-]
+about = {}
+with open(os.path.join(here, package, '__version__.py'), 'r', 'utf-8') as f:
+    exec(f.read(), about)
+
+with open('README.md', 'r', 'utf-8') as f:
+    readme = f.read()
 
 
-def get_version(package):
-    """
-    Return package version as listed in `__version__` in `init.py`.
-    """
-    init_py = codecs.open(os.path.join(package, '__version__.py'), encoding='utf-8').read()
-    return re.search("^__version__ = ['\"]([^'\"]+)['\"]", init_py, re.MULTILINE).group(1)
+def status(s):
+    print('\033[1m{0}\033[0m'.format(s))
 
 
-if sys.argv[-1] == 'build':
-    os.system("python setup.py sdist bdist_wheel")
-
+# 'setup.py publish' shortcut.
 if sys.argv[-1] == 'publish':
-    os.system("python setup.py build && twine upload dist/*")
-    args = {'version': get_version(package)}
-    print("You probably want to also tag the version now:")
-    print("  git tag -a %(version)s -m 'version %(version)s' && git push --tags" % args)
+    try:
+        status('Removing previous builds…')
+        rmtree(os.path.join(here, 'dist'))
+    except OSError:
+        pass
+
+    status('Building Source and Wheel (universal) distribution…')
+    os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
+
+    status('Uploading the package to PyPI via Twine…')
+    os.system('twine upload dist/*')
+
+    status('Pushing git tags…')
+    os.system('git tag v{0}'.format(about['__version__']))
+    os.system('git push --tags')
     sys.exit()
 
-EXCLUDE_FROM_PACKAGES = []
-
 setup(
-    name=name,
-    version=get_version(package),
-    url=url,
-    license=license,
-    description=description,
-    long_description=description,
-    author=author,
-    author_email=author_email,
-    packages=find_packages(exclude=EXCLUDE_FROM_PACKAGES),
+    name=about['__title__'],
+    version=about['__version__'],
+    description=about['__description__'],
+    long_description=readme,
+    long_description_content_type='text/markdown',
+    author=about['__author__'],
+    author_email=about['__author_email__'],
+    url=about['__url__'],
+    license=about['__license__'],
+    packages=[package],
+    package_data={'': ['LICENSE']},
+    package_dir={'slugify': 'slugify'},
+    include_package_data=True,
+    python_requires=python_requires,
     install_requires=install_requires,
-    extras_require=extras_require,
-    python_requires='>=3.6',
-    classifiers=classifiers,
-    entry_points={'console_scripts': ['slugify=slugify.__main__:main']},
+    tests_require=test_requires,
+    extras_require=extras_requires,
+    zip_safe=False,
+    cmdclass={},
+    project_urls={},
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
+        'Natural Language :: English',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+    ]
 )
