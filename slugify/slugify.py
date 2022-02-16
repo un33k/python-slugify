@@ -26,8 +26,7 @@ CHAR_ENTITY_PATTERN = re.compile(r'&(%s);' % '|'.join(name2codepoint))
 DECIMAL_PATTERN = re.compile(r'&#(\d+);')
 HEX_PATTERN = re.compile(r'&#x([\da-fA-F]+);')
 QUOTE_PATTERN = re.compile(r'[\']+')
-ALLOWED_CHARS_PATTERN = re.compile(r'[^-a-z0-9]+')
-ALLOWED_CHARS_PATTERN_WITH_UPPERCASE = re.compile(r'[^-a-zA-Z0-9]+')
+DISALLOWED_CHARS_PATTERN = re.compile(r'[^-a-zA-Z0-9]+')
 DUPLICATE_DASH_PATTERN = re.compile(r'-{2,}')
 NUMBERS_PATTERN = re.compile(r'(?<=\d),(?=\d)')
 DEFAULT_SEPARATOR = '-'
@@ -89,7 +88,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
     :param separator (str): separator between words
     :param stopwords (iterable): words to discount
-    :param regex_pattern (str): regex pattern for allowed characters
+    :param regex_pattern (str): regex pattern for disallowed characters
     :param lowercase (bool): activate case sensitivity by setting it to False
     :param replacements (iterable): list of replacement rules e.g. [['|', 'or'], ['%', 'percent']]
     :return (str):
@@ -148,10 +147,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     text = NUMBERS_PATTERN.sub('', text)
 
     # replace all other unwanted characters
-    if lowercase:
-        pattern = regex_pattern or ALLOWED_CHARS_PATTERN
-    else:
-        pattern = regex_pattern or ALLOWED_CHARS_PATTERN_WITH_UPPERCASE
+    pattern = regex_pattern or DISALLOWED_CHARS_PATTERN
     text = re.sub(pattern, DEFAULT_SEPARATOR, text)
 
     # remove redundant
