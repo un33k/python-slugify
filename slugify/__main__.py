@@ -77,7 +77,7 @@ def slugify_params(args):
     )
 
 
-def main(argv=None): # pragma: no cover
+def main(argv=None):  # pragma: no cover
     """ Run this program """
     if argv is None:
         argv = sys.argv
@@ -89,5 +89,5 @@ def main(argv=None): # pragma: no cover
         sys.exit(-1)
 
 
-if __name__ == '__main__': # pragma: no cover
+if __name__ == '__main__':  # pragma: no cover
     main()

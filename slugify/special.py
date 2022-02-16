@@ -20,7 +20,7 @@ _CYRILLIC = [      # package defaults:
     (u'я', u'ya'),   # ia
     (u'х', u'h'),    # kh
     (u'у', u'y'),    # u
-    (u'щ', u'sch'),  # shch
+    (u'щ', u'sch'),  # sch
     (u'ю', u'u'),    # iu / yu
 ]
 CYRILLIC = add_uppercase_char(_CYRILLIC)

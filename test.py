@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import io
-import os
 import sys
 import unittest
 from contextlib import contextmanager
@@ -10,7 +9,7 @@ from slugify import smart_truncate
 from slugify.__main__ import slugify_params, parse_args
 
 
-class TestSlugification(unittest.TestCase):
+class TestSlugify(unittest.TestCase):
 
     def test_extraneous_seperators(self):
 
