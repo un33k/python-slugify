@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - ci
+      - staging
 
 jobs:
   build:
