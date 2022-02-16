@@ -15,12 +15,13 @@ jobs:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
         python: [3.6, 3.7, 3.8, 3.9, "3.10", pypy3]
+
     steps:
-      - name: setup-python ${{ matrix.python }}
+      - uses: actions/checkout@v2
+      - name: setup python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python }}
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
