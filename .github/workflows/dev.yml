@@ -37,7 +37,7 @@ jobs:
           pycodestyle --ignore=E128,E261,E225,E501,W605 slugify test.py setup.py
       - name: Run test
         run: |
-          coverage run --include=slugify --omit=__version__.py --source=slugify test.py
+          coverage run --source=slugify test.py
       - name: Coveralls
         run: coveralls --service=github
         env:
