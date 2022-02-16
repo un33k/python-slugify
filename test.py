@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import io
-import os
 import sys
 import unittest
 from contextlib import contextmanager
