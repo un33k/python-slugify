@@ -1,3 +1,7 @@
+## 6.0.0
+
+- Enable github action
+
 ## 5.0.2
 
 - Enable twine publish
