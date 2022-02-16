@@ -1,3 +1,8 @@
+## 6.0.1
+
+- Rework regex_pattern to mean the opposite (disallowed chars instead of allowed)
+- Thanks to @yyyyyyyan for the initial PR followed by the final PR by @mrezzamoradi
+
 ## 6.0.0
 
 - Enable github action
