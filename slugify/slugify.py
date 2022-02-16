@@ -1,18 +1,7 @@
 import re
 import unicodedata
-import typing
-import types
 import sys
-
-try:
-    from htmlentitydefs import name2codepoint
-    _unicode = unicode
-    _unicode_type = types.UnicodeType
-except ImportError:
-    from html.entities import name2codepoint
-    _unicode = str
-    _unicode_type = str
-    unichr = chr
+from html.entities import name2codepoint
 
 try:
     import text_unidecode as unidecode
@@ -70,14 +59,14 @@ def smart_truncate(string, max_length=0, word_boundary=False, separator=' ', sav
             else:
                 if save_order:
                     break
-    if not truncated: # pragma: no cover
+    if not truncated:  # pragma: no cover
         truncated = string[:max_length]
     return truncated.strip(separator)
 
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
             separator=DEFAULT_SEPARATOR, save_order=False, stopwords=(), regex_pattern=None, lowercase=True,
-            replacements: typing.Iterable[typing.Iterable[str]] = ()):
+            replacements=()):
     """
     Make a slug from the given text.
     :param text (str): initial text
@@ -101,8 +90,8 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
             text = text.replace(old, new)
 
     # ensure text is unicode
-    if not isinstance(text, _unicode_type):
-        text = _unicode(text, 'utf-8', 'ignore')
+    if not isinstance(text, str):
+        text = str(text, 'utf-8', 'ignore')
 
     # replace quotes with dashes - pre-process
     text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
@@ -111,24 +100,24 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     text = unidecode.unidecode(text)
 
     # ensure text is still in unicode
-    if not isinstance(text, _unicode_type):
-        text = _unicode(text, 'utf-8', 'ignore')
+    if not isinstance(text, str):
+        text = str(text, 'utf-8', 'ignore')
 
     # character entity reference
     if entities:
-        text = CHAR_ENTITY_PATTERN.sub(lambda m: unichr(name2codepoint[m.group(1)]), text)
+        text = CHAR_ENTITY_PATTERN.sub(lambda m: chr(name2codepoint[m.group(1)]), text)
 
     # decimal character reference
     if decimal:
         try:
-            text = DECIMAL_PATTERN.sub(lambda m: unichr(int(m.group(1))), text)
+            text = DECIMAL_PATTERN.sub(lambda m: chr(int(m.group(1))), text)
         except Exception:
             pass
 
     # hexadecimal character reference
     if hexadecimal:
         try:
-            text = HEX_PATTERN.sub(lambda m: unichr(int(m.group(1), 16)), text)
+            text = HEX_PATTERN.sub(lambda m: chr(int(m.group(1), 16)), text)
         except Exception:
             pass
 

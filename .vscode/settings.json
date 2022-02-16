@@ -1,4 +1,5 @@
 {
   "python.linting.pylintEnabled": false,
   "python.pythonPath": "/usr/bin/python3",
+  "cSpell.words": ["Neekman", "shch", "xlate"]
 }

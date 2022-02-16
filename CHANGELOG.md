@@ -1,3 +1,8 @@
+## 6.0.0
+
+- Enable github action
+- Remove tox, as we run the test on github action, the end users can refer to those test
+
 ## 5.0.2
 
 - Enable twine publish
