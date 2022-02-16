@@ -55,7 +55,7 @@ def slugify(
   :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
   :param separator (str): separator between words
   :param stopwords (iterable): words to discount
-  :param regex_pattern (str): regex pattern for allowed characters
+  :param regex_pattern (str): regex pattern for disallowed characters
   :param lowercase (bool): activate case sensitivity by setting it to False
   :param replacements (iterable): list of replacement rules e.g. [['|', 'or'], ['%', 'percent']]
   :return (str): slugify text
