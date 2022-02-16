@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    name: Python ${{ matrix.python-version }}
+    name: Python ${{ matrix.python }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
