@@ -1,5 +1,7 @@
-name: (CI)
+name: DEV
 
+# Run on push only for dev/sandbox
+# Otherwise it may trigger concurrently `push & pull_request` on PRs.
 on:
   push:
     branches:
@@ -8,12 +10,10 @@ on:
 
 jobs:
   build:
-    name: Setup ${{ matrix.python }} ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
         python: [3.6, 3.7, 3.8, 3.9, "3.10", pypy3]
 
     steps:
