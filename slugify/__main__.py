@@ -36,6 +36,8 @@ def parse_args(argv):
                         help="Activate case sensitivity")
     parser.add_argument("--replacements", nargs='+',
                         help="""Additional replacement rules e.g. "|->or", "%%->percent".""")
+    parser.add_argument("--allow-unicode", action='store_true', default=False,
+                        help="Allow unicode characters")
 
     args = parser.parse_args(argv[1:])
 
@@ -73,7 +75,8 @@ def slugify_params(args):
         separator=args.separator,
         stopwords=args.stopwords,
         lowercase=args.lowercase,
-        replacements=args.replacements
+        replacements=args.replacements,
+        allow_unicode=args.allow_unicode
     )
 
 
