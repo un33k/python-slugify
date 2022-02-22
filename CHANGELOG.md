@@ -1,3 +1,7 @@
+## 6.1.0
+
+- Add `allow_unicode` flag to allow unicode characters in the slug
+
 ## 6.0.1
 
 - Rework regex_pattern to mean the opposite (disallowed chars instead of allowed)
