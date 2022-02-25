@@ -1,3 +1,7 @@
+## 6.1.1
+
+- Remove type hinting (temporarily)
+
 ## 6.1.0
 
 - Add `allow_unicode` flag to allow unicode characters in the slug
