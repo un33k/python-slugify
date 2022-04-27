@@ -42,7 +42,8 @@ def slugify(
     stopwords=(),
     regex_pattern=None,
     lowercase=True,
-    replacements=()
+    replacements=(),
+    allow_unicode=False
   ):
   """
   Make a slug from the given text.
@@ -55,9 +56,10 @@ def slugify(
   :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
   :param separator (str): separator between words
   :param stopwords (iterable): words to discount
-  :param regex_pattern (str): regex pattern for allowed characters
+  :param regex_pattern (str): regex pattern for disallowed characters
   :param lowercase (bool): activate case sensitivity by setting it to False
   :param replacements (iterable): list of replacement rules e.g. [['|', 'or'], ['%', 'percent']]
+  :param allow_unicode (bool): allow unicode characters
   :return (str): slugify text
   """
 ```
@@ -74,6 +76,10 @@ self.assertEqual(r, "this-is-a-test")
 txt = '影師嗎'
 r = slugify(txt)
 self.assertEqual(r, "ying-shi-ma")
+
+txt = '影師嗎'
+r = slugify(txt, allow_unicode=True)
+self.assertEqual(r, "影師嗎")
 
 txt = 'C\'est déjà l\'été.'
 r = slugify(txt)
@@ -133,6 +139,14 @@ txt = 'ÜBER Über German Umlaut'
 r = slugify(txt, replacements=[['Ü', 'UE'], ['ü', 'ue']])
 self.assertEqual(r, "ueber-ueber-german-umlaut")
 
+txt = 'i love 🦄'
+r = slugify(txt, allow_unicode=True)
+self.assertEqual(r, "i-love")
+
+txt = 'i love 🦄'
+r = slugify(txt, allow_unicode=True, regex_pattern=r'[^🦄]+')
+self.assertEqual(r, "🦄")
+
 ```
 
 For more examples, have a look at the [test.py](test.py) file.
@@ -164,10 +178,6 @@ quick-brown-fox-jumps-over-lazy-dog
 
 # Running the tests
 
-To run the tests against all environments:
-
-    tox
-
 To run the tests against the current environment:
 
     python test.py
@@ -188,8 +198,8 @@ X.Y.Z Version
     `MINOR` version -- when you add functionality in a backwards-compatible manner, and
     `PATCH` version -- when you make backwards-compatible bug fixes.
 
-[status-image]: https://travis-ci.org/un33k/python-slugify.svg?branch=master
-[status-link]: https://travis-ci.org/un33k/python-slugify
+[status-image]: https://github.com/un33k/python-slugify/actions/workflows/ci.yml/badge.svg
+[status-link]: https://github.com/un33k/python-slugify/actions/workflows/ci.yml
 [version-image]: https://img.shields.io/pypi/v/python-slugify.svg
 [version-link]: https://pypi.python.org/pypi/python-slugify
 [coverage-image]: https://coveralls.io/repos/un33k/python-slugify/badge.svg

@@ -1,3 +1,25 @@
+## 6.1.2
+
+- Reintroduce the cli options
+
+## 6.1.1
+
+- Remove type hinting (temporarily)
+
+## 6.1.0
+
+- Add `allow_unicode` flag to allow unicode characters in the slug
+
+## 6.0.1
+
+- Rework regex_pattern to mean the opposite (disallowed chars instead of allowed)
+- Thanks to @yyyyyyyan for the initial PR followed by the final PR by @mrezzamoradi
+
+## 6.0.0
+
+- Enable github action
+- Remove tox, as we run the test on github action, the end users can refer to those test
+
 ## 5.0.2
 
 - Enable twine publish

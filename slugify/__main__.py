@@ -31,11 +31,13 @@ def parse_args(argv):
     parser.add_argument("--stopwords", nargs='+',
                         help="Words to discount")
     parser.add_argument("--regex-pattern",
-                        help="Python regex pattern for allowed characters")
+                        help="Python regex pattern for disallowed characters")
     parser.add_argument("--no-lowercase", action='store_false', dest='lowercase', default=True,
                         help="Activate case sensitivity")
     parser.add_argument("--replacements", nargs='+',
                         help="""Additional replacement rules e.g. "|->or", "%%->percent".""")
+    parser.add_argument("--allow-unicode", action='store_true', default=False,
+                        help="Allow unicode characters")
 
     args = parser.parse_args(argv[1:])
 
@@ -73,11 +75,12 @@ def slugify_params(args):
         separator=args.separator,
         stopwords=args.stopwords,
         lowercase=args.lowercase,
-        replacements=args.replacements
+        replacements=args.replacements,
+        allow_unicode=args.allow_unicode
     )
 
 
-def main(argv=None): # pragma: no cover
+def main(argv=None):  # pragma: no cover
     """ Run this program """
     if argv is None:
         argv = sys.argv
@@ -89,5 +92,5 @@ def main(argv=None): # pragma: no cover
         sys.exit(-1)
 
 
-if __name__ == '__main__': # pragma: no cover
+if __name__ == '__main__':  # pragma: no cover
     main()

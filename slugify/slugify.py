@@ -1,17 +1,7 @@
 import re
-import unicodedata
-import types
 import sys
-
-try:
-    from htmlentitydefs import name2codepoint
-    _unicode = unicode
-    _unicode_type = types.UnicodeType
-except ImportError:
-    from html.entities import name2codepoint
-    _unicode = str
-    _unicode_type = str
-    unichr = chr
+import unicodedata
+from html.entities import name2codepoint
 
 try:
     import text_unidecode as unidecode
@@ -25,8 +15,8 @@ CHAR_ENTITY_PATTERN = re.compile(r'&(%s);' % '|'.join(name2codepoint))
 DECIMAL_PATTERN = re.compile(r'&#(\d+);')
 HEX_PATTERN = re.compile(r'&#x([\da-fA-F]+);')
 QUOTE_PATTERN = re.compile(r'[\']+')
-ALLOWED_CHARS_PATTERN = re.compile(r'[^-a-z0-9]+')
-ALLOWED_CHARS_PATTERN_WITH_UPPERCASE = re.compile(r'[^-a-zA-Z0-9]+')
+DISALLOWED_CHARS_PATTERN = re.compile(r'[^-a-zA-Z0-9]+')
+DISALLOWED_UNICODE_CHARS_PATTERN = re.compile(r'[\W_]+')
 DUPLICATE_DASH_PATTERN = re.compile(r'-{2,}')
 NUMBERS_PATTERN = re.compile(r'(?<=\d),(?=\d)')
 DEFAULT_SEPARATOR = '-'
@@ -69,14 +59,14 @@ def smart_truncate(string, max_length=0, word_boundary=False, separator=' ', sav
             else:
                 if save_order:
                     break
-    if not truncated: # pragma: no cover
+    if not truncated:  # pragma: no cover
         truncated = string[:max_length]
     return truncated.strip(separator)
 
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
             separator=DEFAULT_SEPARATOR, save_order=False, stopwords=(), regex_pattern=None, lowercase=True,
-            replacements=()):
+            replacements=(), allow_unicode=False):
     """
     Make a slug from the given text.
     :param text (str): initial text
@@ -88,9 +78,10 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
     :param separator (str): separator between words
     :param stopwords (iterable): words to discount
-    :param regex_pattern (str): regex pattern for allowed characters
+    :param regex_pattern (str): regex pattern for disallowed characters
     :param lowercase (bool): activate case sensitivity by setting it to False
     :param replacements (iterable): list of replacement rules e.g. [['|', 'or'], ['%', 'percent']]
+    :param allow_unicode (bool): allow unicode characters
     :return (str):
     """
 
@@ -100,39 +91,44 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
             text = text.replace(old, new)
 
     # ensure text is unicode
-    if not isinstance(text, _unicode_type):
-        text = _unicode(text, 'utf-8', 'ignore')
+    if not isinstance(text, str):
+        text = str(text, 'utf-8', 'ignore')
 
     # replace quotes with dashes - pre-process
     text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
 
     # decode unicode
-    text = unidecode.unidecode(text)
+    if not allow_unicode:
+        text = unidecode.unidecode(text)
 
     # ensure text is still in unicode
-    if not isinstance(text, _unicode_type):
-        text = _unicode(text, 'utf-8', 'ignore')
+    if not isinstance(text, str):
+        text = str(text, 'utf-8', 'ignore')
 
     # character entity reference
     if entities:
-        text = CHAR_ENTITY_PATTERN.sub(lambda m: unichr(name2codepoint[m.group(1)]), text)
+        text = CHAR_ENTITY_PATTERN.sub(lambda m: chr(name2codepoint[m.group(1)]), text)
 
     # decimal character reference
     if decimal:
         try:
-            text = DECIMAL_PATTERN.sub(lambda m: unichr(int(m.group(1))), text)
+            text = DECIMAL_PATTERN.sub(lambda m: chr(int(m.group(1))), text)
         except Exception:
             pass
 
     # hexadecimal character reference
     if hexadecimal:
         try:
-            text = HEX_PATTERN.sub(lambda m: unichr(int(m.group(1), 16)), text)
+            text = HEX_PATTERN.sub(lambda m: chr(int(m.group(1), 16)), text)
         except Exception:
             pass
 
     # translate
-    text = unicodedata.normalize('NFKD', text)
+    if allow_unicode:
+        text = unicodedata.normalize('NFKC', text)
+    else:
+        text = unicodedata.normalize('NFKD', text)
+
     if sys.version_info < (3,):
         text = text.encode('ascii', 'ignore')
 
@@ -147,10 +143,11 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     text = NUMBERS_PATTERN.sub('', text)
 
     # replace all other unwanted characters
-    if lowercase:
-        pattern = regex_pattern or ALLOWED_CHARS_PATTERN
+    if allow_unicode:
+        pattern = regex_pattern or DISALLOWED_UNICODE_CHARS_PATTERN
     else:
-        pattern = regex_pattern or ALLOWED_CHARS_PATTERN_WITH_UPPERCASE
+        pattern = regex_pattern or DISALLOWED_CHARS_PATTERN
+
     text = re.sub(pattern, DEFAULT_SEPARATOR, text)
 
     # remove redundant
