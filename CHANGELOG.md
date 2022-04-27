@@ -1,3 +1,7 @@
+## 6.1.2
+
+- Reintroduce the cli options
+
 ## 6.1.1
 
 - Remove type hinting (temporarily)
