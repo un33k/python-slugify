@@ -9,7 +9,7 @@ from setuptools import setup
 
 
 package = 'slugify'
-python_requires = ">=3.6"
+python_requires = ">=3.7"
 here = os.path.abspath(os.path.dirname(__file__))
 
 install_requires = ['text-unidecode>=1.3']
@@ -75,7 +75,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
