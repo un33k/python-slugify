@@ -9,7 +9,7 @@ from setuptools import setup
 
 
 package = 'slugify'
-python_requires = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+python_requires = ">=3.6"
 here = os.path.abspath(os.path.dirname(__file__))
 
 install_requires = ['text-unidecode>=1.3']
@@ -80,6 +80,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
     ],
     entry_points={'console_scripts': ['slugify=slugify.__main__:main']},
 )
