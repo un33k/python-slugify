@@ -1,6 +1,6 @@
 ## 7.0.0
 
-- Drop python 3.6, add python 3.11
+- Drop python 3.6, add python 3.11 (@hugovk - thx)
 
 ## 6.1.2
 
