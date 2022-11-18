@@ -1,3 +1,7 @@
+## 7.0.0
+
+- Drop python 3.6, add python 3.11
+
 ## 6.1.2
 
 - Reintroduce the cli options

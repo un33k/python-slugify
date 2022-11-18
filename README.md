@@ -20,6 +20,7 @@ However, there is an alternative decoding package called [Unidecode](https://git
 
 - Python `2.7` <-> python-slugify `< 5.0.0`
 - Python `3.6+` <-> python-slugify `>= 5.0.0`
+- Python `3.7+` <-> python-slugify `>= 7.0.0`
 
 # How to install
 
