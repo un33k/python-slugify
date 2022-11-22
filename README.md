@@ -18,9 +18,11 @@ However, there is an alternative decoding package called [Unidecode](https://git
 
 ### Python Versions & `Official` Support
 
-- Python `2.7` <-> python-slugify `< 5.0.0`
-- Python `3.6+` <-> python-slugify `>= 5.0.0`
-- Python `3.7+` <-> python-slugify `>= 7.0.0`
+| python version | python-slugify version |
+| -------------- | ---------------------- |
+| `=2.7`         | `< 5.0.0`              |
+| `<=3.6`        | `>= 5.0.0 < 7.0.0`     |
+| `>=3.7`        | `>= 7.0.0`             |
 
 # How to install
 
