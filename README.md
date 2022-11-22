@@ -16,13 +16,13 @@ This module, by default installs and uses [text-unidecode](https://github.com/km
 
 However, there is an alternative decoding package called [Unidecode](https://github.com/avian2/unidecode) _(GPL)_. It can be installed as `python-slugify[unidecode]` for those who prefer it.
 
-### Python Versions & `Official` Support
+### `Official` Support Matrix
 
-| python version | python-slugify version |
-| -------------- | ---------------------- |
-| `=2.7`         | `< 5.0.0`              |
-| `<=3.6`        | `>= 5.0.0 < 7.0.0`     |
-| `>=3.7`        | `>= 7.0.0`             |
+| Python         | Slugify            |
+| -------------- | ------------------ |
+| `>= 2.7 < 3.6` | `< 5.0.0`          |
+| `>= 3.6 < 3.7` | `>= 5.0.0 < 7.0.0` |
+| `>= 3.7`       | `>= 7.0.0`         |
 
 # How to install
 
