@@ -8,6 +8,8 @@ try:
 except ImportError:
     import unidecode
 
+from .special import AMBIGUOUS_CHARACTERS
+
 __all__ = ['slugify', 'smart_truncate']
 
 
@@ -66,7 +68,7 @@ def smart_truncate(string, max_length=0, word_boundary=False, separator=' ', sav
 
 def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, word_boundary=False,
             separator=DEFAULT_SEPARATOR, save_order=False, stopwords=(), regex_pattern=None, lowercase=True,
-            replacements=(), allow_unicode=False):
+            replacements=(), allow_unicode=False, replace_ambiguous_characters=False):
     """
     Make a slug from the given text.
     :param text (str): initial text
@@ -82,6 +84,7 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
     :param lowercase (bool): activate case sensitivity by setting it to False
     :param replacements (iterable): list of replacement rules e.g. [['|', 'or'], ['%', 'percent']]
     :param allow_unicode (bool): allow unicode characters
+    :param replace_ambiguous_characters (bool): replace characters that can be confused with others
     :return (str):
     """
 
@@ -96,6 +99,10 @@ def slugify(text, entities=True, decimal=True, hexadecimal=True, max_length=0, w
 
     # replace quotes with dashes - pre-process
     text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
+
+    # replace ambiguous characters
+    if replace_ambiguous_characters:
+        text = ''.join(chr(AMBIGUOUS_CHARACTERS.get(str(ord(c)), ord(c))) for c in text)
 
     # decode unicode
     if not allow_unicode:

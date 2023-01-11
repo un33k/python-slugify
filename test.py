@@ -520,6 +520,24 @@ class TestSlugifyUnicode(unittest.TestCase):
         r = slugify(txt, allow_unicode=True, regex_pattern=r'[^🦄]+')
         self.assertEqual(r, "🦄")
 
+    def test_replace_ambiguous_characters(self):
+        """
+        replace_ambiguous_characters should replace all ambiguous characters
+        even when allow_unicode is False
+        """
+
+        txt = '𝙎 𝙇 𝙊 𝙒 𝙀 𝘿 + 𝙍 𝙀 𝙑 𝙀 𝙍 𝘽'
+        r = slugify(txt, replace_ambiguous_characters=True, allow_unicode=False)
+        self.assertEqual(r, "s-l-o-w-e-d-r-e-v-e-r-b")
+
+        txt = 'i love 🦄'
+        r = slugify(txt, replace_ambiguous_characters=True)
+        self.assertEqual(r, "i-love")
+
+        txt = 'test 𝘿𝘿𝘿𝘿𝘿𝘿𝘿𝘿𝘿𝘿𝘿𝘿'
+        r = slugify(txt, replace_ambiguous_characters=True)
+        self.assertEqual(r, "test-dddddddddddd")
+
 
 class TestUtils(unittest.TestCase):
 
@@ -568,7 +586,8 @@ class TestCommandParams(unittest.TestCase):
         'separator': '-',
         'stopwords': None,
         'lowercase': True,
-        'replacements': None
+        'replacements': None,
+        'replace_ambiguous_characters': False,
     }
 
     def get_params_from_cli(self, *argv):
@@ -593,6 +612,7 @@ class TestCommandParams(unittest.TestCase):
         expected = self.make_params(entities=False, decimal=False, hexadecimal=False, lowercase=False)
         self.assertFalse(expected['lowercase'])
         self.assertFalse(expected['word_boundary'])
+        self.assertFalse(expected['replace_ambiguous_characters'])
         self.assertParamsMatch(expected, params)
 
     def test_affirmative_flags(self):

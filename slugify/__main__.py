@@ -38,6 +38,8 @@ def parse_args(argv):
                         help="""Additional replacement rules e.g. "|->or", "%%->percent".""")
     parser.add_argument("--allow-unicode", action='store_true', default=False,
                         help="Allow unicode characters")
+    parser.add_argument("--replace-ambiguous-characters", action='store_true',
+                        default=False, help="Replace ambiguous characters with their closest ASCII equivalent")
 
     args = parser.parse_args(argv[1:])
 
@@ -76,7 +78,8 @@ def slugify_params(args):
         stopwords=args.stopwords,
         lowercase=args.lowercase,
         replacements=args.replacements,
-        allow_unicode=args.allow_unicode
+        allow_unicode=args.allow_unicode,
+        replace_ambiguous_characters=args.replace_ambiguous_characters
     )
 
 
