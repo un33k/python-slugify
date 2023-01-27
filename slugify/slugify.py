@@ -4,9 +4,9 @@ import unicodedata
 from html.entities import name2codepoint
 
 try:
-    import text_unidecode as unidecode
-except ImportError:
     import unidecode
+except ImportError:
+    import text_unidecode as unidecode
 
 __all__ = ['slugify', 'smart_truncate']
 
