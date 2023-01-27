@@ -1,3 +1,7 @@
+## 8.0.0
+
+- By default, prefer unidecode if installed (@enkidulan - thx)
+
 ## 7.0.0
 
 - Drop python 3.6, add python 3.11 (@hugovk - thx)
