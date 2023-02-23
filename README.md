@@ -193,6 +193,10 @@ Please read the ([wiki](https://github.com/un33k/python-slugify/wiki/Python-Slug
 
 Released under a ([MIT](LICENSE)) license.
 
+### Notes on GPL dependencies
+Though the dependencies may be GPL licensed, `python-slugify` itself is not considered a derivative work and will remain under the MIT license.  
+If you wish to avoid installation of any GPL licensed packages, please note that the default dependency `text-unidecode` explicitly lets you choose to use the [Artistic License](https://opensource.org/license/artistic-perl-1-0-2/) instead. Use without concern.
+
 # Version
 
 X.Y.Z Version
