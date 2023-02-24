@@ -1,3 +1,7 @@
+## 8.0.1
+
+- Added license notice to readme (@C-nit - thx)
+
 ## 8.0.0
 
 - By default, prefer unidecode if installed (@enkidulan - thx)
