@@ -1,11 +1,11 @@
-from __future__ import print_function, absolute_import
+from __future__ import print_function, absolute_import, annotations
 import argparse
 import sys
 
-from .slugify import slugify, DEFAULT_SEPARATOR
+from .slugify import slugify, SlugifyParams, DEFAULT_SEPARATOR
 
 
-def parse_args(argv):
+def parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Slug string")
 
     input_group = parser.add_argument_group(description="Input")
@@ -39,13 +39,13 @@ def parse_args(argv):
     parser.add_argument("--allow-unicode", action='store_true', default=False,
                         help="Allow unicode characters")
 
-    args = parser.parse_args(argv[1:])
+    args = parser.parse_args(argv[1:] if argv else [])
 
     if args.input_string and args.stdin:
         parser.error("Input strings and --stdin cannot work together")
 
     if args.replacements:
-        def split_check(repl):
+        def split_check(repl: str) -> list[str]:
             SEP = '->'
             if SEP not in repl:
                 parser.error("Replacements must be of the form: ORIGINAL{SEP}REPLACED".format(SEP=SEP))
@@ -63,7 +63,8 @@ def parse_args(argv):
     return args
 
 
-def slugify_params(args):
+# TODO: Convert params to a TypedDict or preferably a NamedTuple.
+def slugify_params(args: argparse.Namespace) -> SlugifyParams:
     return dict(
         text=args.input_string,
         entities=args.entities,
@@ -80,14 +81,16 @@ def slugify_params(args):
     )
 
 
-def main(argv=None):  # pragma: no cover
+def main(argv: list[str] | None = None) -> None:  # pragma: no cover
     """ Run this program """
     if argv is None:
         argv = sys.argv
     args = parse_args(argv)
     params = slugify_params(args)
     try:
-        print(slugify(**params))
+        # TODO: Mypy is unable to infer the type of each param after spreading.
+        # It's possible this is resolved using typing_extension's TypedDict.
+        print(slugify(**params))  # type: ignore[arg-type]
     except KeyboardInterrupt:
         sys.exit(-1)
 

@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 # Learn more: https://github.com/un33k/setup.py
+from __future__ import annotations
+
 import os
 import sys
+from typing import Any
 
 from codecs import open
 from shutil import rmtree
-from setuptools import setup
+from setuptools import setup  # type: ignore[import]
 
 
 package = 'slugify'
@@ -14,9 +17,9 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 install_requires = ['text-unidecode>=1.3']
 extras_requires = {'unidecode': ['Unidecode>=1.1.1']}
-test_requires = []
+test_requires: list[str] = []
 
-about = {}
+about: dict[str, Any] = {}
 with open(os.path.join(here, package, '__version__.py'), 'r', 'utf-8') as f:
     exec(f.read(), about)
 
@@ -24,7 +27,7 @@ with open('README.md', 'r', 'utf-8') as f:
     readme = f.read()
 
 
-def status(s):
+def status(s: str) -> None:
     print('\033[1m{0}\033[0m'.format(s))
 
 
@@ -58,7 +61,7 @@ setup(
     url=about['__url__'],
     license=about['__license__'],
     packages=[package],
-    package_data={'': ['LICENSE']},
+    package_data={'': ['LICENSE', 'py.typed']},
     package_dir={'slugify': 'slugify'},
     include_package_data=True,
     python_requires=python_requires,

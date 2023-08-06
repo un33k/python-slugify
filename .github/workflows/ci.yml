@@ -38,6 +38,10 @@ jobs:
       - name: Run test
         run: |
           coverage run --source=slugify test.py
+      - name: Run mypy
+        run: |
+          pip install mypy --upgrade
+          mypy .
       - name: Coveralls
         run: coveralls --service=github
         env:
