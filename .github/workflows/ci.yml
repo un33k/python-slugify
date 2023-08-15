@@ -27,7 +27,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e .
           pip install coveralls --upgrade
-      - name: Run flake8
+      - name: Run ruff
         run: |
           pip install --upgrade ruff
           ruff --exclude=build --format=github
