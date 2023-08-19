@@ -1,3 +1,2 @@
-pycodestyle==2.8.0
-twine==3.4.1
-flake8==4.0.1
+ruff==0.0.285
+twine==4.0.2
