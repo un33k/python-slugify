@@ -58,7 +58,10 @@ setup(
     url=about['__url__'],
     license=about['__license__'],
     packages=[package],
-    package_data={'': ['LICENSE']},
+    package_data={
+        '': ['LICENSE'],
+        'slugify': ['py.typed'],
+    },
     package_dir={'slugify': 'slugify'},
     include_package_data=True,
     python_requires=python_requires,

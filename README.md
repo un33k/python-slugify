@@ -34,20 +34,20 @@ However, there is an alternative decoding package called [Unidecode](https://git
 
 ```python
 def slugify(
-    text,
-    entities=True,
-    decimal=True,
-    hexadecimal=True,
-    max_length=0,
-    word_boundary=False,
-    separator='-',
-    save_order=False,
-    stopwords=(),
-    regex_pattern=None,
-    lowercase=True,
-    replacements=(),
-    allow_unicode=False
-  ):
+    text: str,
+    entities: bool = True,
+    decimal: bool = True,
+    hexadecimal: bool = True,
+    max_length: int = 0,
+    word_boundary: bool = False,
+    separator: str = DEFAULT_SEPARATOR,
+    save_order: bool = False,
+    stopwords: Iterable[str] = (),
+    regex_pattern: str | None = None,
+    lowercase: bool = True,
+    replacements: Iterable[Iterable[str]] = (),
+    allow_unicode: bool = False,
+) -> str:
   """
   Make a slug from the given text.
   :param text (str): initial text
