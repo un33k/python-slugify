@@ -1,3 +1,7 @@
+## Work in progress
+
+- Added typing to API and expose `py.typed`.
+
 ## 8.0.1
 
 - Added license notice to readme (@C-nit - thx)
