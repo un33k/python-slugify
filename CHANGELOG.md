@@ -1,7 +1,8 @@
 ## Work in progress
 
-- Added typing to API and expose `py.typed`.
-- Formally support 3.12
+## 8.0.2
+
+- Normalize text before converting to unicode. (@chuckyblack - thx)
 
 ## 8.0.1
 

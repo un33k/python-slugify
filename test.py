@@ -36,6 +36,10 @@ class TestSlugify(unittest.TestCase):
         self.assertEqual(r, "ying-shi-ma")
 
     def test_accented_text(self):
+        txt = '𝐚́́𝕒́àáâäãąā'
+        r = slugify(txt)
+        self.assertEqual(r, "aaaaaaaaa")
+
         txt = 'C\'est déjà l\'été.'
         r = slugify(txt)
         self.assertEqual(r, "c-est-deja-l-ete")

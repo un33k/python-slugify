@@ -118,8 +118,11 @@ def slugify(
     # replace quotes with dashes - pre-process
     text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
 
-    # decode unicode
-    if not allow_unicode:
+    # normalize text, convert to unicode if required
+    if allow_unicode:
+        text = unicodedata.normalize('NFKC', text)
+    else:
+        text = unicodedata.normalize('NFKD', text)
         text = unidecode.unidecode(text)
 
     # ensure text is still in unicode
@@ -144,7 +147,7 @@ def slugify(
         except Exception:
             pass
 
-    # translate
+    # re normalize text
     if allow_unicode:
         text = unicodedata.normalize('NFKC', text)
     else:
