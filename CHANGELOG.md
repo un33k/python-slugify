@@ -2,7 +2,7 @@
 
 ## 8.0.2
 
-- Normalize text before converting to unicode. (chuckyblack - thx)
+- Normalize text before converting to unicode. (@chuckyblack - thx)
 
 ## 8.0.1
 
