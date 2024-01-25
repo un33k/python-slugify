@@ -39,7 +39,7 @@ class TestSlugify(unittest.TestCase):
         txt = '𝐚́́𝕒́àéé'
         r = slugify(txt)
         self.assertEqual(r, "aaaee")
-    
+
         txt = 'C\'est déjà l\'été.'
         r = slugify(txt)
         self.assertEqual(r, "c-est-deja-l-ete")
