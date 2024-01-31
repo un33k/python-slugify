@@ -1,4 +1,7 @@
-## Work in progress
+## 8.0.3
+
+- Drop compatibility for unsupported Python Version (@Viicos - thx)
+- Fix pattern types. 
 
 ## 8.0.2
 
