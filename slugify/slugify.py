@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import re
-import sys
 import unicodedata
 from collections.abc import Iterable
 from html.entities import name2codepoint
@@ -83,7 +82,7 @@ def slugify(
     separator: str = DEFAULT_SEPARATOR,
     save_order: bool = False,
     stopwords: Iterable[str] = (),
-    regex_pattern: str | None = None,
+    regex_pattern: re.Pattern[str] | str | None = None,
     lowercase: bool = True,
     replacements: Iterable[Iterable[str]] = (),
     allow_unicode: bool = False,
@@ -152,9 +151,6 @@ def slugify(
         text = unicodedata.normalize('NFKC', text)
     else:
         text = unicodedata.normalize('NFKD', text)
-
-    if sys.version_info < (3,):
-        text = text.encode('ascii', 'ignore')
 
     # make the text lowercase (optional)
     if lowercase:

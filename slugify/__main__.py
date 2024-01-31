@@ -1,4 +1,4 @@
-from __future__ import absolute_import, annotations, print_function
+from __future__ import annotations
 
 import argparse
 import sys
