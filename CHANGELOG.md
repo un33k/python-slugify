@@ -1,3 +1,7 @@
+## 8.0.4
+
+- Properly handle uppercase special characters (@mib1185 - thx)
+
 ## 8.0.3
 
 - Drop compatibility for unsupported Python Version (@Viicos - thx)
