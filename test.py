@@ -4,6 +4,7 @@ import sys
 import unittest
 from contextlib import contextmanager
 
+from slugify import PRE_TRANSLATIONS
 from slugify import slugify
 from slugify import smart_truncate
 from slugify.__main__ import slugify_params, parse_args
@@ -236,6 +237,8 @@ class TestSlugify(unittest.TestCase):
         r = slugify(txt, replacements=[['Ü', 'UE'], ['ü', 'ue']])
         self.assertEqual(r, "ueber-ueber-german-umlaut")
 
+    def test_pre_translation(self):
+        self.assertEqual(PRE_TRANSLATIONS, [('Ю', 'U'), ('Щ', 'Sch'), ('У', 'Y'), ('Х', 'H'), ('Я', 'Ya'), ('Ё', 'E'), ('ё', 'e'), ('я', 'ya'), ('х', 'h'), ('у', 'y'), ('щ', 'sch'), ('ю', 'u'), ('Ü', 'Ue'), ('Ö', 'Oe'), ('Ä', 'Ae'), ('ä', 'ae'), ('ö', 'oe'), ('ü', 'ue'), ('Ϋ́', 'Y'), ('Ϋ', 'Y'), ('Ύ', 'Y'), ('Υ', 'Y'), ('Χ', 'Ch'), ('χ', 'ch'), ('Ξ', 'X'), ('ϒ', 'Y'), ('υ', 'y'), ('ύ', 'y'), ('ϋ', 'y'), ('ΰ', 'y')])
 
 class TestSlugifyUnicode(unittest.TestCase):
 

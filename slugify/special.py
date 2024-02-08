@@ -9,7 +9,6 @@ def add_uppercase_char(char_list: list[tuple[str, str]]) -> list[tuple[str, str]
         upper_dict = char.upper(), xlate.capitalize()
         if upper_dict not in char_list and char != upper_dict[0]:
             char_list.insert(0, upper_dict)
-        return char_list
     return char_list
 
 
