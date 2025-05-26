@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from html.entities import name2codepoint
 
 try:
@@ -38,9 +38,8 @@ def smart_truncate(
     :param word_boundary (bool):
     :param save_order (bool): if True then word order of output string is like input string
     :param separator (str): separator between words
-    :return:
+    :return: truncated string
     """
-
     string = string.strip(separator)
 
     if not max_length:
@@ -89,109 +88,91 @@ def slugify(
 ) -> str:
     """
     Make a slug from the given text.
-    :param text (str): initial text
-    :param entities (bool): converts html entities to unicode
-    :param decimal (bool): converts html decimal to unicode
-    :param hexadecimal (bool): converts html hexadecimal to unicode
-    :param max_length (int): output string length
-    :param word_boundary (bool): truncates to complete word even if length ends up shorter than max_length
-    :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
-    :param separator (str): separator between words
-    :param stopwords (iterable): words to discount
-    :param regex_pattern (str): regex pattern for disallowed characters
-    :param lowercase (bool): activate case sensitivity by setting it to False
-    :param replacements (iterable): list of replacement rules e.g. [['|', 'or'], ['%', 'percent']]
-    :param allow_unicode (bool): allow unicode characters
-    :return (str):
     """
+    text = _apply_replacements(text, replacements)
+    text = _ensure_unicode(text)
+    text = _normalize_text(text, allow_unicode)
+    text = _process_html_entities(text, entities, decimal, hexadecimal)
+    text = _normalize_text(text, allow_unicode)  # Re-normalize after entity processing
+    text = _adjust_case(text, lowercase)
+    text = _clean_special_chars(text, allow_unicode, regex_pattern)
+    text = _process_stopwords(text, stopwords, lowercase, DEFAULT_SEPARATOR)
+    text = _apply_replacements(text, replacements)  # Final replacements
+    text = _truncate_text(text, max_length, word_boundary, separator, save_order, DEFAULT_SEPARATOR)
+    text = _adjust_separator(text, separator, DEFAULT_SEPARATOR)
+    
+    return text
 
-    # user-specific replacements
-    if replacements:
-        for old, new in replacements:
-            text = text.replace(old, new)
+def _apply_replacements(text: str, replacements: Iterable[Iterable[str]]) -> str:
+    if not replacements:
+        return text
+    for old, new in replacements:
+        text = text.replace(old, new)
+    return text
 
-    # ensure text is unicode
+def _ensure_unicode(text: str) -> str:
     if not isinstance(text, str):
-        text = str(text, 'utf-8', 'ignore')
+        return str(text, 'utf-8', 'ignore')
+    return text
 
-    # replace quotes with dashes - pre-process
+def _normalize_text(text: str, allow_unicode: bool) -> str:
     text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
-
-    # normalize text, convert to unicode if required
     if allow_unicode:
-        text = unicodedata.normalize('NFKC', text)
-    else:
-        text = unicodedata.normalize('NFKD', text)
-        text = unidecode.unidecode(text)
+        return unicodedata.normalize('NFKC', text)
+    text = unicodedata.normalize('NFKD', text)
+    return unidecode.unidecode(text)
 
-    # ensure text is still in unicode
-    if not isinstance(text, str):
-        text = str(text, 'utf-8', 'ignore')
-
-    # character entity reference
+def _process_html_entities(text: str, entities: bool, decimal: bool, hexadecimal: bool) -> str:
     if entities:
         text = CHAR_ENTITY_PATTERN.sub(lambda m: chr(name2codepoint[m.group(1)]), text)
-
-    # decimal character reference
+    
     if decimal:
-        try:
-            text = DECIMAL_PATTERN.sub(lambda m: chr(int(m.group(1))), text)
-        except Exception:
-            pass
-
-    # hexadecimal character reference
+        text = _safe_sub(DECIMAL_PATTERN, lambda m: chr(int(m.group(1))), text)
+    
     if hexadecimal:
-        try:
-            text = HEX_PATTERN.sub(lambda m: chr(int(m.group(1), 16)), text)
-        except Exception:
-            pass
+        text = _safe_sub(HEX_PATTERN, lambda m: chr(int(m.group(1), 16)), text)
+    
+    return text
 
-    # re normalize text
-    if allow_unicode:
-        text = unicodedata.normalize('NFKC', text)
-    else:
-        text = unicodedata.normalize('NFKD', text)
+def _safe_sub(pattern: re.Pattern, repl: Callable, text: str) -> str:
+    try:
+        return pattern.sub(repl, text)
+    except Exception:
+        return text
 
-    # make the text lowercase (optional)
+def _adjust_case(text: str, lowercase: bool) -> str:
     if lowercase:
-        text = text.lower()
+        return text.lower()
+    return text
 
-    # remove generated quotes -- post-process
+def _clean_special_chars(text: str, allow_unicode: bool, regex_pattern: re.Pattern | str | None) -> str:
     text = QUOTE_PATTERN.sub('', text)
-
-    # cleanup numbers
     text = NUMBERS_PATTERN.sub('', text)
-
-    # replace all other unwanted characters
-    if allow_unicode:
-        pattern = regex_pattern or DISALLOWED_UNICODE_CHARS_PATTERN
-    else:
-        pattern = regex_pattern or DISALLOWED_CHARS_PATTERN
-
+    
+    pattern = regex_pattern or (DISALLOWED_UNICODE_CHARS_PATTERN if allow_unicode else DISALLOWED_CHARS_PATTERN)
     text = re.sub(pattern, DEFAULT_SEPARATOR, text)
+    return DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
 
-    # remove redundant
-    text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
+def _process_stopwords(text: str, stopwords: Iterable[str], lowercase: bool, separator: str) -> str:
+    if not stopwords:
+        return text
+    
+    words = text.split(separator)
+    if lowercase:
+        stopwords_set = {s.lower() for s in stopwords}
+        words = [w for w in words if w not in stopwords_set]
+    else:
+        words = [w for w in words if w not in stopwords]
+    
+    return separator.join(words)
 
-    # remove stopwords
-    if stopwords:
-        if lowercase:
-            stopwords_lower = [s.lower() for s in stopwords]
-            words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords_lower]
-        else:
-            words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords]
-        text = DEFAULT_SEPARATOR.join(words)
-
-    # finalize user-specific replacements
-    if replacements:
-        for old, new in replacements:
-            text = text.replace(old, new)
-
-    # smart truncate if requested
+def _truncate_text(text: str, max_length: int, word_boundary: bool, 
+                  save_order: bool, default_separator: str) -> str:
     if max_length > 0:
-        text = smart_truncate(text, max_length, word_boundary, DEFAULT_SEPARATOR, save_order)
+        return smart_truncate(text, max_length, word_boundary, default_separator, save_order)
+    return text
 
-    if separator != DEFAULT_SEPARATOR:
-        text = text.replace(DEFAULT_SEPARATOR, separator)
-
+def _adjust_separator(text: str, separator: str, default_separator: str) -> str:
+    if separator != default_separator:
+        return text.replace(default_separator, separator)
     return text
