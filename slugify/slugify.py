@@ -95,7 +95,7 @@ def slugify(
     :param hexadecimal (bool): converts html hexadecimal to unicode
     :param max_length (int): output string length
     :param word_boundary (bool): truncates to complete word even if length ends up shorter than max_length
-    :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
+    :param save_order (bool): when set, does not include shorter subsequent words even if they fit
     :param separator (str): separator between words
     :param stopwords (iterable): words to discount
     :param regex_pattern (str): regex pattern for disallowed characters

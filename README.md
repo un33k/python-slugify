@@ -56,7 +56,7 @@ def slugify(
   :param hexadecimal (bool): converts html hexadecimal to unicode (&#x17D; -> Ž -> z)
   :param max_length (int): output string length
   :param word_boundary (bool): truncates to end of full words (length may be shorter than max_length)
-  :param save_order (bool): if parameter is True and max_length > 0 return whole words in the initial order
+  :param save_order (bool): when set, does not include shorter subsequent words even if they fit
   :param separator (str): separator between words
   :param stopwords (iterable): words to discount
   :param regex_pattern (str): regex pattern for disallowed characters
@@ -108,9 +108,13 @@ txt = 'jaja---lol-méméméoo--a'
 r = slugify(txt, max_length=20, word_boundary=True, separator=".")
 self.assertEqual(r, "jaja.lol.mememeoo.a")
 
-txt = 'one two three four five'
-r = slugify(txt, max_length=13, word_boundary=True, save_order=True)
-self.assertEqual(r, "one-two-three")
+txt = 'one two three four'
+r = slugify(txt, max_length=12, word_boundary=True, save_order=False)
+self.assertEqual(r, "one-two-four")
+
+txt = 'one two three four'
+r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
+self.assertEqual(r, "one-two")
 
 txt = 'the quick brown fox jumps over the lazy dog'
 r = slugify(txt, stopwords=['the'])
