@@ -3,7 +3,6 @@
 import os
 import sys
 
-from codecs import open
 from shutil import rmtree
 from setuptools import setup
 
@@ -17,10 +16,10 @@ extras_requires = {'unidecode': ['Unidecode>=1.1.1']}
 test_requires = []
 
 about = {}
-with open(os.path.join(here, package, '__version__.py'), 'r', 'utf-8') as f:
+with open(os.path.join(here, package, '__version__.py'), 'r', encoding='utf-8') as f:
     exec(f.read(), about)
 
-with open('README.md', 'r', 'utf-8') as f:
+with open('README.md', 'r', encoding='utf-8') as f:
     readme = f.read()
 
 
