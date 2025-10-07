@@ -13,7 +13,6 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 install_requires = ['text-unidecode>=1.3']
 extras_requires = {'unidecode': ['Unidecode>=1.1.1']}
-test_requires = []
 
 about = {}
 with open(os.path.join(here, package, '__version__.py'), 'r', encoding='utf-8') as f:
@@ -65,7 +64,6 @@ setup(
     include_package_data=True,
     python_requires=python_requires,
     install_requires=install_requires,
-    tests_require=test_requires,
     extras_require=extras_requires,
     zip_safe=False,
     cmdclass={},
