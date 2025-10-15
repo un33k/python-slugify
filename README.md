@@ -26,9 +26,11 @@ However, there is an alternative decoding package called [Unidecode](https://git
 
 # How to install
 
-    easy_install python-slugify |OR| easy_install python-slugify[unidecode]
-    -- OR --
-    pip install python-slugify |OR| pip install python-slugify[unidecode]
+    pip install python-slugify
+
+    # OR
+
+    pip install python-slugify[unidecode]
 
 # Options
 
