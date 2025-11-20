@@ -7,6 +7,7 @@ from contextlib import contextmanager
 from slugify import PRE_TRANSLATIONS
 from slugify import slugify
 from slugify import smart_truncate
+from slugify import SLUGIFY_DECODER
 from slugify.__main__ import slugify_params, parse_args
 
 
@@ -34,7 +35,11 @@ class TestSlugify(unittest.TestCase):
     def test_phonetic_conversion_of_eastern_scripts(self):
         txt = '影師嗎'
         r = slugify(txt)
-        self.assertEqual(r, "ying-shi-ma")
+        # anyascii produces different (but valid) output
+        if SLUGIFY_DECODER == 'anyascii':
+            self.assertEqual(r, "yingshima")
+        else:
+            self.assertEqual(r, "ying-shi-ma")
 
     def test_accented_text(self):
         txt = '𝐚́́𝕒́àáâäãąā'
@@ -57,7 +62,11 @@ class TestSlugify(unittest.TestCase):
     def test_cyrillic_text(self):
         txt = 'Компьютер'
         r = slugify(txt)
-        self.assertEqual(r, "kompiuter")
+        # anyascii produces different (but valid) output
+        if SLUGIFY_DECODER == 'anyascii':
+            self.assertEqual(r, "kompyuter")
+        else:
+            self.assertEqual(r, "kompiuter")
 
     def test_max_length(self):
         txt = 'jaja---lol-méméméoo--a'
