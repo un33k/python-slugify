@@ -7,10 +7,25 @@ from html.entities import name2codepoint
 
 try:
     import unidecode
+    _DECODER = 'unidecode'
 except ImportError:
-    import text_unidecode as unidecode
+    try:
+        import text_unidecode as unidecode
+        _DECODER = 'text_unidecode'
+    except ImportError:
+        from anyascii import anyascii
+        # Create a wrapper module to match unidecode's API
+        class _AnyasciiWrapper:
+            @staticmethod
+            def unidecode(text):
+                return anyascii(text)
+        unidecode = _AnyasciiWrapper()
+        _DECODER = 'anyascii'
 
-__all__ = ['slugify', 'smart_truncate']
+__all__ = ['slugify', 'smart_truncate', 'SLUGIFY_DECODER']
+
+# Export the decoder being used for user reference
+SLUGIFY_DECODER = _DECODER
 
 
 CHAR_ENTITY_PATTERN = re.compile(r'&(%s);' % '|'.join(name2codepoint))

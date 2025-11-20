@@ -12,8 +12,11 @@ package = 'slugify'
 python_requires = ">=3.7"
 here = os.path.abspath(os.path.dirname(__file__))
 
-install_requires = ['text-unidecode>=1.3']
-extras_requires = {'unidecode': ['Unidecode>=1.1.1']}
+install_requires = ['anyascii>=0.3.0']
+extras_requires = {
+    'unidecode': ['Unidecode>=1.1.1'],
+    'text-unidecode': ['text-unidecode>=1.3']
+}
 test_requires = []
 
 about = {}

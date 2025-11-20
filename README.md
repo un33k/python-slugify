@@ -12,9 +12,13 @@
 
 # Notice
 
-This module, by default installs and uses [text-unidecode](https://github.com/kmike/text-unidecode) _(GPL & Perl Artistic)_ for its decoding needs.
+This module, by default installs and uses [anyascii](https://github.com/anyascii/anyascii) _(ISC License)_ for its decoding needs. This is a permissive, non-GPL alternative that works well for most use cases.
 
-However, there is an alternative decoding package called [Unidecode](https://github.com/avian2/unidecode) _(GPL)_. It can be installed as `python-slugify[unidecode]` for those who prefer it. `Unidecode` is believed to be more [advanced](https://github.com/un33k/python-slugify/wiki/Python-Slugify-Wiki#notes-on-unidecode).
+However, there are alternative decoding packages available:
+- [Unidecode](https://github.com/avian2/unidecode) _(GPL)_ - Can be installed as `python-slugify[unidecode]`. Believed to be more [advanced](https://github.com/un33k/python-slugify/wiki/Python-Slugify-Wiki#notes-on-unidecode).
+- [text-unidecode](https://github.com/kmike/text-unidecode) _(GPL & Perl Artistic)_ - Can be installed as `python-slugify[text-unidecode]`.
+
+The library will automatically use `unidecode` or `text-unidecode` (in that order) if either is installed, falling back to `anyascii` if neither is available.
 
 ### `Official` Support Matrix
 
@@ -26,11 +30,16 @@ However, there is an alternative decoding package called [Unidecode](https://git
 
 # How to install
 
-    pip install python-slugify
+```bash
+# Default installation (uses anyascii - non-GPL)
+pip install python-slugify
 
-    # OR
+# With optional GPL-licensed Unidecode (more advanced)
+pip install python-slugify[unidecode]
 
-    pip install python-slugify[unidecode]
+# With optional text-unidecode (GPL or Perl Artistic)
+pip install python-slugify[text-unidecode]
+```
 
 # Options
 
@@ -199,9 +208,10 @@ Please read the ([wiki](https://github.com/un33k/python-slugify/wiki/Python-Slug
 
 Released under a ([MIT](LICENSE)) license.
 
-### Notes on GPL dependencies
-Though the dependencies may be GPL licensed, `python-slugify` itself is not considered a derivative work and will remain under the MIT license.  
-If you wish to avoid installation of any GPL licensed packages, please note that the default dependency `text-unidecode` explicitly lets you choose to use the [Artistic License](https://opensource.org/license/artistic-perl-1-0-2/) instead. Use without concern.
+### Notes on dependencies
+The default dependency, `anyascii`, uses the permissive ISC License (similar to MIT), so there are no licensing concerns.
+
+If you choose to install the optional GPL-licensed packages (`unidecode` or `text-unidecode`), please note that `python-slugify` itself is not considered a derivative work and will remain under the MIT license.
 
 # Version
 
