@@ -47,7 +47,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         parser.error("Input strings and --stdin cannot work together")
 
     if args.replacements:
-        def split_check(repl):
+        def split_check(repl: str) -> list[str]:
             SEP = '->'
             if SEP not in repl:
                 parser.error("Replacements must be of the form: ORIGINAL{SEP}REPLACED".format(SEP=SEP))
@@ -82,7 +82,7 @@ def slugify_params(args: argparse.Namespace) -> dict[str, Any]:
     )
 
 
-def main(argv: list[str] | None = None):  # pragma: no cover
+def main(argv: list[str] | None = None) -> None:
     """ Run this program """
     if argv is None:
         argv = sys.argv
@@ -94,5 +94,5 @@ def main(argv: list[str] | None = None):  # pragma: no cover
         sys.exit(-1)
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == '__main__':
     main()
