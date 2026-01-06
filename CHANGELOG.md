@@ -1,3 +1,8 @@
+## Unreleased
+
+- Support Python 3.14.
+- Drop support for Python 3.9 and lower.
+
 ## 8.0.4
 
 - Properly handle uppercase special characters (@mib1185 - thx)
