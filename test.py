@@ -653,5 +653,5 @@ class TestCommandParams(unittest.TestCase):
         self.assertEqual(params['stopwords'], ['the', 'in', 'a', 'hurry'])
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: nocover
     unittest.main()

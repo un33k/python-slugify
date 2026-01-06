@@ -1,6 +1,6 @@
 name: CI
 
-# Run on push only for dev/sandbox
+# Run on push only for ci/staging
 # Otherwise it may trigger concurrently `push & pull_request` on PRs.
 on:
   push:

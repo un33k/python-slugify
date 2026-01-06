@@ -2,6 +2,10 @@
 
 - Support Python 3.14.
 - Drop support for Python 3.9 and lower.
+- Use tox for local test runs and in CI.
+- Test the project against both `unidecode` and `text_unidecode`.
+- Fix type annotation issues identified by mypy.
+- Run CI against pull requests.
 
 ## 8.0.4
 

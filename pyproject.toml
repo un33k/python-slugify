@@ -1,0 +1,41 @@
+# coverage
+# --------
+
+[tool.coverage.run]
+relative_files = true
+parallel = true
+branch = true
+source = [
+    "slugify",
+    "test",
+]
+
+[tool.coverage.paths]
+source = [
+    "src",
+    "*/site-packages",
+]
+
+[tool.coverage.report]
+skip_covered = true
+fail_under = 97
+
+
+# mypy
+# ----
+
+[tool.mypy]
+packages = "slugify"
+strict = true
+sqlite_cache = true
+
+
+# pytest
+# ------
+
+[tool.pytest.ini_options]
+testpaths = ["test.py"]
+addopts = "--color=yes"
+filterwarnings = [
+    "error",
+]

@@ -8,7 +8,7 @@ from html.entities import name2codepoint
 try:
     import unidecode
 except ImportError:
-    import text_unidecode as unidecode
+    import text_unidecode as unidecode  # type: ignore[import-untyped, no-redef]
 
 __all__ = ['slugify', 'smart_truncate']
 
@@ -67,7 +67,7 @@ def smart_truncate(
             else:
                 if save_order:
                     break
-    if not truncated:  # pragma: no cover
+    if not truncated:
         truncated = string[:max_length]
     return truncated.strip(separator)
 
