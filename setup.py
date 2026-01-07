@@ -3,7 +3,6 @@
 import os
 import sys
 
-from codecs import open
 from shutil import rmtree
 from setuptools import setup
 
@@ -14,13 +13,12 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 install_requires = ['text-unidecode>=1.3']
 extras_requires = {'unidecode': ['Unidecode>=1.1.1']}
-test_requires = []
 
 about = {}
-with open(os.path.join(here, package, '__version__.py'), 'r', 'utf-8') as f:
+with open(os.path.join(here, package, '__version__.py'), 'r', encoding='utf-8') as f:
     exec(f.read(), about)
 
-with open('README.md', 'r', 'utf-8') as f:
+with open('README.md', 'r', encoding='utf-8') as f:
     readme = f.read()
 
 
@@ -66,7 +64,6 @@ setup(
     include_package_data=True,
     python_requires=python_requires,
     install_requires=install_requires,
-    tests_require=test_requires,
     extras_require=extras_requires,
     zip_safe=False,
     cmdclass={},
@@ -75,7 +72,6 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Natural Language :: English',
-        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.10',

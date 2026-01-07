@@ -6,6 +6,7 @@
 - Test the project against both `unidecode` and `text_unidecode`.
 - Fix type annotation issues identified by mypy.
 - Run CI against pull requests.
+- Fix package build warnings.
 
 ## 8.0.4
 

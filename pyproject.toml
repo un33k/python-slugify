@@ -1,3 +1,8 @@
+[build-system]
+requires = ["setuptools>=61.2"]
+build-backend = "setuptools.build_meta"
+
+
 # coverage
 # --------
 
