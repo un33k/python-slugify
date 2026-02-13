@@ -212,7 +212,7 @@ X.Y.Z Version
     `PATCH` version -- when you make backwards-compatible bug fixes.
 
 [status-image]: https://github.com/un33k/python-slugify/actions/workflows/main.yml/badge.svg
-[status-link]: https://github.com/un33k/python-slugify/actions/workflows/ci.yml
+[status-link]: https://github.com/un33k/python-slugify/actions/workflows/main.yml
 [version-image]: https://img.shields.io/pypi/v/python-slugify.svg
 [version-link]: https://pypi.python.org/pypi/python-slugify
 [coverage-image]: https://coveralls.io/repos/un33k/python-slugify/badge.svg
