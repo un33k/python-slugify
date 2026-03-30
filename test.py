@@ -12,6 +12,24 @@ from slugify.__main__ import slugify_params, parse_args
 
 class TestSlugify(unittest.TestCase):
 
+    def test_whitespace_only_input(self):
+        """Test that whitespace-only input returns an empty string."""
+        txt = "   "
+        r = slugify(txt)
+        self.assertEqual(r, "")
+
+        txt = "\t\n"
+        r = slugify(txt)
+        self.assertEqual(r, "")
+
+        txt = "  \n  \t  "
+        r = slugify(txt)
+        self.assertEqual(r, "")
+
+        txt = ""
+        r = slugify(txt)
+        self.assertEqual(r, "")
+
     def test_extraneous_seperators(self):
 
         txt = "This is a test ---"
