@@ -1,5 +1,6 @@
 ## Unreleased
 
+- Decode valid numeric entities even when malformed numeric entities are present.
 - Support Python 3.14.
 - Drop support for Python 3.9 and lower.
 - Use tox for local test runs and in CI.

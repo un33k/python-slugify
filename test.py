@@ -166,6 +166,11 @@ class TestSlugify(unittest.TestCase):
         r = slugify(txt, decimal=True)
         self.assertEqual(r, 'z')
 
+    def test_html_decimal_mixed_valid_invalid(self):
+        txt = '&#381; &#99999999;'
+        r = slugify(txt, decimal=True)
+        self.assertEqual(r, 'z-99999999')
+
     def test_html_decimal_off(self):
         txt = '&#381;'
         r = slugify(txt, entities=False, decimal=False)
@@ -175,6 +180,11 @@ class TestSlugify(unittest.TestCase):
         txt = '&#x17D;'
         r = slugify(txt, hexadecimal=True)
         self.assertEqual(r, 'z')
+
+    def test_html_hexadecimal_mixed_valid_invalid(self):
+        txt = '&#x17D; &#x110000;'
+        r = slugify(txt, hexadecimal=True)
+        self.assertEqual(r, 'z-x110000')
 
     def test_html_hexadecimal_off(self):
         txt = '&#x17D;'
@@ -418,6 +428,11 @@ class TestSlugifyUnicode(unittest.TestCase):
         r = slugify(txt, allow_unicode=True, decimal=True)
         self.assertEqual(r, 'ž')
 
+    def test_html_decimal_mixed_valid_invalid(self):
+        txt = '&#381; &#99999999;'
+        r = slugify(txt, allow_unicode=True, decimal=True)
+        self.assertEqual(r, 'ž-99999999')
+
     def test_html_decimal_off(self):
         txt = '&#381;'
         r = slugify(txt, allow_unicode=True, entities=False, decimal=False)
@@ -427,6 +442,11 @@ class TestSlugifyUnicode(unittest.TestCase):
         txt = '&#x17D;'
         r = slugify(txt, allow_unicode=True, hexadecimal=True)
         self.assertEqual(r, 'ž')
+
+    def test_html_hexadecimal_mixed_valid_invalid(self):
+        txt = '&#x17D; &#x110000;'
+        r = slugify(txt, allow_unicode=True, hexadecimal=True)
+        self.assertEqual(r, 'ž-x110000')
 
     def test_html_hexadecimal_off(self):
         txt = '&#x17D;'
