@@ -237,6 +237,15 @@ class TestSlugify(unittest.TestCase):
         r = slugify(txt, replacements=[['Ü', 'UE'], ['ü', 'ue']])
         self.assertEqual(r, "ueber-ueber-german-umlaut")
 
+    def test_replacements_not_applied_twice(self):
+        # A replacement whose value contains its own key must not be applied
+        # twice (pre + finalize pass), which used to grow the slug.
+        r = slugify('a', replacements=[['a', 'aa']])
+        self.assertEqual(r, "aa")
+
+        r = slugify('hello', replacements=[['l', 'll']])
+        self.assertEqual(r, "hellllo")
+
     def test_pre_translation(self):
         self.assertEqual(PRE_TRANSLATIONS, [('Ю', 'U'), ('Щ', 'Sch'), ('У', 'Y'), ('Х', 'H'), ('Я', 'Ya'), ('Ё', 'E'), ('ё', 'e'), ('я', 'ya'), ('х', 'h'), ('у', 'y'), ('щ', 'sch'), ('ю', 'u'), ('Ü', 'Ue'), ('Ö', 'Oe'), ('Ä', 'Ae'), ('ä', 'ae'), ('ö', 'oe'), ('ü', 'ue'), ('Ϋ́', 'Y'), ('Ϋ', 'Y'), ('Ύ', 'Y'), ('Υ', 'Y'), ('Χ', 'Ch'), ('χ', 'ch'), ('Ξ', 'X'), ('ϒ', 'Y'), ('υ', 'y'), ('ύ', 'y'), ('ϋ', 'y'), ('ΰ', 'y')])
 

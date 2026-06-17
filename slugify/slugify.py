@@ -185,6 +185,11 @@ def slugify(
     # finalize user-specific replacements
     if replacements:
         for old, new in replacements:
+            # skip self-referential rules (``old`` present in ``new``); these were
+            # already applied in the pre-process pass and re-applying them here
+            # would grow the slug on every run (e.g. ['a', 'aa'] -> 'aaaa').
+            if old and old in new:
+                continue
             text = text.replace(old, new)
 
     # smart truncate if requested

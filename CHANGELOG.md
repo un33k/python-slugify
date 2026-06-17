@@ -7,6 +7,7 @@
 - Fix type annotation issues identified by mypy.
 - Run CI against pull requests.
 - Fix package build warnings.
+- Fix custom replacements being applied twice when a replacement contains its own search value (e.g. `['a', 'aa']` no longer yields `aaaa`).
 
 ## 8.0.4
 
