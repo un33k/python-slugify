@@ -574,6 +574,7 @@ class TestCommandParams(unittest.TestCase):
         'save_order': False,
         'separator': '-',
         'stopwords': None,
+        'regex_pattern': None,
         'lowercase': True,
         'replacements': None
     }
@@ -644,6 +645,17 @@ class TestCommandParams(unittest.TestCase):
             self.get_params_from_cli('--stdin', 'Text')
         self.assertEqual(err.exception.code, 2)
         self.assertIn("Input strings and --stdin cannot work together", cse.getvalue())
+
+    def test_regex_pattern(self):
+        # --regex-pattern must be passed through to slugify (issue #175).
+        params = self.get_params_from_cli('--regex-pattern', r'[^-a-z0-9_]+')
+        expected = self.make_params(regex_pattern=r'[^-a-z0-9_]+')
+        self.assertParamsMatch(expected, params)
+
+    def test_regex_pattern_end_to_end(self):
+        # The example from issue #175: underscores must survive the custom pattern.
+        params = self.get_params_from_cli('--regex-pattern', r'[^-a-z0-9_]+', '___This is a test___')
+        self.assertEqual(slugify(**params), '___this-is-a-test___')
 
     def test_multivalued_options_with_text(self):
         text = "the quick brown fox jumps over the lazy dog in a hurry"
