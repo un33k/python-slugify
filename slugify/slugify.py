@@ -24,6 +24,20 @@ NUMBERS_PATTERN = re.compile(r'(?<=\d),(?=\d)')
 DEFAULT_SEPARATOR = '-'
 
 
+def _convert_decimal_reference(match: re.Match[str]) -> str:
+    try:
+        return chr(int(match.group(1)))
+    except (OverflowError, ValueError):
+        return match.group(0)
+
+
+def _convert_hexadecimal_reference(match: re.Match[str]) -> str:
+    try:
+        return chr(int(match.group(1), 16))
+    except (OverflowError, ValueError):
+        return match.group(0)
+
+
 def smart_truncate(
     string: str,
     max_length: int = 0,
@@ -134,17 +148,11 @@ def slugify(
 
     # decimal character reference
     if decimal:
-        try:
-            text = DECIMAL_PATTERN.sub(lambda m: chr(int(m.group(1))), text)
-        except Exception:
-            pass
+        text = DECIMAL_PATTERN.sub(_convert_decimal_reference, text)
 
     # hexadecimal character reference
     if hexadecimal:
-        try:
-            text = HEX_PATTERN.sub(lambda m: chr(int(m.group(1), 16)), text)
-        except Exception:
-            pass
+        text = HEX_PATTERN.sub(_convert_hexadecimal_reference, text)
 
     # re normalize text
     if allow_unicode:

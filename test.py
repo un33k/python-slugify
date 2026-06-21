@@ -166,6 +166,11 @@ class TestSlugify(unittest.TestCase):
         r = slugify(txt, decimal=True)
         self.assertEqual(r, 'z')
 
+    def test_html_decimal_on_with_invalid_reference(self):
+        txt = '&#381; &#9999999999;'
+        r = slugify(txt, decimal=True)
+        self.assertEqual(r, 'z-9999999999')
+
     def test_html_decimal_off(self):
         txt = '&#381;'
         r = slugify(txt, entities=False, decimal=False)
@@ -175,6 +180,11 @@ class TestSlugify(unittest.TestCase):
         txt = '&#x17D;'
         r = slugify(txt, hexadecimal=True)
         self.assertEqual(r, 'z')
+
+    def test_html_hexadecimal_on_with_invalid_reference(self):
+        txt = '&#x17D; &#x110000;'
+        r = slugify(txt, hexadecimal=True)
+        self.assertEqual(r, 'z-x110000')
 
     def test_html_hexadecimal_off(self):
         txt = '&#x17D;'
