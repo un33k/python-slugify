@@ -237,6 +237,29 @@ class TestSlugify(unittest.TestCase):
         r = slugify(txt, replacements=[['Ü', 'UE'], ['ü', 'ue']])
         self.assertEqual(r, "ueber-ueber-german-umlaut")
 
+    def test_replacements_idempotent(self):
+        """slugify(slugify(x)) == slugify(x) with replacements."""
+        # Non-word chars in replacement 'new' values
+        self.assertEqual(
+            slugify(slugify('a.b', replacements=[['-', '$x$']]),
+                    replacements=[['-', '$x$']]),
+            slugify('a.b', replacements=[['-', '$x$']]))
+        # Self-referential replacement (direct: old in new)
+        self.assertEqual(
+            slugify(slugify('a', replacements=[['a', 'aa']]),
+                    replacements=[['a', 'aa']]),
+            slugify('a', replacements=[['a', 'aa']]))
+        # Self-referential through slugification (indirect)
+        self.assertEqual(
+            slugify(slugify('hello world', replacements=[['-', '$iqt']]),
+                    replacements=[['-', '$iqt']]),
+            slugify('hello world', replacements=[['-', '$iqt']]))
+        # Non-cyclic replacements still work
+        self.assertEqual(
+            slugify(slugify('10 | 20 %', replacements=[['|', 'or'], ['%', 'percent']]),
+                    replacements=[['|', 'or'], ['%', 'percent']]),
+            "10-or-20-percent")
+
     def test_pre_translation(self):
         self.assertEqual(PRE_TRANSLATIONS, [('Ю', 'U'), ('Щ', 'Sch'), ('У', 'Y'), ('Х', 'H'), ('Я', 'Ya'), ('Ё', 'E'), ('ё', 'e'), ('я', 'ya'), ('х', 'h'), ('у', 'y'), ('щ', 'sch'), ('ю', 'u'), ('Ü', 'Ue'), ('Ö', 'Oe'), ('Ä', 'Ae'), ('ä', 'ae'), ('ö', 'oe'), ('ü', 'ue'), ('Ϋ́', 'Y'), ('Ϋ', 'Y'), ('Ύ', 'Y'), ('Υ', 'Y'), ('Χ', 'Ch'), ('χ', 'ch'), ('Ξ', 'X'), ('ϒ', 'Y'), ('υ', 'y'), ('ύ', 'y'), ('ϋ', 'y'), ('ΰ', 'y')])
 

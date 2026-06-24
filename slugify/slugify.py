@@ -105,10 +105,32 @@ def slugify(
     :return (str):
     """
 
-    # user-specific replacements
+    # determine the disallowed-char pattern early so both replacement
+    # passes can clean up non-word characters they introduce.
+    if allow_unicode:
+        _pattern = regex_pattern or DISALLOWED_UNICODE_CHARS_PATTERN
+    else:
+        _pattern = regex_pattern or DISALLOWED_CHARS_PATTERN
+
+    # user-specific replacements (pass 1 -- before normalization)
     if replacements:
         for old, new in replacements:
+            if old:
+                # Skip replacements that form a self-referential cycle.
+                # Direct:  old appears in `new` (e.g. 'a' → 'aa').
+                # Indirect: slugifying `new` recreates `old` (e.g. '-'
+                # → '$x$', because '$' → '-' produces '-x-' which contains
+                # '-'); such rules would grow every time slugify is called
+                # again on its own output.
+                _cleaned = re.sub(_pattern, DEFAULT_SEPARATOR, new)
+                _cleaned = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, _cleaned)
+                if old in new or old in _cleaned:
+                    continue
             text = text.replace(old, new)
+        # Clean up any non-word characters introduced by pass-1 replacements
+        # so they don't interfere with subsequent normalization / pass-2 passes.
+        text = re.sub(_pattern, DEFAULT_SEPARATOR, text)
+        text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
 
     # ensure text is unicode
     if not isinstance(text, str):
@@ -163,12 +185,7 @@ def slugify(
     text = NUMBERS_PATTERN.sub('', text)
 
     # replace all other unwanted characters
-    if allow_unicode:
-        pattern = regex_pattern or DISALLOWED_UNICODE_CHARS_PATTERN
-    else:
-        pattern = regex_pattern or DISALLOWED_CHARS_PATTERN
-
-    text = re.sub(pattern, DEFAULT_SEPARATOR, text)
+    text = re.sub(_pattern, DEFAULT_SEPARATOR, text)
 
     # remove redundant
     text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
@@ -182,10 +199,19 @@ def slugify(
             words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords]
         text = DEFAULT_SEPARATOR.join(words)
 
-    # finalize user-specific replacements
+    # finalize user-specific replacements (pass 2)
     if replacements:
         for old, new in replacements:
+            if old:
+                _cleaned = re.sub(_pattern, DEFAULT_SEPARATOR, new)
+                _cleaned = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, _cleaned)
+                if old in new or old in _cleaned:
+                    continue
             text = text.replace(old, new)
+        # Clean up any non-word characters introduced by pass-2 replacements
+        # so that slugify(slugify(x)) == slugify(x).
+        text = re.sub(_pattern, DEFAULT_SEPARATOR, text)
+        text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
 
     # smart truncate if requested
     if max_length > 0:
