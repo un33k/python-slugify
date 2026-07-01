@@ -60,3 +60,13 @@ docs/_build/
 target/
 
 *.*DS_Store
+
+# overnight hygiene
+.venv
+.venv/
+__pycache__/
+*.pyc
+tmp*
+.benchmark_tmp/
+.coverage
+.DS_Store
