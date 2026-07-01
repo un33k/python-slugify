@@ -105,6 +105,9 @@ def slugify(
     :return (str):
     """
 
+    if not isinstance(text, (str, bytes)):
+        raise TypeError(f'text must be str or bytes, not {type(text).__name__}')
+
     # user-specific replacements
     if replacements:
         for old, new in replacements:

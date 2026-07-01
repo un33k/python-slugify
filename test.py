@@ -240,6 +240,13 @@ class TestSlugify(unittest.TestCase):
     def test_pre_translation(self):
         self.assertEqual(PRE_TRANSLATIONS, [('Ю', 'U'), ('Щ', 'Sch'), ('У', 'Y'), ('Х', 'H'), ('Я', 'Ya'), ('Ё', 'E'), ('ё', 'e'), ('я', 'ya'), ('х', 'h'), ('у', 'y'), ('щ', 'sch'), ('ю', 'u'), ('Ü', 'Ue'), ('Ö', 'Oe'), ('Ä', 'Ae'), ('ä', 'ae'), ('ö', 'oe'), ('ü', 'ue'), ('Ϋ́', 'Y'), ('Ϋ', 'Y'), ('Ύ', 'Y'), ('Υ', 'Y'), ('Χ', 'Ch'), ('χ', 'ch'), ('Ξ', 'X'), ('ϒ', 'Y'), ('υ', 'y'), ('ύ', 'y'), ('ϋ', 'y'), ('ΰ', 'y')])
 
+    def test_non_string_text_raises_clear_type_error(self):
+        with self.assertRaisesRegex(TypeError, 'must be str or bytes'):
+            slugify(None)
+        with self.assertRaisesRegex(TypeError, 'must be str or bytes'):
+            slugify(123)
+        self.assertEqual(slugify(b'Hello World'), 'hello-world')  # bytes still accepted
+
 
 class TestSlugifyUnicode(unittest.TestCase):
     def test_extraneous_seperators(self):
