@@ -76,6 +76,7 @@ def slugify_params(args: argparse.Namespace) -> dict[str, Any]:
         save_order=args.save_order,
         separator=args.separator,
         stopwords=args.stopwords,
+        regex_pattern=args.regex_pattern,
         lowercase=args.lowercase,
         replacements=args.replacements,
         allow_unicode=args.allow_unicode

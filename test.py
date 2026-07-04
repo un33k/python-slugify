@@ -574,6 +574,7 @@ class TestCommandParams(unittest.TestCase):
         'save_order': False,
         'separator': '-',
         'stopwords': None,
+        'regex_pattern': None,
         'lowercase': True,
         'replacements': None
     }
@@ -616,6 +617,14 @@ class TestCommandParams(unittest.TestCase):
         params = self.get_params_from_cli('--replacements', 'A->B', 'C->D')
         expected = self.make_params(replacements=[['A', 'B'], ['C', 'D']])
         self.assertParamsMatch(expected, params)
+
+    def test_regex_pattern(self):
+        pattern = r'[^-a-z0-9_]+'
+        params = self.get_params_from_cli('--regex-pattern', pattern, '___This is a test___')
+        expected = self.make_params(text='___This is a test___', regex_pattern=pattern)
+        self.assertParamsMatch(expected, params)
+        # The pattern must actually reach slugify() so underscores are kept.
+        self.assertEqual(slugify(**params), '___this-is-a-test___')
 
     def test_replacements_wrong(self):
         with self.assertRaises(SystemExit) as err, captured_stderr() as cse:
