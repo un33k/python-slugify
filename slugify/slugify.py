@@ -49,7 +49,8 @@ def smart_truncate(
     if len(string) < max_length:
         return string
 
-    if not word_boundary:
+    # Empty separator cannot split words; fall back to hard truncate.
+    if not word_boundary or not separator:
         return string[:max_length].strip(separator)
 
     if separator not in string:

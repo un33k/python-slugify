@@ -540,6 +540,17 @@ class TestUtils(unittest.TestCase):
         r = smart_truncate(txt, max_length=100, separator='_')
         self.assertEqual(r, txt)
 
+    def test_smart_truncate_empty_separator_word_boundary(self):
+        txt = 'helloworld'
+        self.assertEqual(
+            smart_truncate(txt, max_length=5, word_boundary=True, separator=''),
+            'hello',
+        )
+        self.assertEqual(
+            slugify('hello world', max_length=5, word_boundary=True, separator=''),
+            'hello',
+        )
+
 
 PY3 = sys.version_info.major == 3
 
