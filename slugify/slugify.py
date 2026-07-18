@@ -43,7 +43,8 @@ def smart_truncate(
 
     string = string.strip(separator)
 
-    if not max_length:
+    # Non-positive max_length means no truncation (same as slugify).
+    if max_length <= 0:
         return string
 
     if len(string) < max_length:

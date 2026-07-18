@@ -535,6 +535,17 @@ class TestUtils(unittest.TestCase):
         r = smart_truncate(txt)
         self.assertEqual(r, txt)
 
+    def test_smart_truncate_nonpositive_max_length(self):
+        txt = 'hello-world'
+        self.assertEqual(smart_truncate(txt, max_length=0), txt)
+        self.assertEqual(smart_truncate(txt, max_length=-1), txt)
+        self.assertEqual(smart_truncate(txt, max_length=-100), txt)
+        self.assertEqual(
+            smart_truncate(txt, max_length=-1, word_boundary=True, separator='-'),
+            txt,
+        )
+        self.assertEqual(slugify('hello world', max_length=-1), 'hello-world')
+
     def test_smart_truncate_no_seperator(self):
         txt = '1,000 reasons you are #1'
         r = smart_truncate(txt, max_length=100, separator='_')
