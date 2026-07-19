@@ -151,6 +151,7 @@ def slugify(
         text = unicodedata.normalize('NFKC', text)
     else:
         text = unicodedata.normalize('NFKD', text)
+        text = unidecode.unidecode(text)
 
     # make the text lowercase (optional)
     if lowercase:

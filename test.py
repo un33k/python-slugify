@@ -166,6 +166,26 @@ class TestSlugify(unittest.TestCase):
         r = slugify(txt, decimal=True)
         self.assertEqual(r, 'z')
 
+    def test_html_decimal_on_transliterated(self):
+        # A decoded numeric entity must be transliterated to ASCII exactly like
+        # the same character passed in directly (docstring: &#381; -> Ž -> z).
+        txt = '&#223;'  # ß
+        r = slugify(txt, decimal=True)
+        self.assertEqual(r, slugify('ß'))
+        self.assertEqual(r, 'ss')
+
+    def test_html_hexadecimal_on_transliterated(self):
+        txt = '&#xDF;'  # ß
+        r = slugify(txt, hexadecimal=True)
+        self.assertEqual(r, slugify('ß'))
+        self.assertEqual(r, 'ss')
+
+    def test_html_entities_on_transliterated(self):
+        txt = '&szlig;'  # ß
+        r = slugify(txt, entities=True)
+        self.assertEqual(r, slugify('ß'))
+        self.assertEqual(r, 'ss')
+
     def test_html_decimal_off(self):
         txt = '&#381;'
         r = slugify(txt, entities=False, decimal=False)
