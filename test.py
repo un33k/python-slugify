@@ -655,3 +655,9 @@ class TestCommandParams(unittest.TestCase):
 
 if __name__ == '__main__':  # pragma: nocover
     unittest.main()
+
+
+def test_slugify_whitespace_only_returns_empty():
+    from slugify import slugify
+    assert slugify("   ") == ""
+    assert slugify("\t\n") == ""
