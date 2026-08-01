@@ -49,6 +49,13 @@ class TestSlugify(unittest.TestCase):
         r = slugify(txt)
         self.assertEqual(r, "nin-hao-wo-shi-zhong-guo-ren")
 
+    def test_ordinal_indicators(self):
+        # Portuguese/Spanish masculine/feminine ordinal indicators (º, ª),
+        # common on Portuguese keyboards - see issue #172.
+        txt = '1º lugar, 1ª colocada'
+        r = slugify(txt)
+        self.assertEqual(r, "1o-lugar-1a-colocada")
+
     def test_accented_text_with_non_word_characters(self):
         txt = 'jaja---lol-méméméoo--a'
         r = slugify(txt)
