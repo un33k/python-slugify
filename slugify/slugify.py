@@ -179,6 +179,7 @@ def slugify(
             stopwords_lower = [s.lower() for s in stopwords]
             words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords_lower]
         else:
+            stopwords = set(stopwords)
             words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords]
         text = DEFAULT_SEPARATOR.join(words)
 

@@ -127,6 +127,15 @@ class TestSlugify(unittest.TestCase):
         r = slugify(txt, stopwords=['Stopword'], lowercase=False)
         self.assertEqual(r, 'thIs-Has-a-stopword')
 
+    def test_stopword_iterator_casesensitive(self):
+        for allow_unicode in (False, True):
+            with self.subTest(allow_unicode=allow_unicode):
+                words = iter(['Stopword', 'Other'])
+                result = slugify('Keep Stopword Other Stopword stopword',
+                                 stopwords=words, lowercase=False,
+                                 allow_unicode=allow_unicode)
+                self.assertEqual(result, 'Keep-stopword')
+
     def test_multiple_stopword_occurances(self):
         txt = 'the quick brown fox jumps over the lazy dog'
         r = slugify(txt, stopwords=['the'])
