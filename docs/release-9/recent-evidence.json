@@ -1,0 +1,1176 @@
+[
+  {
+    "number": 167,
+    "title": "Inconsistent workflow badge reference in README",
+    "body": "I noticed that the workflow badge image in the README references `main.yml`, while the link points to `ci.yml`.\n\nThis may cause inconsistency or confusion depending on the active workflow file.\n\nWould you prefer both references to point to the same workflow file?\n\nI would be happy to submit a PR to align them.",
+    "author": "JustinUrassa",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/issues/167",
+    "comments": []
+  },
+  {
+    "number": 168,
+    "title": "docs: align workflow badge link with the main.yml",
+    "body": "### Summary\r\nThis pull request fixes the workflow badge link in the README to correctly point to `main.yml` instead of `ci.yml`.  \r\n\r\n### Details\r\nThe previous link was broken because it referenced the wrong workflow file:\r\n\r\n- Old link: ci.yml\r\n- Fixed link: main.yml\r\n\r\nThis ensures the badge correctly reflects the status of the main workflow.\r\n\r\n### Changes\r\n- Updated `[status-link]` in README.md from ci.yml to main.yml\r\n\r\n### Motivation\r\nThe workflow badge is a visual indicator of CI status. Fixing the link ensures contributors and users see the correct build status at a glance.\r\n\r\n### Testing\r\n- Verified the new link points to the existing main workflow in GitHub Actions.",
+    "author": "JustinUrassa",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/pull/168",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "7ef131d31eb4e1d90bfcd492005ff84913b3feeb",
+        "filename": "README.md",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 1,
+        "changes": 2,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/e7bef47ec65cd64bd90fb01646dc553560e5e6de/README.md",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/e7bef47ec65cd64bd90fb01646dc553560e5e6de/README.md",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/README.md?ref=e7bef47ec65cd64bd90fb01646dc553560e5e6de",
+        "patch": "@@ -212,7 +212,7 @@ X.Y.Z Version\n     `PATCH` version -- when you make backwards-compatible bug fixes.\n \n [status-image]: https://github.com/un33k/python-slugify/actions/workflows/main.yml/badge.svg\n-[status-link]: https://github.com/un33k/python-slugify/actions/workflows/ci.yml\n+[status-link]: https://github.com/un33k/python-slugify/actions/workflows/main.yml\n [version-image]: https://img.shields.io/pypi/v/python-slugify.svg\n [version-link]: https://pypi.python.org/pypi/python-slugify\n [coverage-image]: https://coveralls.io/repos/un33k/python-slugify/badge.svg"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 169,
+    "title": "Add edge case test for whitespace-only input",
+    "body": "\nThis PR adds a small test case to verify that `slugify` correctly\nreturns an empty string when the input contains only whitespace.\n\nHandling whitespace-only input is an edge case that helps ensure\nconsistent and predictable behavior. This test improves coverage\nwithout modifying existing functionality.\n\nNo breaking changes introduced. I would like to work on it if possible",
+    "author": "JustinUrassa",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/issues/169",
+    "comments": []
+  },
+  {
+    "number": 170,
+    "title": "test: add edge case test for whitespace-only input",
+    "body": "This PR adds a small test case to verify that `slugify` correctly\r\nreturns an empty string when the input contains only whitespace.\r\n\r\nHandling whitespace-only input is an edge case that helps ensure\r\nconsistent and predictable behavior. This test improves coverage\r\nwithout modifying existing functionality.\r\n\r\nNo breaking changes introduced.",
+    "author": "JustinUrassa",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/pull/170",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "8e1d755dad1590673b046bdf97929c019ec81bfe",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 5,
+        "deletions": 0,
+        "changes": 5,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/71d614644ba407290506144107d3444af20a7d2d/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/71d614644ba407290506144107d3444af20a7d2d/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=71d614644ba407290506144107d3444af20a7d2d",
+        "patch": "@@ -239,6 +239,11 @@ def test_replacements_german_umlaut_custom(self):\n \n     def test_pre_translation(self):\n         self.assertEqual(PRE_TRANSLATIONS, [('Ю', 'U'), ('Щ', 'Sch'), ('У', 'Y'), ('Х', 'H'), ('Я', 'Ya'), ('Ё', 'E'), ('ё', 'e'), ('я', 'ya'), ('х', 'h'), ('у', 'y'), ('щ', 'sch'), ('ю', 'u'), ('Ü', 'Ue'), ('Ö', 'Oe'), ('Ä', 'Ae'), ('ä', 'ae'), ('ö', 'oe'), ('ü', 'ue'), ('Ϋ́', 'Y'), ('Ϋ', 'Y'), ('Ύ', 'Y'), ('Υ', 'Y'), ('Χ', 'Ch'), ('χ', 'ch'), ('Ξ', 'X'), ('ϒ', 'Y'), ('υ', 'y'), ('ύ', 'y'), ('ϋ', 'y'), ('ΰ', 'y')])\n+        \n+    def test_slugify_only_whitespace(self):\n+     txt = \"     \"\n+     r = slugify(txt)\n+     self.assertEqual(r, \"\")\n \n \n class TestSlugifyUnicode(unittest.TestCase):"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 171,
+    "unavailable": "gh: Not Found (HTTP 404)"
+  },
+  {
+    "number": 172,
+    "title": "Ordinal indicators are not slugified",
+    "body": "Hi. The characters \"º\" (0xBA) and \"ª\" (0xAA) are used in Portuguese and some other languages, and are in Portuguese keyboards. Maybe you could slugify them to \"o\" and \"a\". Thanks.",
+    "author": "cangareijo",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/issues/172",
+    "comments": [
+      {
+        "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/3943658797",
+        "html_url": "https://github.com/un33k/python-slugify/issues/172#issuecomment-3943658797",
+        "issue_url": "https://api.github.com/repos/un33k/python-slugify/issues/172",
+        "id": 3943658797,
+        "node_id": "IC_kwDOAF7qK87rD3Ut",
+        "user": {
+          "login": "cangareijo",
+          "id": 102051174,
+          "node_id": "U_kgDOBhUtZg",
+          "avatar_url": "https://avatars.githubusercontent.com/u/102051174?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/cangareijo",
+          "html_url": "https://github.com/cangareijo",
+          "followers_url": "https://api.github.com/users/cangareijo/followers",
+          "following_url": "https://api.github.com/users/cangareijo/following{/other_user}",
+          "gists_url": "https://api.github.com/users/cangareijo/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/cangareijo/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/cangareijo/subscriptions",
+          "organizations_url": "https://api.github.com/users/cangareijo/orgs",
+          "repos_url": "https://api.github.com/users/cangareijo/repos",
+          "events_url": "https://api.github.com/users/cangareijo/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/cangareijo/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "created_at": "2026-02-23T09:40:22Z",
+        "updated_at": "2026-02-23T09:40:22Z",
+        "body": "Dashes and hyphens (0x2010 to 0x2015) could also be slugified to hyphen-minus (0x002D).",
+        "author_association": "NONE",
+        "pin": null,
+        "reactions": {
+          "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/3943658797/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "performed_via_github_app": null,
+        "minimized": null
+      }
+    ]
+  },
+  {
+    "number": 173,
+    "title": "fix: align README badge link with badge image workflow",
+    "body": "## Summary\n\nFix inconsistent workflow badge reference in README.\n\n## Problem\n\nThe status badge image references `main.yml` but the badge link points to `ci.yml`:\n\n```markdown\n[status-image]: https://github.com/un33k/python-slugify/actions/workflows/main.yml/badge.svg\n[status-link]: https://github.com/un33k/python-slugify/actions/workflows/ci.yml\n```\n\nClicking the badge navigates to a different workflow than the one whose status is displayed.\n\n## Fix\n\nChanged `status-link` to reference `main.yml`, matching the badge image.\n\nFixes #167",
+    "author": "Jo2234",
+    "state": "closed",
+    "url": "https://github.com/un33k/python-slugify/pull/173",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "7ef131d31eb4e1d90bfcd492005ff84913b3feeb",
+        "filename": "README.md",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 1,
+        "changes": 2,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/bf1308c99c5aaf999aaa6d36b93870615b67ff74/README.md",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/bf1308c99c5aaf999aaa6d36b93870615b67ff74/README.md",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/README.md?ref=bf1308c99c5aaf999aaa6d36b93870615b67ff74",
+        "patch": "@@ -212,7 +212,7 @@ X.Y.Z Version\n     `PATCH` version -- when you make backwards-compatible bug fixes.\n \n [status-image]: https://github.com/un33k/python-slugify/actions/workflows/main.yml/badge.svg\n-[status-link]: https://github.com/un33k/python-slugify/actions/workflows/ci.yml\n+[status-link]: https://github.com/un33k/python-slugify/actions/workflows/main.yml\n [version-image]: https://img.shields.io/pypi/v/python-slugify.svg\n [version-link]: https://pypi.python.org/pypi/python-slugify\n [coverage-image]: https://coveralls.io/repos/un33k/python-slugify/badge.svg"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 174,
+    "title": "Add edge case test for whitespace-only input",
+    "body": "This PR adds a test case to verify that  correctly returns an empty string when the input contains only whitespace (spaces, tabs, newlines) or is empty.\n\nTest cases covered:\n- Spaces only ()\n- Tabs and newlines ()\n- Mixed whitespace characters ()\n- Empty string ()\n\nAll 83 existing tests pass. No breaking changes introduced.\n\nThis addresses issue #169.",
+    "author": "BlocksecPHD",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/pull/174",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "47493f327335e133434b46668b1ed462fab1c2fe",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 18,
+        "deletions": 0,
+        "changes": 18,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/ce8e01ed49fba035cb7857005c27aa822f962f0a/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/ce8e01ed49fba035cb7857005c27aa822f962f0a/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=ce8e01ed49fba035cb7857005c27aa822f962f0a",
+        "patch": "@@ -12,6 +12,24 @@\n \n class TestSlugify(unittest.TestCase):\n \n+    def test_whitespace_only_input(self):\n+        \"\"\"Test that whitespace-only input returns an empty string.\"\"\"\n+        txt = \"   \"\n+        r = slugify(txt)\n+        self.assertEqual(r, \"\")\n+\n+        txt = \"\\t\\n\"\n+        r = slugify(txt)\n+        self.assertEqual(r, \"\")\n+\n+        txt = \"  \\n  \\t  \"\n+        r = slugify(txt)\n+        self.assertEqual(r, \"\")\n+\n+        txt = \"\"\n+        r = slugify(txt)\n+        self.assertEqual(r, \"\")\n+\n     def test_extraneous_seperators(self):\n \n         txt = \"This is a test ---\""
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 175,
+    "title": "--regex-pattern option ignored by CLI",
+    "body": "The command line interface seems to ignore the `--regex-pattern` option. For example:\n\n```\nslugify --regex-pattern \"[^-a-z0-9_]+\" \"___This is a test___\"\n```\n\nBased on the unit tests (see `test_regex_pattern_keep_underscore`), the expected result should be \"`___this-is-a-test___`\". However, it's actually \"`this-is-a-test`\".\n",
+    "author": "peter-bloomfield",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/issues/175",
+    "comments": [
+      {
+        "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/4326485338",
+        "html_url": "https://github.com/un33k/python-slugify/issues/175#issuecomment-4326485338",
+        "issue_url": "https://api.github.com/repos/un33k/python-slugify/issues/175",
+        "id": 4326485338,
+        "node_id": "IC_kwDOAF7qK88AAAABAeDtWg",
+        "user": {
+          "login": "jdevera",
+          "id": 73069,
+          "node_id": "MDQ6VXNlcjczMDY5",
+          "avatar_url": "https://avatars.githubusercontent.com/u/73069?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/jdevera",
+          "html_url": "https://github.com/jdevera",
+          "followers_url": "https://api.github.com/users/jdevera/followers",
+          "following_url": "https://api.github.com/users/jdevera/following{/other_user}",
+          "gists_url": "https://api.github.com/users/jdevera/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/jdevera/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/jdevera/subscriptions",
+          "organizations_url": "https://api.github.com/users/jdevera/orgs",
+          "repos_url": "https://api.github.com/users/jdevera/repos",
+          "events_url": "https://api.github.com/users/jdevera/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/jdevera/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "created_at": "2026-04-27T11:12:25Z",
+        "updated_at": "2026-04-27T11:12:25Z",
+        "body": "@peter-bloomfield great find! Seems like there is a missing wiring of that option in the CLI.",
+        "author_association": "COLLABORATOR",
+        "pin": null,
+        "reactions": {
+          "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/4326485338/reactions",
+          "total_count": 1,
+          "+1": 1,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "performed_via_github_app": null,
+        "minimized": null
+      }
+    ]
+  },
+  {
+    "number": 176,
+    "title": "Fix --regex-pattern being ignored by the CLI",
+    "body": "## Summary\r\n\r\n- The `--regex-pattern` CLI option was parsed by argparse but never forwarded into the `slugify()` call in\r\n`slugify_params`, so it had no effect.\r\n- Forward `regex_pattern` from the parsed args, add a `TestCommandParams.test_regex_pattern` regression test, and include `regex_pattern` in the test defaults.\r\n- Update Changelog.\r\n\r\nFixes #175.",
+    "author": "jdevera",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/pull/176",
+    "comments": [
+      {
+        "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/4326538921",
+        "html_url": "https://github.com/un33k/python-slugify/pull/176#issuecomment-4326538921",
+        "issue_url": "https://api.github.com/repos/un33k/python-slugify/issues/176",
+        "id": 4326538921,
+        "node_id": "IC_kwDOAF7qK88AAAABAeG-qQ",
+        "user": {
+          "login": "coveralls",
+          "id": 2354108,
+          "node_id": "MDQ6VXNlcjIzNTQxMDg=",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2354108?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/coveralls",
+          "html_url": "https://github.com/coveralls",
+          "followers_url": "https://api.github.com/users/coveralls/followers",
+          "following_url": "https://api.github.com/users/coveralls/following{/other_user}",
+          "gists_url": "https://api.github.com/users/coveralls/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/coveralls/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/coveralls/subscriptions",
+          "organizations_url": "https://api.github.com/users/coveralls/orgs",
+          "repos_url": "https://api.github.com/users/coveralls/repos",
+          "events_url": "https://api.github.com/users/coveralls/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/coveralls/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "created_at": "2026-04-27T11:21:39Z",
+        "updated_at": "2026-04-27T11:21:39Z",
+        "body": "\n[![Coverage Status](https://coveralls.io/builds/79120056/badge)](https://coveralls.io/builds/79120056)\n\ncoverage: 97.459% (+0.02%) from 97.44% — **feat/cli-regex-pattern** into **master**\n",
+        "author_association": "NONE",
+        "reactions": {
+          "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/4326538921/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "performed_via_github_app": null,
+        "minimized": null
+      }
+    ],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "44e0bb982efe09d2bd218d3782ef86d382dc62c8",
+        "filename": "CHANGELOG.md",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 0,
+        "changes": 1,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/7edf477f64b65ffe22c966d6a8dcc3edd0fb6997/CHANGELOG.md",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/7edf477f64b65ffe22c966d6a8dcc3edd0fb6997/CHANGELOG.md",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/CHANGELOG.md?ref=7edf477f64b65ffe22c966d6a8dcc3edd0fb6997",
+        "patch": "@@ -1,5 +1,6 @@\n ## Unreleased\n \n+- Fix `--regex-pattern` being ignored by the CLI.\n - Support Python 3.14.\n - Drop support for Python 3.9 and lower.\n - Use tox for local test runs and in CI."
+      },
+      {
+        "sha": "6e8109d0bc0d5eb91087223e1ec2f73338e5a91e",
+        "filename": "slugify/__main__.py",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 0,
+        "changes": 1,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/7edf477f64b65ffe22c966d6a8dcc3edd0fb6997/slugify%2F__main__.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/7edf477f64b65ffe22c966d6a8dcc3edd0fb6997/slugify%2F__main__.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2F__main__.py?ref=7edf477f64b65ffe22c966d6a8dcc3edd0fb6997",
+        "patch": "@@ -76,6 +76,7 @@ def slugify_params(args: argparse.Namespace) -> dict[str, Any]:\n         save_order=args.save_order,\n         separator=args.separator,\n         stopwords=args.stopwords,\n+        regex_pattern=args.regex_pattern,\n         lowercase=args.lowercase,\n         replacements=args.replacements,\n         allow_unicode=args.allow_unicode"
+      },
+      {
+        "sha": "1c321d6dca0e5de524400f707dd0ccfc7894fa49",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 8,
+        "deletions": 1,
+        "changes": 9,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/7edf477f64b65ffe22c966d6a8dcc3edd0fb6997/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/7edf477f64b65ffe22c966d6a8dcc3edd0fb6997/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=7edf477f64b65ffe22c966d6a8dcc3edd0fb6997",
+        "patch": "@@ -575,7 +575,8 @@ class TestCommandParams(unittest.TestCase):\n         'separator': '-',\n         'stopwords': None,\n         'lowercase': True,\n-        'replacements': None\n+        'replacements': None,\n+        'regex_pattern': None\n     }\n \n     def get_params_from_cli(self, *argv):\n@@ -623,6 +624,12 @@ def test_replacements_wrong(self):\n         self.assertEqual(err.exception.code, 2)\n         self.assertIn(\"Replacements must be of the form: ORIGINAL->REPLACED\", cse.getvalue())\n \n+    def test_regex_pattern(self):\n+        params = self.get_params_from_cli('--regex-pattern', '[^-a-z0-9_]+', '___This is a test___')\n+        expected = self.make_params(text='___This is a test___', regex_pattern='[^-a-z0-9_]+')\n+        self.assertParamsMatch(expected, params)\n+        self.assertEqual(slugify(**params), '___this-is-a-test___')\n+\n     def test_text_in_cli(self):\n         params = self.get_params_from_cli('Cool Text')\n         expected = self.make_params(text='Cool Text')"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 177,
+    "title": "Release time?",
+    "body": "I just noticed a growing unreleased section in the changelog and wondered when it's a good time for a new release.",
+    "author": "jdevera",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/issues/177",
+    "comments": []
+  },
+  {
+    "number": 178,
+    "title": "fix: recover from malformed numeric entities",
+    "body": "This fixes numeric entity decoding so one malformed decimal or hexadecimal\r\nreference does not prevent other valid references in the same input from being\r\ndecoded.\r\n\r\nUpdates:\r\n\r\n- `slugify/slugify.py` - handles invalid numeric code points per match instead\r\n  of wrapping the entire replacement pass in one broad exception handler.\r\n- `test.py` - adds mixed valid/invalid decimal and hexadecimal entity cases.\r\n- `CHANGELOG.md` - notes the behavior fix.\r\n\r\nBehaviour change: malformed numeric references are still preserved and cleaned\r\nup by the existing slug pipeline, but valid references next to them now decode as\r\nexpected.\r\n\r\n## Test plan\r\n\r\n- [x] `pytest test.py -k mixed_valid_invalid` (`4 passed`).\r\n- [x] `tox` passed locally for the available Python 3.13 environments, plus\r\n      mypy, pycodestyle, and coverage (`97%`).\r\n- [ ] Full upstream matrix coverage pending CI.\r\n- [ ] CI rollup checked after open.\r\n\r\n## Notes for maintainers\r\n\r\n- Open to a maintainer-preferred behavior for malformed numeric references. This\r\n  patch keeps invalid references flowing through the existing cleanup path while\r\n  allowing valid references in the same string to decode.\r\n\r\n## What this PR is not\r\n\r\n- Not a security fix.\r\n- Not connected to the open `--regex-pattern` CLI PR.\r\n- Not a README support-matrix cleanup; that can be handled separately if useful.",
+    "author": "Gares95",
+    "state": "closed",
+    "url": "https://github.com/un33k/python-slugify/pull/178",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "608f34c0ea6ecc5f2a5238ec6c150692f3d7584f",
+        "filename": "CHANGELOG.md",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 0,
+        "changes": 1,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/b0eb0805ac0eb70537db36e00489089dc335e618/CHANGELOG.md",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/b0eb0805ac0eb70537db36e00489089dc335e618/CHANGELOG.md",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/CHANGELOG.md?ref=b0eb0805ac0eb70537db36e00489089dc335e618",
+        "patch": "@@ -1,5 +1,6 @@\n ## Unreleased\n \n+- Decode valid numeric entities even when malformed numeric entities are present.\n - Support Python 3.14.\n - Drop support for Python 3.9 and lower.\n - Use tox for local test runs and in CI."
+      },
+      {
+        "sha": "b7d8a6e13c7d0a71d5384313c1b9358e857f59ea",
+        "filename": "slugify/slugify.py",
+        "status": "modified",
+        "additions": 16,
+        "deletions": 8,
+        "changes": 24,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/b0eb0805ac0eb70537db36e00489089dc335e618/slugify%2Fslugify.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/b0eb0805ac0eb70537db36e00489089dc335e618/slugify%2Fslugify.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2Fslugify.py?ref=b0eb0805ac0eb70537db36e00489089dc335e618",
+        "patch": "@@ -24,6 +24,20 @@\n DEFAULT_SEPARATOR = '-'\n \n \n+def _char_from_decimal_codepoint(match: re.Match[str]) -> str:\n+    try:\n+        return chr(int(match.group(1)))\n+    except (OverflowError, ValueError):\n+        return match.group(0)\n+\n+\n+def _char_from_hex_codepoint(match: re.Match[str]) -> str:\n+    try:\n+        return chr(int(match.group(1), 16))\n+    except (OverflowError, ValueError):\n+        return match.group(0)\n+\n+\n def smart_truncate(\n     string: str,\n     max_length: int = 0,\n@@ -134,17 +148,11 @@ def slugify(\n \n     # decimal character reference\n     if decimal:\n-        try:\n-            text = DECIMAL_PATTERN.sub(lambda m: chr(int(m.group(1))), text)\n-        except Exception:\n-            pass\n+        text = DECIMAL_PATTERN.sub(_char_from_decimal_codepoint, text)\n \n     # hexadecimal character reference\n     if hexadecimal:\n-        try:\n-            text = HEX_PATTERN.sub(lambda m: chr(int(m.group(1), 16)), text)\n-        except Exception:\n-            pass\n+        text = HEX_PATTERN.sub(_char_from_hex_codepoint, text)\n \n     # re normalize text\n     if allow_unicode:"
+      },
+      {
+        "sha": "b8aac57083f1c5df1ed4b85f8d2e0789723700f8",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 20,
+        "deletions": 0,
+        "changes": 20,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/b0eb0805ac0eb70537db36e00489089dc335e618/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/b0eb0805ac0eb70537db36e00489089dc335e618/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=b0eb0805ac0eb70537db36e00489089dc335e618",
+        "patch": "@@ -166,6 +166,11 @@ def test_html_decimal_on(self):\n         r = slugify(txt, decimal=True)\n         self.assertEqual(r, 'z')\n \n+    def test_html_decimal_mixed_valid_invalid(self):\n+        txt = '&#381; &#99999999;'\n+        r = slugify(txt, decimal=True)\n+        self.assertEqual(r, 'z-99999999')\n+\n     def test_html_decimal_off(self):\n         txt = '&#381;'\n         r = slugify(txt, entities=False, decimal=False)\n@@ -176,6 +181,11 @@ def test_html_hexadecimal_on(self):\n         r = slugify(txt, hexadecimal=True)\n         self.assertEqual(r, 'z')\n \n+    def test_html_hexadecimal_mixed_valid_invalid(self):\n+        txt = '&#x17D; &#x110000;'\n+        r = slugify(txt, hexadecimal=True)\n+        self.assertEqual(r, 'z-x110000')\n+\n     def test_html_hexadecimal_off(self):\n         txt = '&#x17D;'\n         r = slugify(txt, hexadecimal=False)\n@@ -418,6 +428,11 @@ def test_html_decimal_on(self):\n         r = slugify(txt, allow_unicode=True, decimal=True)\n         self.assertEqual(r, 'ž')\n \n+    def test_html_decimal_mixed_valid_invalid(self):\n+        txt = '&#381; &#99999999;'\n+        r = slugify(txt, allow_unicode=True, decimal=True)\n+        self.assertEqual(r, 'ž-99999999')\n+\n     def test_html_decimal_off(self):\n         txt = '&#381;'\n         r = slugify(txt, allow_unicode=True, entities=False, decimal=False)\n@@ -428,6 +443,11 @@ def test_html_hexadecimal_on(self):\n         r = slugify(txt, allow_unicode=True, hexadecimal=True)\n         self.assertEqual(r, 'ž')\n \n+    def test_html_hexadecimal_mixed_valid_invalid(self):\n+        txt = '&#x17D; &#x110000;'\n+        r = slugify(txt, allow_unicode=True, hexadecimal=True)\n+        self.assertEqual(r, 'ž-x110000')\n+\n     def test_html_hexadecimal_off(self):\n         txt = '&#x17D;'\n         r = slugify(txt, allow_unicode=True, hexadecimal=False)"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 179,
+    "title": "Don't apply self-referential replacements twice",
+    "body": "### The problem\n\nCustom `replacements` are applied in two passes: once before unidecode (line ~109) and once in the finalize step (line ~186). As discussed in #119, the second pass is intentional so that rules can re-fire on tokens that reappear after conversion, especially for non-English text.\n\nThat second pass corrupts a **self-referential** rule, where the replacement value contains its own search key. The finalize pass re-fires on the first pass's output and the slug grows on every run:\n\n```python\nslugify('a', replacements=[['a', 'aa']])        # -> 'aaaa'   (expected 'aa')\nslugify('hello', replacements=[['l', 'll']])     # -> 'hellllllllo'  (expected 'hellllo')\n```\n\n### The fix\n\nKeep the intentional finalize re-scan, but skip the rules where re-application is provably self-corrupting (`old in new`) — those were already applied in the first pass and cannot be safely re-applied:\n\n```python\nfor old, new in replacements:\n    if old and old in new:\n        continue\n    text = text.replace(old, new)\n```\n\nEvery non-self-referential rule still gets the second pass exactly as before, so the re-scan behavior from #119 is untouched. The README examples (`[['|', 'or'], ['%', 'percent']]` → `10-or-20-percent`, the German umlaut customs, the `&` workaround) all still produce identical output.\n\n### Tests\n\nAdded `test_replacements_not_applied_twice` to `TestSlugify`; it fails before the change (`'aaaa' != 'aa'`) and passes after. Full suite: 83 tests pass; `pycodestyle` (repo flags) clean; `mypy slugify` clean. Added a CHANGELOG entry under Unreleased.\n\nSince the two-pass behavior is deliberate, I kept the change as narrow as possible — happy to adjust if you'd prefer a different approach (e.g. an explicit pre/post split).\n\nI used an AI assistant to help investigate this under my direction, and I have reviewed and verified the change myself.\n",
+    "author": "binggao1230",
+    "state": "closed",
+    "url": "https://github.com/un33k/python-slugify/pull/179",
+    "comments": [
+      {
+        "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/4786868946",
+        "html_url": "https://github.com/un33k/python-slugify/pull/179#issuecomment-4786868946",
+        "issue_url": "https://api.github.com/repos/un33k/python-slugify/issues/179",
+        "id": 4786868946,
+        "node_id": "IC_kwDOAF7qK88AAAABHVHS0g",
+        "user": {
+          "login": "binggao1230",
+          "id": 3355843,
+          "node_id": "MDQ6VXNlcjMzNTU4NDM=",
+          "avatar_url": "https://avatars.githubusercontent.com/u/3355843?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/binggao1230",
+          "html_url": "https://github.com/binggao1230",
+          "followers_url": "https://api.github.com/users/binggao1230/followers",
+          "following_url": "https://api.github.com/users/binggao1230/following{/other_user}",
+          "gists_url": "https://api.github.com/users/binggao1230/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/binggao1230/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/binggao1230/subscriptions",
+          "organizations_url": "https://api.github.com/users/binggao1230/orgs",
+          "repos_url": "https://api.github.com/users/binggao1230/repos",
+          "events_url": "https://api.github.com/users/binggao1230/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/binggao1230/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "created_at": "2026-06-24T07:24:55Z",
+        "updated_at": "2026-06-24T07:24:55Z",
+        "body": "Closing in favor of #182 which supersedes this — it covers both passes (not just pass-2), handles indirect cycles (where `old` reappears through slugification of `new`), and adds post-pass cleanup of introduced non-word characters. Same idempotence principle but more complete.",
+        "author_association": "NONE",
+        "reactions": {
+          "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/4786868946/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "performed_via_github_app": null,
+        "minimized": null
+      }
+    ],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "e1b37c6fa75e0d88dc8d2a9e69a0e23060708bd5",
+        "filename": "CHANGELOG.md",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 0,
+        "changes": 1,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/8bdc4243a86536150840d636c65a3a12c507b533/CHANGELOG.md",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/8bdc4243a86536150840d636c65a3a12c507b533/CHANGELOG.md",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/CHANGELOG.md?ref=8bdc4243a86536150840d636c65a3a12c507b533",
+        "patch": "@@ -7,6 +7,7 @@\n - Fix type annotation issues identified by mypy.\n - Run CI against pull requests.\n - Fix package build warnings.\n+- Fix custom replacements being applied twice when a replacement contains its own search value (e.g. `['a', 'aa']` no longer yields `aaaa`).\n \n ## 8.0.4\n "
+      },
+      {
+        "sha": "fed8d4b181bce52a4284d90a3db9c52f0c9fedd2",
+        "filename": "slugify/slugify.py",
+        "status": "modified",
+        "additions": 5,
+        "deletions": 0,
+        "changes": 5,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/8bdc4243a86536150840d636c65a3a12c507b533/slugify%2Fslugify.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/8bdc4243a86536150840d636c65a3a12c507b533/slugify%2Fslugify.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2Fslugify.py?ref=8bdc4243a86536150840d636c65a3a12c507b533",
+        "patch": "@@ -185,6 +185,11 @@ def slugify(\n     # finalize user-specific replacements\n     if replacements:\n         for old, new in replacements:\n+            # skip self-referential rules (``old`` present in ``new``); these were\n+            # already applied in the pre-process pass and re-applying them here\n+            # would grow the slug on every run (e.g. ['a', 'aa'] -> 'aaaa').\n+            if old and old in new:\n+                continue\n             text = text.replace(old, new)\n \n     # smart truncate if requested"
+      },
+      {
+        "sha": "8f4249ecb72b5fa7e6e6c3bb18e5c67a91cf8283",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 9,
+        "deletions": 0,
+        "changes": 9,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/8bdc4243a86536150840d636c65a3a12c507b533/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/8bdc4243a86536150840d636c65a3a12c507b533/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=8bdc4243a86536150840d636c65a3a12c507b533",
+        "patch": "@@ -237,6 +237,15 @@ def test_replacements_german_umlaut_custom(self):\n         r = slugify(txt, replacements=[['Ü', 'UE'], ['ü', 'ue']])\n         self.assertEqual(r, \"ueber-ueber-german-umlaut\")\n \n+    def test_replacements_not_applied_twice(self):\n+        # A replacement whose value contains its own key must not be applied\n+        # twice (pre + finalize pass), which used to grow the slug.\n+        r = slugify('a', replacements=[['a', 'aa']])\n+        self.assertEqual(r, \"aa\")\n+\n+        r = slugify('hello', replacements=[['l', 'll']])\n+        self.assertEqual(r, \"hellllo\")\n+\n     def test_pre_translation(self):\n         self.assertEqual(PRE_TRANSLATIONS, [('Ю', 'U'), ('Щ', 'Sch'), ('У', 'Y'), ('Х', 'H'), ('Я', 'Ya'), ('Ё', 'E'), ('ё', 'e'), ('я', 'ya'), ('х', 'h'), ('у', 'y'), ('щ', 'sch'), ('ю', 'u'), ('Ü', 'Ue'), ('Ö', 'Oe'), ('Ä', 'Ae'), ('ä', 'ae'), ('ö', 'oe'), ('ü', 'ue'), ('Ϋ́', 'Y'), ('Ϋ', 'Y'), ('Ύ', 'Y'), ('Υ', 'Y'), ('Χ', 'Ch'), ('χ', 'ch'), ('Ξ', 'X'), ('ϒ', 'Y'), ('υ', 'y'), ('ύ', 'y'), ('ϋ', 'y'), ('ΰ', 'y')])\n "
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 180,
+    "title": "fix: wire --regex-pattern through the CLI (#175)",
+    "body": "Fixes #175.\n\n## Problem\n\nThe CLI defines `--regex-pattern` in `parse_args`, but `slugify_params()` never passes `regex_pattern` to `slugify()` — every other argument is wired except that one. So the flag is silently dropped:\n\n```console\n$ slugify --regex-pattern \"[^-a-z0-9_]+\" \"___This is a test___\"\nthis-is-a-test          # expected: ___this-is-a-test___\n```\n\n(@peter-bloomfield reported it; @jdevera confirmed the missing wiring.)\n\n## Fix\n\nAdd `regex_pattern=args.regex_pattern` to the `slugify_params()` dict. `argparse` already defaults it to `None` when the flag is absent, which matches `slugify()`'s own default, so existing behavior is unchanged.\n\n## Tests\n\n- Added `regex_pattern` to `TestCommandParams.DEFAULTS` so `test_defaults` now covers it.\n- `test_regex_pattern`: the flag flows through to params.\n- `test_regex_pattern_end_to_end`: reproduces the exact example from #175 and asserts `___this-is-a-test___`.\n\nBoth new tests fail on the current `main` (KeyError / wrong output) and pass with the fix. Full suite: 84 passed.\n",
+    "author": "patchwright",
+    "state": "closed",
+    "url": "https://github.com/un33k/python-slugify/pull/180",
+    "comments": [
+      {
+        "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/4859300406",
+        "html_url": "https://github.com/un33k/python-slugify/pull/180#issuecomment-4859300406",
+        "issue_url": "https://api.github.com/repos/un33k/python-slugify/issues/180",
+        "id": 4859300406,
+        "node_id": "IC_kwDOAF7qK88AAAABIaMKNg",
+        "user": {
+          "login": "patchwright",
+          "id": 292882882,
+          "node_id": "U_kgDOEXUJwg",
+          "avatar_url": "https://avatars.githubusercontent.com/u/292882882?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/patchwright",
+          "html_url": "https://github.com/patchwright",
+          "followers_url": "https://api.github.com/users/patchwright/followers",
+          "following_url": "https://api.github.com/users/patchwright/following{/other_user}",
+          "gists_url": "https://api.github.com/users/patchwright/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/patchwright/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/patchwright/subscriptions",
+          "organizations_url": "https://api.github.com/users/patchwright/orgs",
+          "repos_url": "https://api.github.com/users/patchwright/repos",
+          "events_url": "https://api.github.com/users/patchwright/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/patchwright/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "created_at": "2026-07-01T19:20:10Z",
+        "updated_at": "2026-07-01T19:20:10Z",
+        "body": "Closing this in favor of #176. @jdevera got there first by several weeks, and that PR also carries the CHANGELOG entry. Sorry for the duplicate, I should have checked for an existing PR before opening this one. Glad #175 gets fixed either way.",
+        "author_association": "NONE",
+        "reactions": {
+          "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/4859300406/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "performed_via_github_app": null,
+        "minimized": null
+      }
+    ],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "6e8109d0bc0d5eb91087223e1ec2f73338e5a91e",
+        "filename": "slugify/__main__.py",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 0,
+        "changes": 1,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/e0c40f36b7b7654e4b1ea0198f79d61a1d9c593e/slugify%2F__main__.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/e0c40f36b7b7654e4b1ea0198f79d61a1d9c593e/slugify%2F__main__.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2F__main__.py?ref=e0c40f36b7b7654e4b1ea0198f79d61a1d9c593e",
+        "patch": "@@ -76,6 +76,7 @@ def slugify_params(args: argparse.Namespace) -> dict[str, Any]:\n         save_order=args.save_order,\n         separator=args.separator,\n         stopwords=args.stopwords,\n+        regex_pattern=args.regex_pattern,\n         lowercase=args.lowercase,\n         replacements=args.replacements,\n         allow_unicode=args.allow_unicode"
+      },
+      {
+        "sha": "b7248943b928f2a613db33fa6950138c830ee94d",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 12,
+        "deletions": 0,
+        "changes": 12,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/e0c40f36b7b7654e4b1ea0198f79d61a1d9c593e/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/e0c40f36b7b7654e4b1ea0198f79d61a1d9c593e/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=e0c40f36b7b7654e4b1ea0198f79d61a1d9c593e",
+        "patch": "@@ -574,6 +574,7 @@ class TestCommandParams(unittest.TestCase):\n         'save_order': False,\n         'separator': '-',\n         'stopwords': None,\n+        'regex_pattern': None,\n         'lowercase': True,\n         'replacements': None\n     }\n@@ -645,6 +646,17 @@ def test_two_text_sources_fails(self):\n         self.assertEqual(err.exception.code, 2)\n         self.assertIn(\"Input strings and --stdin cannot work together\", cse.getvalue())\n \n+    def test_regex_pattern(self):\n+        # --regex-pattern must be passed through to slugify (issue #175).\n+        params = self.get_params_from_cli('--regex-pattern', r'[^-a-z0-9_]+')\n+        expected = self.make_params(regex_pattern=r'[^-a-z0-9_]+')\n+        self.assertParamsMatch(expected, params)\n+\n+    def test_regex_pattern_end_to_end(self):\n+        # The example from issue #175: underscores must survive the custom pattern.\n+        params = self.get_params_from_cli('--regex-pattern', r'[^-a-z0-9_]+', '___This is a test___')\n+        self.assertEqual(slugify(**params), '___this-is-a-test___')\n+\n     def test_multivalued_options_with_text(self):\n         text = \"the quick brown fox jumps over the lazy dog in a hurry\"\n         cli_args = \"--stopwords the in a hurry -- {}\".format(text).split()"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 181,
+    "title": "Handle invalid numeric entity references individually",
+    "body": "## Summary\n- convert decimal and hexadecimal numeric character references independently\n- keep invalid numeric references unchanged so later slug cleanup can handle them\n- add regression coverage for mixed valid and invalid numeric references\n\n## Why\nThe previous implementation wrapped the whole regex substitution in one `try` block. If one numeric character reference could not be converted to a valid Unicode code point, conversion was skipped for every other match in the same string.\n\nFor example, `&#381; &#9999999999;` produced `381-9999999999`, even though the first reference is valid and should become `z`.\n\n## Checks\n- `python -m pytest -q` -> 84 passed\n- `python -m mypy` -> Success: no issues found in 5 source files\n- `python -m pycodestyle --ignore=E128,E261,E225,E501,W605 slugify test.py setup.py`\n- `git diff --check`",
+    "author": "CodingFeng101",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/pull/181",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "ae6eb9b5073086babed25146eabfb1106367994f",
+        "filename": "slugify/slugify.py",
+        "status": "modified",
+        "additions": 16,
+        "deletions": 8,
+        "changes": 24,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/0915939a0eed7fc3c3bd63b06bd9c8bd78db8604/slugify%2Fslugify.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/0915939a0eed7fc3c3bd63b06bd9c8bd78db8604/slugify%2Fslugify.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2Fslugify.py?ref=0915939a0eed7fc3c3bd63b06bd9c8bd78db8604",
+        "patch": "@@ -24,6 +24,20 @@\n DEFAULT_SEPARATOR = '-'\n \n \n+def _convert_decimal_reference(match: re.Match[str]) -> str:\n+    try:\n+        return chr(int(match.group(1)))\n+    except (OverflowError, ValueError):\n+        return match.group(0)\n+\n+\n+def _convert_hexadecimal_reference(match: re.Match[str]) -> str:\n+    try:\n+        return chr(int(match.group(1), 16))\n+    except (OverflowError, ValueError):\n+        return match.group(0)\n+\n+\n def smart_truncate(\n     string: str,\n     max_length: int = 0,\n@@ -134,17 +148,11 @@ def slugify(\n \n     # decimal character reference\n     if decimal:\n-        try:\n-            text = DECIMAL_PATTERN.sub(lambda m: chr(int(m.group(1))), text)\n-        except Exception:\n-            pass\n+        text = DECIMAL_PATTERN.sub(_convert_decimal_reference, text)\n \n     # hexadecimal character reference\n     if hexadecimal:\n-        try:\n-            text = HEX_PATTERN.sub(lambda m: chr(int(m.group(1), 16)), text)\n-        except Exception:\n-            pass\n+        text = HEX_PATTERN.sub(_convert_hexadecimal_reference, text)\n \n     # re normalize text\n     if allow_unicode:"
+      },
+      {
+        "sha": "9e4393460f774270aeeb48d16f30aed023accbcc",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 10,
+        "deletions": 0,
+        "changes": 10,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/0915939a0eed7fc3c3bd63b06bd9c8bd78db8604/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/0915939a0eed7fc3c3bd63b06bd9c8bd78db8604/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=0915939a0eed7fc3c3bd63b06bd9c8bd78db8604",
+        "patch": "@@ -166,6 +166,11 @@ def test_html_decimal_on(self):\n         r = slugify(txt, decimal=True)\n         self.assertEqual(r, 'z')\n \n+    def test_html_decimal_on_with_invalid_reference(self):\n+        txt = '&#381; &#9999999999;'\n+        r = slugify(txt, decimal=True)\n+        self.assertEqual(r, 'z-9999999999')\n+\n     def test_html_decimal_off(self):\n         txt = '&#381;'\n         r = slugify(txt, entities=False, decimal=False)\n@@ -176,6 +181,11 @@ def test_html_hexadecimal_on(self):\n         r = slugify(txt, hexadecimal=True)\n         self.assertEqual(r, 'z')\n \n+    def test_html_hexadecimal_on_with_invalid_reference(self):\n+        txt = '&#x17D; &#x110000;'\n+        r = slugify(txt, hexadecimal=True)\n+        self.assertEqual(r, 'z-x110000')\n+\n     def test_html_hexadecimal_off(self):\n         txt = '&#x17D;'\n         r = slugify(txt, hexadecimal=False)"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 182,
+    "title": "fix: make slugify replacement passes idempotent (supersedes #179)",
+    "body": "The `replacements` parameter violates the basic contract that\n`slugify(slugify(x)) == slugify(x)`. Two categories:\n\n1. **Direct self-reference** (`old in new`): e.g. `[[\"a\", \"aa\"]]` — pass-2\n   re-fires on its own output, compounding on every call. Only\n   pass-2 was partially fixed in #179.\n\n2. **Indirect self-reference**: e.g. `[[\"-\", \"$x$\"]]` — the `$` chars\n   get slugified to dashes in the next call, recreating the `old`\n   pattern. Not covered by #179.\n\n**Fix (+57/-8, 2 files):**\n\n- **Cycle detection in both passes**: compute `cleaned = pattern.sub(\"-\", new)`\n  then `dedup(cleaned)`. If `old in new` or `old in cleaned`, skip — the\n  replacement would grow on re-invocation.\n\n- **Post-pass cleanup**: re-apply disallowed-char pattern + dash dedup\n  + strip after each pass. Catches non-word characters that are\n  non-cyclic but still break idempotence.\n\n- **Eliminated duplicate `_pattern` computation** — compute once before\n  pass-1, reuse in both passes.\n\n**Tests:** 83/83 pass (82 existing + `test_replacements_idempotent`).\nRED→GREEN: new test fails on master with `\"a$x$x$x$b\" != \"a$x$b\"`.\nFuzzed 21,024 idempotence combinations — 0 failures. pycodestyle clean.\n\nThis supersedes #179 by covering both passes, indirect cycles, and\nadding post-pass cleanup for non-word characters.\n\nThis pull request was prepared with the assistance of AI, under my\ndirection and review.",
+    "author": "binggao1230",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/pull/182",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "61e62b54b89ec68560c161fa79871495d2b6d288",
+        "filename": "slugify/slugify.py",
+        "status": "modified",
+        "additions": 34,
+        "deletions": 8,
+        "changes": 42,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/c458ad4a72015c552c87c2653c9c8190ef8a88c5/slugify%2Fslugify.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/c458ad4a72015c552c87c2653c9c8190ef8a88c5/slugify%2Fslugify.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2Fslugify.py?ref=c458ad4a72015c552c87c2653c9c8190ef8a88c5",
+        "patch": "@@ -105,10 +105,32 @@ def slugify(\n     :return (str):\n     \"\"\"\n \n-    # user-specific replacements\n+    # determine the disallowed-char pattern early so both replacement\n+    # passes can clean up non-word characters they introduce.\n+    if allow_unicode:\n+        _pattern = regex_pattern or DISALLOWED_UNICODE_CHARS_PATTERN\n+    else:\n+        _pattern = regex_pattern or DISALLOWED_CHARS_PATTERN\n+\n+    # user-specific replacements (pass 1 -- before normalization)\n     if replacements:\n         for old, new in replacements:\n+            if old:\n+                # Skip replacements that form a self-referential cycle.\n+                # Direct:  old appears in `new` (e.g. 'a' → 'aa').\n+                # Indirect: slugifying `new` recreates `old` (e.g. '-'\n+                # → '$x$', because '$' → '-' produces '-x-' which contains\n+                # '-'); such rules would grow every time slugify is called\n+                # again on its own output.\n+                _cleaned = re.sub(_pattern, DEFAULT_SEPARATOR, new)\n+                _cleaned = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, _cleaned)\n+                if old in new or old in _cleaned:\n+                    continue\n             text = text.replace(old, new)\n+        # Clean up any non-word characters introduced by pass-1 replacements\n+        # so they don't interfere with subsequent normalization / pass-2 passes.\n+        text = re.sub(_pattern, DEFAULT_SEPARATOR, text)\n+        text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)\n \n     # ensure text is unicode\n     if not isinstance(text, str):\n@@ -163,12 +185,7 @@ def slugify(\n     text = NUMBERS_PATTERN.sub('', text)\n \n     # replace all other unwanted characters\n-    if allow_unicode:\n-        pattern = regex_pattern or DISALLOWED_UNICODE_CHARS_PATTERN\n-    else:\n-        pattern = regex_pattern or DISALLOWED_CHARS_PATTERN\n-\n-    text = re.sub(pattern, DEFAULT_SEPARATOR, text)\n+    text = re.sub(_pattern, DEFAULT_SEPARATOR, text)\n \n     # remove redundant\n     text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)\n@@ -182,10 +199,19 @@ def slugify(\n             words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords]\n         text = DEFAULT_SEPARATOR.join(words)\n \n-    # finalize user-specific replacements\n+    # finalize user-specific replacements (pass 2)\n     if replacements:\n         for old, new in replacements:\n+            if old:\n+                _cleaned = re.sub(_pattern, DEFAULT_SEPARATOR, new)\n+                _cleaned = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, _cleaned)\n+                if old in new or old in _cleaned:\n+                    continue\n             text = text.replace(old, new)\n+        # Clean up any non-word characters introduced by pass-2 replacements\n+        # so that slugify(slugify(x)) == slugify(x).\n+        text = re.sub(_pattern, DEFAULT_SEPARATOR, text)\n+        text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)\n \n     # smart truncate if requested\n     if max_length > 0:"
+      },
+      {
+        "sha": "689be8f74391c15553d5d60cd1fee14b23c3a772",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 23,
+        "deletions": 0,
+        "changes": 23,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/c458ad4a72015c552c87c2653c9c8190ef8a88c5/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/c458ad4a72015c552c87c2653c9c8190ef8a88c5/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=c458ad4a72015c552c87c2653c9c8190ef8a88c5",
+        "patch": "@@ -237,6 +237,29 @@ def test_replacements_german_umlaut_custom(self):\n         r = slugify(txt, replacements=[['Ü', 'UE'], ['ü', 'ue']])\n         self.assertEqual(r, \"ueber-ueber-german-umlaut\")\n \n+    def test_replacements_idempotent(self):\n+        \"\"\"slugify(slugify(x)) == slugify(x) with replacements.\"\"\"\n+        # Non-word chars in replacement 'new' values\n+        self.assertEqual(\n+            slugify(slugify('a.b', replacements=[['-', '$x$']]),\n+                    replacements=[['-', '$x$']]),\n+            slugify('a.b', replacements=[['-', '$x$']]))\n+        # Self-referential replacement (direct: old in new)\n+        self.assertEqual(\n+            slugify(slugify('a', replacements=[['a', 'aa']]),\n+                    replacements=[['a', 'aa']]),\n+            slugify('a', replacements=[['a', 'aa']]))\n+        # Self-referential through slugification (indirect)\n+        self.assertEqual(\n+            slugify(slugify('hello world', replacements=[['-', '$iqt']]),\n+                    replacements=[['-', '$iqt']]),\n+            slugify('hello world', replacements=[['-', '$iqt']]))\n+        # Non-cyclic replacements still work\n+        self.assertEqual(\n+            slugify(slugify('10 | 20 %', replacements=[['|', 'or'], ['%', 'percent']]),\n+                    replacements=[['|', 'or'], ['%', 'percent']]),\n+            \"10-or-20-percent\")\n+\n     def test_pre_translation(self):\n         self.assertEqual(PRE_TRANSLATIONS, [('Ю', 'U'), ('Щ', 'Sch'), ('У', 'Y'), ('Х', 'H'), ('Я', 'Ya'), ('Ё', 'E'), ('ё', 'e'), ('я', 'ya'), ('х', 'h'), ('у', 'y'), ('щ', 'sch'), ('ю', 'u'), ('Ü', 'Ue'), ('Ö', 'Oe'), ('Ä', 'Ae'), ('ä', 'ae'), ('ö', 'oe'), ('ü', 'ue'), ('Ϋ́', 'Y'), ('Ϋ', 'Y'), ('Ύ', 'Y'), ('Υ', 'Y'), ('Χ', 'Ch'), ('χ', 'ch'), ('Ξ', 'X'), ('ϒ', 'Y'), ('υ', 'y'), ('ύ', 'y'), ('ϋ', 'y'), ('ΰ', 'y')])\n "
+      }
+    ],
+    "reviews": [
+      {
+        "id": 4895820890,
+        "node_id": "PRR_kwDOAF7qK88AAAABI9BMWg",
+        "user": {
+          "login": "eeshsaxena",
+          "id": 139802361,
+          "node_id": "U_kgDOCFU2-Q",
+          "avatar_url": "https://avatars.githubusercontent.com/u/139802361?u=9daf8a1e8b69d7ee76c43378e0e14bbab86199eb&v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/eeshsaxena",
+          "html_url": "https://github.com/eeshsaxena",
+          "followers_url": "https://api.github.com/users/eeshsaxena/followers",
+          "following_url": "https://api.github.com/users/eeshsaxena/following{/other_user}",
+          "gists_url": "https://api.github.com/users/eeshsaxena/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/eeshsaxena/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/eeshsaxena/subscriptions",
+          "organizations_url": "https://api.github.com/users/eeshsaxena/orgs",
+          "repos_url": "https://api.github.com/users/eeshsaxena/repos",
+          "events_url": "https://api.github.com/users/eeshsaxena/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/eeshsaxena/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "body": "The idempotency goal is reasonable, but the cycle guard (`if old in new or old in _cleaned: continue`) is too broad and silently drops a very common class of legitimate replacements: expanding an abbreviation where `old` is a substring of `new`.\n\nOn this branch:\n\n```python\nslugify(\"cat\",     replacements=[[\"cat\", \"category\"]])    # -> \"cat\"      (expected \"category\")\nslugify(\"auto\",    replacements=[[\"auto\", \"automobile\"]]) # -> \"auto\"     (expected \"automobile\")\nslugify(\"dog run\", replacements=[[\"dog\", \"dogs\"]])        # -> \"dog-run\"  (expected \"dogs-run\")\n```\n\nEach of these is skipped entirely, so a user-supplied replacement just does nothing, with no error or warning. `cat -> category`, `auto -> automobile`, plural forms, etc. are all normal single-pass replacements; they are not cycles.\n\nThe real growth risk only exists if slugify is re-run on its own output. Rather than refusing the replacement up front, it would be safer to apply replacements once and not treat `old in new` as a cycle (a genuine self-growing rule like `a -> aa` is the user`s choice, same as stdlib `str.replace`). If idempotency across repeated calls is the goal, that is better handled by not re-applying replacements to already-slugified text, not by dropping the rule.",
+        "state": "COMMENTED",
+        "html_url": "https://github.com/un33k/python-slugify/pull/182#pullrequestreview-4895820890",
+        "pull_request_url": "https://api.github.com/repos/un33k/python-slugify/pulls/182",
+        "author_association": "NONE",
+        "_links": {
+          "html": {
+            "href": "https://github.com/un33k/python-slugify/pull/182#pullrequestreview-4895820890"
+          },
+          "pull_request": {
+            "href": "https://api.github.com/repos/un33k/python-slugify/pulls/182"
+          }
+        },
+        "submitted_at": "2026-08-10T10:29:56Z",
+        "commit_id": "c458ad4a72015c552c87c2653c9c8190ef8a88c5"
+      }
+    ],
+    "review_comments": []
+  },
+  {
+    "number": 183,
+    "title": "Raise a clear TypeError for non-str/non-bytes input to slugify()",
+    "body": "## What\n`slugify()` currently fails with an opaque error for input that is neither `str` nor `bytes` (e.g. `None`, `int`) — the decode path raises `TypeError: decoding to str: need a bytes-like object, NoneType found`, which doesn't clearly say what's wrong. This adds an explicit, clear guard at the top of the function:\n\n```python\nif not isinstance(text, (str, bytes)):\n    raise TypeError(f'text must be str or bytes, not {type(text).__name__}')\n```\n\n## Backward compatibility\nAdd-only — every input that previously worked is unaffected. In particular, `bytes` input is still decoded exactly as before (`slugify(b'Hello World') == 'hello-world'`, confirmed unchanged). Only the *message* for already-erroring input (non-str/non-bytes) is clearer.\n\n## Verification\n- New test asserts the clear message via `assertRaisesRegex`, and separately asserts `bytes` input still slugifies correctly (regression lock).\n- Non-vacuity: reverted the source fix only — the new test fails on the old code (message mismatch), confirming it isn't a vacuous test.\n- Full suite green: `83 passed`.\n\nCo-authored by Claude (Anthropic) as part of an automated hardening pass; independently re-verified (non-vacuity, backward-compatibility, coverage) before submission.",
+    "author": "rantkiglorelgmx-lab",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/pull/183",
+    "comments": [
+      {
+        "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/4880304074",
+        "html_url": "https://github.com/un33k/python-slugify/pull/183#issuecomment-4880304074",
+        "issue_url": "https://api.github.com/repos/un33k/python-slugify/issues/183",
+        "id": 4880304074,
+        "node_id": "IC_kwDOAF7qK88AAAABIuOHyg",
+        "user": {
+          "login": "jquast",
+          "id": 972584,
+          "node_id": "MDQ6VXNlcjk3MjU4NA==",
+          "avatar_url": "https://avatars.githubusercontent.com/u/972584?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/jquast",
+          "html_url": "https://github.com/jquast",
+          "followers_url": "https://api.github.com/users/jquast/followers",
+          "following_url": "https://api.github.com/users/jquast/following{/other_user}",
+          "gists_url": "https://api.github.com/users/jquast/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/jquast/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/jquast/subscriptions",
+          "organizations_url": "https://api.github.com/users/jquast/orgs",
+          "repos_url": "https://api.github.com/users/jquast/repos",
+          "events_url": "https://api.github.com/users/jquast/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/jquast/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "created_at": "2026-07-04T02:18:55Z",
+        "updated_at": "2026-07-04T02:18:55Z",
+        "body": "But the function is typed already and would be caught by type checkers.\r\n\r\nIf a developer (or AI bot) is having trouble with \"opaque errors\" because of using the wrong type, then they could use a type checker themselves, instead of depending on all upstream dependencies to add ``if isinstance()`` checks to every function, this could go on forever, billions of lines of code to add to all public api functions of all popular python projects that negatively impact performance of all users for the very small benefit of a few confused developers.",
+        "author_association": "NONE",
+        "reactions": {
+          "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/4880304074/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "performed_via_github_app": null,
+        "minimized": null
+      }
+    ],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "4cb18c1033cef83d607c51c19b8d3bc638b45e34",
+        "filename": ".gitignore",
+        "status": "modified",
+        "additions": 10,
+        "deletions": 0,
+        "changes": 10,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/37c2caf93db4a617969d3bfc0abd11622d3ff695/.gitignore",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/37c2caf93db4a617969d3bfc0abd11622d3ff695/.gitignore",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/.gitignore?ref=37c2caf93db4a617969d3bfc0abd11622d3ff695",
+        "patch": "@@ -60,3 +60,13 @@ docs/_build/\n target/\n \n *.*DS_Store\n+\n+# overnight hygiene\n+.venv\n+.venv/\n+__pycache__/\n+*.pyc\n+tmp*\n+.benchmark_tmp/\n+.coverage\n+.DS_Store"
+      },
+      {
+        "sha": "7f5b9d11f1458d907631a22f819fa980a21e823d",
+        "filename": "slugify/slugify.py",
+        "status": "modified",
+        "additions": 3,
+        "deletions": 0,
+        "changes": 3,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/37c2caf93db4a617969d3bfc0abd11622d3ff695/slugify%2Fslugify.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/37c2caf93db4a617969d3bfc0abd11622d3ff695/slugify%2Fslugify.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2Fslugify.py?ref=37c2caf93db4a617969d3bfc0abd11622d3ff695",
+        "patch": "@@ -105,6 +105,9 @@ def slugify(\n     :return (str):\n     \"\"\"\n \n+    if not isinstance(text, (str, bytes)):\n+        raise TypeError(f'text must be str or bytes, not {type(text).__name__}')\n+\n     # user-specific replacements\n     if replacements:\n         for old, new in replacements:"
+      },
+      {
+        "sha": "215c0deb3aa69f4b2df29ee8be09bf7b76a5442a",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 7,
+        "deletions": 0,
+        "changes": 7,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/37c2caf93db4a617969d3bfc0abd11622d3ff695/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/37c2caf93db4a617969d3bfc0abd11622d3ff695/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=37c2caf93db4a617969d3bfc0abd11622d3ff695",
+        "patch": "@@ -240,6 +240,13 @@ def test_replacements_german_umlaut_custom(self):\n     def test_pre_translation(self):\n         self.assertEqual(PRE_TRANSLATIONS, [('Ю', 'U'), ('Щ', 'Sch'), ('У', 'Y'), ('Х', 'H'), ('Я', 'Ya'), ('Ё', 'E'), ('ё', 'e'), ('я', 'ya'), ('х', 'h'), ('у', 'y'), ('щ', 'sch'), ('ю', 'u'), ('Ü', 'Ue'), ('Ö', 'Oe'), ('Ä', 'Ae'), ('ä', 'ae'), ('ö', 'oe'), ('ü', 'ue'), ('Ϋ́', 'Y'), ('Ϋ', 'Y'), ('Ύ', 'Y'), ('Υ', 'Y'), ('Χ', 'Ch'), ('χ', 'ch'), ('Ξ', 'X'), ('ϒ', 'Y'), ('υ', 'y'), ('ύ', 'y'), ('ϋ', 'y'), ('ΰ', 'y')])\n \n+    def test_non_string_text_raises_clear_type_error(self):\n+        with self.assertRaisesRegex(TypeError, 'must be str or bytes'):\n+            slugify(None)\n+        with self.assertRaisesRegex(TypeError, 'must be str or bytes'):\n+            slugify(123)\n+        self.assertEqual(slugify(b'Hello World'), 'hello-world')  # bytes still accepted\n+\n \n class TestSlugifyUnicode(unittest.TestCase):\n     def test_extraneous_seperators(self):"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 184,
+    "title": "Pass --regex-pattern through to slugify() from the CLI",
+    "body": "Fixes #175.\n\n`slugify_params()` in `slugify/__main__.py` assembled the keyword arguments for `slugify()` but left out `regex_pattern`, so the parsed `--regex-pattern` value never reached `slugify()` and the option was silently ignored.\n\n### Before\n```console\n$ slugify --regex-pattern \"[^-a-z0-9_]+\" \"___This is a test___\"\nthis-is-a-test\n```\n\n### After\n```console\n$ slugify --regex-pattern \"[^-a-z0-9_]+\" \"___This is a test___\"\n___this-is-a-test___\n```\n\nAdded `regex_pattern` to the CLI `DEFAULTS` and a `test_regex_pattern` case that checks both the parsed params and that the pattern actually reaches `slugify()`. Full suite: `83 passed`.",
+    "author": "eeshsaxena",
+    "state": "closed",
+    "url": "https://github.com/un33k/python-slugify/pull/184",
+    "comments": [
+      {
+        "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/5147245576",
+        "html_url": "https://github.com/un33k/python-slugify/pull/184#issuecomment-5147245576",
+        "issue_url": "https://api.github.com/repos/un33k/python-slugify/issues/184",
+        "id": 5147245576,
+        "node_id": "IC_kwDOAF7qK88AAAABMsy8CA",
+        "user": {
+          "login": "eeshsaxena",
+          "id": 139802361,
+          "node_id": "U_kgDOCFU2-Q",
+          "avatar_url": "https://avatars.githubusercontent.com/u/139802361?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/eeshsaxena",
+          "html_url": "https://github.com/eeshsaxena",
+          "followers_url": "https://api.github.com/users/eeshsaxena/followers",
+          "following_url": "https://api.github.com/users/eeshsaxena/following{/other_user}",
+          "gists_url": "https://api.github.com/users/eeshsaxena/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/eeshsaxena/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/eeshsaxena/subscriptions",
+          "organizations_url": "https://api.github.com/users/eeshsaxena/orgs",
+          "repos_url": "https://api.github.com/users/eeshsaxena/repos",
+          "events_url": "https://api.github.com/users/eeshsaxena/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/eeshsaxena/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "created_at": "2026-07-31T20:38:07Z",
+        "updated_at": "2026-07-31T20:38:07Z",
+        "body": "Hi! Gentle ping on this one; it's been open a couple of weeks. Happy to rebase or make any changes if anything's needed; whenever you get a chance to take a look, I'd really appreciate it. Thanks!",
+        "author_association": "NONE",
+        "reactions": {
+          "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/5147245576/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "performed_via_github_app": null,
+        "minimized": null
+      },
+      {
+        "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/5558232628",
+        "html_url": "https://github.com/un33k/python-slugify/pull/184#issuecomment-5558232628",
+        "issue_url": "https://api.github.com/repos/un33k/python-slugify/issues/184",
+        "id": 5558232628,
+        "node_id": "IC_kwDOAF7qK88AAAABS0vmNA",
+        "user": {
+          "login": "eeshsaxena",
+          "id": 139802361,
+          "node_id": "U_kgDOCFU2-Q",
+          "avatar_url": "https://avatars.githubusercontent.com/u/139802361?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/eeshsaxena",
+          "html_url": "https://github.com/eeshsaxena",
+          "followers_url": "https://api.github.com/users/eeshsaxena/followers",
+          "following_url": "https://api.github.com/users/eeshsaxena/following{/other_user}",
+          "gists_url": "https://api.github.com/users/eeshsaxena/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/eeshsaxena/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/eeshsaxena/subscriptions",
+          "organizations_url": "https://api.github.com/users/eeshsaxena/orgs",
+          "repos_url": "https://api.github.com/users/eeshsaxena/repos",
+          "events_url": "https://api.github.com/users/eeshsaxena/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/eeshsaxena/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "created_at": "2026-09-06T09:08:42Z",
+        "updated_at": "2026-09-06T09:08:42Z",
+        "body": "Closing this to clear out my older open PRs, since it has been sitting a while without review. No hard feelings if it was not a priority. If it is still useful to you, say the word and I will reopen it and rebase it on current main.",
+        "author_association": "NONE",
+        "reactions": {
+          "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/5558232628/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "performed_via_github_app": null,
+        "minimized": null
+      }
+    ],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "6e8109d0bc0d5eb91087223e1ec2f73338e5a91e",
+        "filename": "slugify/__main__.py",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 0,
+        "changes": 1,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/e95edc348fe8064934cf013d68fb285ae1402ddf/slugify%2F__main__.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/e95edc348fe8064934cf013d68fb285ae1402ddf/slugify%2F__main__.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2F__main__.py?ref=e95edc348fe8064934cf013d68fb285ae1402ddf",
+        "patch": "@@ -76,6 +76,7 @@ def slugify_params(args: argparse.Namespace) -> dict[str, Any]:\n         save_order=args.save_order,\n         separator=args.separator,\n         stopwords=args.stopwords,\n+        regex_pattern=args.regex_pattern,\n         lowercase=args.lowercase,\n         replacements=args.replacements,\n         allow_unicode=args.allow_unicode"
+      },
+      {
+        "sha": "8b38cc648913819f69a8b4c15db3723f9a8e6dce",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 9,
+        "deletions": 0,
+        "changes": 9,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/e95edc348fe8064934cf013d68fb285ae1402ddf/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/e95edc348fe8064934cf013d68fb285ae1402ddf/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=e95edc348fe8064934cf013d68fb285ae1402ddf",
+        "patch": "@@ -574,6 +574,7 @@ class TestCommandParams(unittest.TestCase):\n         'save_order': False,\n         'separator': '-',\n         'stopwords': None,\n+        'regex_pattern': None,\n         'lowercase': True,\n         'replacements': None\n     }\n@@ -617,6 +618,14 @@ def test_replacements_right(self):\n         expected = self.make_params(replacements=[['A', 'B'], ['C', 'D']])\n         self.assertParamsMatch(expected, params)\n \n+    def test_regex_pattern(self):\n+        pattern = r'[^-a-z0-9_]+'\n+        params = self.get_params_from_cli('--regex-pattern', pattern, '___This is a test___')\n+        expected = self.make_params(text='___This is a test___', regex_pattern=pattern)\n+        self.assertParamsMatch(expected, params)\n+        # The pattern must actually reach slugify() so underscores are kept.\n+        self.assertEqual(slugify(**params), '___this-is-a-test___')\n+\n     def test_replacements_wrong(self):\n         with self.assertRaises(SystemExit) as err, captured_stderr() as cse:\n             self.get_params_from_cli('--replacements', 'A--B')"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 185,
+    "title": "fix: treat non-positive smart_truncate max_length as no truncation",
+    "body": "smart_truncate hits data-loss when max_length<0 uses Python negative slice. This PR fixes the regression with a focused test covering the case.",
+    "author": "santhreal",
+    "state": "closed",
+    "url": "https://github.com/un33k/python-slugify/pull/185",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "07aff3fc91400b04ee0b7c2e0a2e2a5690bc5a31",
+        "filename": "slugify/slugify.py",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1,
+        "changes": 3,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/99c0b293fabcbfff3cc7a0952387a9a9e30c97e4/slugify%2Fslugify.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/99c0b293fabcbfff3cc7a0952387a9a9e30c97e4/slugify%2Fslugify.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2Fslugify.py?ref=99c0b293fabcbfff3cc7a0952387a9a9e30c97e4",
+        "patch": "@@ -43,7 +43,8 @@ def smart_truncate(\n \n     string = string.strip(separator)\n \n-    if not max_length:\n+    # Non-positive max_length means no truncation (same as slugify).\n+    if max_length <= 0:\n         return string\n \n     if len(string) < max_length:"
+      },
+      {
+        "sha": "f55e6922c8df539913c7f9d359cadeeda6730930",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 11,
+        "deletions": 0,
+        "changes": 11,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/99c0b293fabcbfff3cc7a0952387a9a9e30c97e4/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/99c0b293fabcbfff3cc7a0952387a9a9e30c97e4/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=99c0b293fabcbfff3cc7a0952387a9a9e30c97e4",
+        "patch": "@@ -535,6 +535,17 @@ def test_smart_truncate_no_max_length(self):\n         r = smart_truncate(txt)\n         self.assertEqual(r, txt)\n \n+    def test_smart_truncate_nonpositive_max_length(self):\n+        txt = 'hello-world'\n+        self.assertEqual(smart_truncate(txt, max_length=0), txt)\n+        self.assertEqual(smart_truncate(txt, max_length=-1), txt)\n+        self.assertEqual(smart_truncate(txt, max_length=-100), txt)\n+        self.assertEqual(\n+            smart_truncate(txt, max_length=-1, word_boundary=True, separator='-'),\n+            txt,\n+        )\n+        self.assertEqual(slugify('hello world', max_length=-1), 'hello-world')\n+\n     def test_smart_truncate_no_seperator(self):\n         txt = '1,000 reasons you are #1'\n         r = smart_truncate(txt, max_length=100, separator='_')"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 186,
+    "title": "fix: hard-truncate when smart_truncate separator is empty",
+    "body": "smart_truncate hits ValueError when word_boundary=True separator=''. This PR fixes the regression with a focused test covering the case.",
+    "author": "santhreal",
+    "state": "closed",
+    "url": "https://github.com/un33k/python-slugify/pull/186",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "54843b62c314384aa8029a66d57fbfdb30e0b808",
+        "filename": "slugify/slugify.py",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1,
+        "changes": 3,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/b8c0d21b3f1b3714c1e188836fc84ca8211a7e56/slugify%2Fslugify.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/b8c0d21b3f1b3714c1e188836fc84ca8211a7e56/slugify%2Fslugify.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2Fslugify.py?ref=b8c0d21b3f1b3714c1e188836fc84ca8211a7e56",
+        "patch": "@@ -49,7 +49,8 @@ def smart_truncate(\n     if len(string) < max_length:\n         return string\n \n-    if not word_boundary:\n+    # Empty separator cannot split words; fall back to hard truncate.\n+    if not word_boundary or not separator:\n         return string[:max_length].strip(separator)\n \n     if separator not in string:"
+      },
+      {
+        "sha": "743a6df092c7234e64cf40ebedca282fde8a0696",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 11,
+        "deletions": 0,
+        "changes": 11,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/b8c0d21b3f1b3714c1e188836fc84ca8211a7e56/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/b8c0d21b3f1b3714c1e188836fc84ca8211a7e56/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=b8c0d21b3f1b3714c1e188836fc84ca8211a7e56",
+        "patch": "@@ -540,6 +540,17 @@ def test_smart_truncate_no_seperator(self):\n         r = smart_truncate(txt, max_length=100, separator='_')\n         self.assertEqual(r, txt)\n \n+    def test_smart_truncate_empty_separator_word_boundary(self):\n+        txt = 'helloworld'\n+        self.assertEqual(\n+            smart_truncate(txt, max_length=5, word_boundary=True, separator=''),\n+            'hello',\n+        )\n+        self.assertEqual(\n+            slugify('hello world', max_length=5, word_boundary=True, separator=''),\n+            'hello',\n+        )\n+\n \n PY3 = sys.version_info.major == 3\n "
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 187,
+    "title": "Transliterate HTML entities decoded after the unidecode pass",
+    "body": "Slugifying an HTML entity that decodes to a non-ASCII character silently loses it:\n\n```python\nslugify(\"&#223;\")    # ''    — expected 'ss'   (slugify(\"ß\") == 'ss')\nslugify(\"&#24433;\")  # ''    — expected 'ying' (slugify(\"影\") == 'ying')\nslugify(\"&copy;\")    # ''    — expected 'c'    (slugify(\"©\")  == 'c')\nslugify(\"&#230;\")    # ''    — expected 'ae'   (slugify(\"æ\")  == 'ae')\n```\n\n**Root cause** (`slugify/slugify.py`): in the non-unicode path, HTML entity / decimal / hexadecimal decoding runs *after* the `unidecode()` pass, and the decoded characters are then only `NFKD`-normalized. A decoded char that NFKD-decomposes to ASCII survives — that's why the docstring's `&#381; → Ž → z` works — but a decoded char that needs transliteration (ß, æ, ©, CJK, …) is left as raw unicode and stripped by the disallowed-chars pattern, yielding an empty/lossy slug.\n\nThe docstring documents the intended pipeline as *entity → unicode char → transliterated ASCII slug* (`:param decimal: converts html decimal to unicode (&#381; -> Ž -> z)`), and the direct-character path already produces `ss`/`ying`/`c`/`ae` — so this is data loss, not a transliteration taste difference.\n\n**Fix** (1 line): run `unidecode()` again after normalizing the decoded text, mirroring the first normalization block. Idempotent on already-ASCII (entity-free) input.\n\n```python\n     else:\n         text = unicodedata.normalize('NFKD', text)\n+        text = unidecode.unidecode(text)\n```\n\n**Verification** (re-runnable from the diff):\n- Before: the four cases above return `''`. After: `ss`/`ying`/`c`/`ae`.\n- Added `test_html_decimal_on_transliterated` / `_hexadecimal_` / `_entities_` (assert decoded entity slug == the direct-character slug). They fail on the current tree and pass with the fix; `test.py` → 85 passed.\n- The docstring examples are unchanged: `&#381;→z`, `&#x17D;→z`, `foo &amp; bar → foo-bar`.\n\nOrthogonal to #181 (which reworks how invalid numeric references are *decoded*, in the block above this one) — this touches only the normalization step and applies cleanly regardless.\n\n---\n\n*Disclosure*: This PR was authored by an AI coding agent (Claude Code) running on this account: the AI found the bug, ran the repro, wrote the test, and wrote this description. The human account holder reviews every change and is accountable for it. The verification above is real and re-runnable from the diff. If this isn't the kind of contribution you want, say so and I'll close it.\n",
+    "author": "chuenchen309",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/pull/187",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "9daa8dfbcf446d5af957249c3653339162ec8533",
+        "filename": "slugify/slugify.py",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 0,
+        "changes": 1,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/fb3978a05c3b81b780d794b7db46deadb482efbe/slugify%2Fslugify.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/fb3978a05c3b81b780d794b7db46deadb482efbe/slugify%2Fslugify.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2Fslugify.py?ref=fb3978a05c3b81b780d794b7db46deadb482efbe",
+        "patch": "@@ -151,6 +151,7 @@ def slugify(\n         text = unicodedata.normalize('NFKC', text)\n     else:\n         text = unicodedata.normalize('NFKD', text)\n+        text = unidecode.unidecode(text)\n \n     # make the text lowercase (optional)\n     if lowercase:"
+      },
+      {
+        "sha": "d56185104803b6b8a57feb2b8f8cdceb7bc4b722",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 20,
+        "deletions": 0,
+        "changes": 20,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/fb3978a05c3b81b780d794b7db46deadb482efbe/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/fb3978a05c3b81b780d794b7db46deadb482efbe/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=fb3978a05c3b81b780d794b7db46deadb482efbe",
+        "patch": "@@ -166,6 +166,26 @@ def test_html_decimal_on(self):\n         r = slugify(txt, decimal=True)\n         self.assertEqual(r, 'z')\n \n+    def test_html_decimal_on_transliterated(self):\n+        # A decoded numeric entity must be transliterated to ASCII exactly like\n+        # the same character passed in directly (docstring: &#381; -> Ž -> z).\n+        txt = '&#223;'  # ß\n+        r = slugify(txt, decimal=True)\n+        self.assertEqual(r, slugify('ß'))\n+        self.assertEqual(r, 'ss')\n+\n+    def test_html_hexadecimal_on_transliterated(self):\n+        txt = '&#xDF;'  # ß\n+        r = slugify(txt, hexadecimal=True)\n+        self.assertEqual(r, slugify('ß'))\n+        self.assertEqual(r, 'ss')\n+\n+    def test_html_entities_on_transliterated(self):\n+        txt = '&szlig;'  # ß\n+        r = slugify(txt, entities=True)\n+        self.assertEqual(r, slugify('ß'))\n+        self.assertEqual(r, 'ss')\n+\n     def test_html_decimal_off(self):\n         txt = '&#381;'\n         r = slugify(txt, entities=False, decimal=False)"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 188,
+    "title": "test: cover whitespace-only slugify input",
+    "body": "## Summary\nAdd edge-case tests ensuring whitespace-only input slugifies to `\"\"`.\n\nFixes #169\n",
+    "author": "ltsyk",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/pull/188",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "3047381153c16ada4dd5f86d78bba91b07d65dff",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 6,
+        "deletions": 0,
+        "changes": 6,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/f37733bf5fecfba8a05ec721f310121501f35ce3/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/f37733bf5fecfba8a05ec721f310121501f35ce3/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=f37733bf5fecfba8a05ec721f310121501f35ce3",
+        "patch": "@@ -655,3 +655,9 @@ def test_multivalued_options_with_text(self):\n \n if __name__ == '__main__':  # pragma: nocover\n     unittest.main()\n+\n+\n+def test_slugify_whitespace_only_returns_empty():\n+    from slugify import slugify\n+    assert slugify(\"   \") == \"\"\n+    assert slugify(\"\\t\\n\") == \"\""
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 189,
+    "title": "test: add regression coverage for ordinal indicators (º, ª)",
+    "body": "Closes #172\r\n\r\n## Investigation\r\nIssue #172 reports that `slugify()` doesn't transliterate the masculine/\r\nfeminine ordinal indicators \"º\" and \"ª\", common on Portuguese keyboards.\r\n\r\nI tried to reproduce it and couldn't: on the current codebase, both\r\nsupported transliteration backends already handle these correctly:\r\n\r\n```python\r\n>>> slugify(\"1º lugar, 1ª colocada\")\r\n'1o-lugar-1a-colocada'",
+    "author": "mmaxjr",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/pull/189",
+    "comments": [
+      {
+        "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/5206751380",
+        "html_url": "https://github.com/un33k/python-slugify/pull/189#issuecomment-5206751380",
+        "issue_url": "https://api.github.com/repos/un33k/python-slugify/issues/189",
+        "id": 5206751380,
+        "node_id": "IC_kwDOAF7qK88AAAABNli4lA",
+        "user": {
+          "login": "mmaxjr",
+          "id": 9955641,
+          "node_id": "MDQ6VXNlcjk5NTU2NDE=",
+          "avatar_url": "https://avatars.githubusercontent.com/u/9955641?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/mmaxjr",
+          "html_url": "https://github.com/mmaxjr",
+          "followers_url": "https://api.github.com/users/mmaxjr/followers",
+          "following_url": "https://api.github.com/users/mmaxjr/following{/other_user}",
+          "gists_url": "https://api.github.com/users/mmaxjr/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/mmaxjr/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/mmaxjr/subscriptions",
+          "organizations_url": "https://api.github.com/users/mmaxjr/orgs",
+          "repos_url": "https://api.github.com/users/mmaxjr/repos",
+          "events_url": "https://api.github.com/users/mmaxjr/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/mmaxjr/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "created_at": "2026-08-06T15:13:21Z",
+        "updated_at": "2026-08-06T15:13:21Z",
+        "body": "Local verification on 2026-08-06:\\n\\n- python -m pytest test.py::TestSlugify::test_ordinal_indicators -q -> 1 passed\\n- python -m pytest test.py -q -> 83 passed",
+        "author_association": "NONE",
+        "reactions": {
+          "url": "https://api.github.com/repos/un33k/python-slugify/issues/comments/5206751380/reactions",
+          "total_count": 0,
+          "+1": 0,
+          "-1": 0,
+          "laugh": 0,
+          "hooray": 0,
+          "confused": 0,
+          "heart": 0,
+          "rocket": 0,
+          "eyes": 0
+        },
+        "performed_via_github_app": null,
+        "minimized": null
+      }
+    ],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "c88c8ae49d572c6f5f317fa2ed58323fc949b306",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 7,
+        "deletions": 0,
+        "changes": 7,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/7042dbc07dea67209326eaaedcb784281ebe218b/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/7042dbc07dea67209326eaaedcb784281ebe218b/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=7042dbc07dea67209326eaaedcb784281ebe218b",
+        "patch": "@@ -49,6 +49,13 @@ def test_accented_text(self):\n         r = slugify(txt)\n         self.assertEqual(r, \"nin-hao-wo-shi-zhong-guo-ren\")\n \n+    def test_ordinal_indicators(self):\n+        # Portuguese/Spanish masculine/feminine ordinal indicators (º, ª),\n+        # common on Portuguese keyboards - see issue #172.\n+        txt = '1º lugar, 1ª colocada'\n+        r = slugify(txt)\n+        self.assertEqual(r, \"1o-lugar-1a-colocada\")\n+\n     def test_accented_text_with_non_word_characters(self):\n         txt = 'jaja---lol-méméméoo--a'\n         r = slugify(txt)"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  },
+  {
+    "number": 190,
+    "title": "Preserve case-sensitive stopword filtering for iterators",
+    "body": "With `lowercase=False`, passing a stopword iterator can leave every stopword in the slug: testing the first non-stopword consumes the iterator. For example, `slugify('Keep Stopword Other Stopword stopword', stopwords=iter(['Stopword', 'Other']), lowercase=False)` returns `Keep-Stopword-Other-Stopword-stopword` instead of `Keep-stopword`.\n\nMaterialize the iterable once before case-sensitive membership checks. The regression covers repeated stopwords, case preservation, and both Unicode modes.\n\nValidation: regression failed before the fix; full suite passes with text-unidecode and Unidecode (83 tests, 2 subtests); mypy and the repository's pycodestyle command pass. API generator and CLI smoke checks pass on macOS/Python 3.14.6. Other Python/platform matrix entries were not run.\n\nAI disclosure: This patch, regression test, and description were prepared with OpenAI Codex assistance. The reported checks were executed locally.\n",
+    "author": "oyeong011",
+    "state": "open",
+    "url": "https://github.com/un33k/python-slugify/pull/190",
+    "comments": [],
+    "merged_at": null,
+    "files": [
+      {
+        "sha": "bfe19f25ac58fe004b18b06bfea582fcb8c32a3d",
+        "filename": "slugify/slugify.py",
+        "status": "modified",
+        "additions": 1,
+        "deletions": 0,
+        "changes": 1,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/db989731fef6343079bdd1e1e52edf28f6a10b3e/slugify%2Fslugify.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/db989731fef6343079bdd1e1e52edf28f6a10b3e/slugify%2Fslugify.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/slugify%2Fslugify.py?ref=db989731fef6343079bdd1e1e52edf28f6a10b3e",
+        "patch": "@@ -179,6 +179,7 @@ def slugify(\n             stopwords_lower = [s.lower() for s in stopwords]\n             words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords_lower]\n         else:\n+            stopwords = set(stopwords)\n             words = [w for w in text.split(DEFAULT_SEPARATOR) if w not in stopwords]\n         text = DEFAULT_SEPARATOR.join(words)\n "
+      },
+      {
+        "sha": "a9ac1c3703fe57f932665829ed1a07c13fa0f7d2",
+        "filename": "test.py",
+        "status": "modified",
+        "additions": 9,
+        "deletions": 0,
+        "changes": 9,
+        "blob_url": "https://github.com/un33k/python-slugify/blob/db989731fef6343079bdd1e1e52edf28f6a10b3e/test.py",
+        "raw_url": "https://github.com/un33k/python-slugify/raw/db989731fef6343079bdd1e1e52edf28f6a10b3e/test.py",
+        "contents_url": "https://api.github.com/repos/un33k/python-slugify/contents/test.py?ref=db989731fef6343079bdd1e1e52edf28f6a10b3e",
+        "patch": "@@ -127,6 +127,15 @@ def test_stopword_removal_casesensitive(self):\n         r = slugify(txt, stopwords=['Stopword'], lowercase=False)\n         self.assertEqual(r, 'thIs-Has-a-stopword')\n \n+    def test_stopword_iterator_casesensitive(self):\n+        for allow_unicode in (False, True):\n+            with self.subTest(allow_unicode=allow_unicode):\n+                words = iter(['Stopword', 'Other'])\n+                result = slugify('Keep Stopword Other Stopword stopword',\n+                                 stopwords=words, lowercase=False,\n+                                 allow_unicode=allow_unicode)\n+                self.assertEqual(result, 'Keep-stopword')\n+\n     def test_multiple_stopword_occurances(self):\n         txt = 'the quick brown fox jumps over the lazy dog'\n         r = slugify(txt, stopwords=['the'])"
+      }
+    ],
+    "reviews": [],
+    "review_comments": []
+  }
+]

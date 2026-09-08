@@ -1,4 +1,15 @@
-## Unreleased
+## 9.0.0 — unreleased
+
+- Add keyword-only `algorithm='legacy'` (permanent default) and explicit `algorithm='modern'` opt-in, plus CLI `--algorithm`. Preserve historical default entity ordering, numeric handling, iterator consumption, separator truncation, and public `smart_truncate` behavior.
+- Preserve legacy `auto` backend selection and two-pass replacement defaults; add explicit `backend` and `replacement_stage` keyword-only options and matching CLI flags.
+- Add opt-in AnyASCII extra without removing or changing the base text-unidecode dependency.
+- Forward CLI `--regex-pattern` (Jacobo de Vera, #176; report by @peter-bloomfield, #175).
+- Modern mode only: decode entities before transliteration; handle invalid numeric references per match, including surrogate references (#178, #181, #187).
+- Modern mode only: materialize replacement rules and stopword iterables consistently; preserve bytes/bytearray UTF-8 input with clear rejection of unsupported types (#183, #190).
+- Modern mode only: budget internal tokens using emitted separator widths, support empty separators, and preserve literal word characters that match delimiters. Public smart_truncate remains unchanged (#47, #185, #186).
+- Add regression coverage for whitespace, ordinals, backend-specific output, replacement stages, CLI execution, and installed artifacts.
+- Move package metadata to pyproject.toml, retain the typed marker and source tests, and remove the unsafe publish/upload/tag shortcut.
+- Document output changes, backend license distinctions, compatibility limits, and migration precautions in docs/release-9/migration.md.
 
 - Support Python 3.14.
 - Drop support for Python 3.9 and lower.

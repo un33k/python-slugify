@@ -32,7 +32,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e .
-          pip install coveralls --upgrade
+          pip install coveralls pytest --upgrade
       - name: Run flake8
         run: |
           pip install flake8 --upgrade
@@ -43,7 +43,7 @@ jobs:
           pycodestyle --ignore=E128,E261,E225,E501,W605 slugify test.py setup.py
       - name: Run test
         run: |
-          coverage run --source=slugify test.py
+          coverage run --source=slugify -m pytest test.py test_release.py
       - name: Coveralls
         run: coveralls --service=github
         env:

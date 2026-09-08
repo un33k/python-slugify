@@ -1,225 +1,176 @@
 # Python Slugify
 
-**A Python slugify application that handles unicode**.
+Unicode-aware slug generation for Python, with explicit transliteration choices.
 
-[![status-image]][status-link]
-[![version-image]][version-link]
-[![coverage-image]][coverage-link]
+[![CI](https://github.com/un33k/python-slugify/actions/workflows/main.yml/badge.svg)](https://github.com/un33k/python-slugify/actions/workflows/main.yml)
+[![PyPI](https://img.shields.io/pypi/v/python-slugify.svg)](https://pypi.org/project/python-slugify/)
 
-# Overview
+## Quickstart
 
-**Best attempt** to create slugs from unicode strings while keeping it **DRY**.
+This checkout targets **9.0.0** and has not been published.
+Install from this checkout to use the new APIs demonstrated below.
+See the [migration guide](docs/release-9/migration.md) before changing persisted URLs or keys.
 
-# Notice
+Install **python-slugify**, import **slugify**. Other similarly named distributions are not this package.
 
-This module, by default installs and uses [text-unidecode](https://github.com/kmike/text-unidecode) _(GPL & Perl Artistic)_ for its decoding needs.
-
-However, there is an alternative decoding package called [Unidecode](https://github.com/avian2/unidecode) _(GPL)_. It can be installed as `python-slugify[unidecode]` for those who prefer it. `Unidecode` is believed to be more [advanced](https://github.com/un33k/python-slugify/wiki/Python-Slugify-Wiki#notes-on-unidecode).
-
-### `Official` Support Matrix
-
-| Python         | Slugify            |
-| -------------- | ------------------ |
-| `>= 2.7 < 3.6` | `< 5.0.0`          |
-| `>= 3.6 < 3.7` | `>= 5.0.0 < 7.0.0` |
-| `>= 3.7`       | `>= 7.0.0`         |
-
-# How to install
-
-    pip install python-slugify
-
-    # OR
-
-    pip install python-slugify[unidecode]
-
-# Options
-
-```python
-def slugify(
-    text: str,
-    entities: bool = True,
-    decimal: bool = True,
-    hexadecimal: bool = True,
-    max_length: int = 0,
-    word_boundary: bool = False,
-    separator: str = DEFAULT_SEPARATOR,
-    save_order: bool = False,
-    stopwords: Iterable[str] = (),
-    regex_pattern: str | None = None,
-    lowercase: bool = True,
-    replacements: Iterable[Iterable[str]] = (),
-    allow_unicode: bool = False,
-) -> str:
-  """
-  Make a slug from the given text.
-  :param text (str): initial text
-  :param entities (bool): converts html entities to unicode (foo &amp; bar -> foo-bar)
-  :param decimal (bool): converts html decimal to unicode (&#381; -> Ž -> z)
-  :param hexadecimal (bool): converts html hexadecimal to unicode (&#x17D; -> Ž -> z)
-  :param max_length (int): output string length
-  :param word_boundary (bool): truncates to end of full words (length may be shorter than max_length)
-  :param save_order (bool): when set, does not include shorter subsequent words even if they fit
-  :param separator (str): separator between words
-  :param stopwords (iterable): words to discount
-  :param regex_pattern (str): regex pattern for disallowed characters
-  :param lowercase (bool): activate case sensitivity by setting it to False
-  :param replacements (iterable): list of replacement rules e.g. [['|', 'or'], ['%', 'percent']]
-  :param allow_unicode (bool): allow unicode characters
-  :return (str): slugify text
-  """
+```sh
+python -m pip install -e .
 ```
-
-# How to use
 
 ```python
 from slugify import slugify
 
-txt = "This is a test ---"
-r = slugify(txt)
-self.assertEqual(r, "this-is-a-test")
-
-txt = '影師嗎'
-r = slugify(txt)
-self.assertEqual(r, "ying-shi-ma")
-
-txt = '影師嗎'
-r = slugify(txt, allow_unicode=True)
-self.assertEqual(r, "影師嗎")
-
-txt = 'C\'est déjà l\'été.'
-r = slugify(txt)
-self.assertEqual(r, "c-est-deja-l-ete")
-
-txt = 'Nín hǎo. Wǒ shì zhōng guó rén'
-r = slugify(txt)
-self.assertEqual(r, "nin-hao-wo-shi-zhong-guo-ren")
-
-txt = 'Компьютер'
-r = slugify(txt)
-self.assertEqual(r, "kompiuter")
-
-txt = 'jaja---lol-méméméoo--a'
-r = slugify(txt, max_length=9)
-self.assertEqual(r, "jaja-lol")
-
-txt = 'jaja---lol-méméméoo--a'
-r = slugify(txt, max_length=15, word_boundary=True)
-self.assertEqual(r, "jaja-lol-a")
-
-txt = 'jaja---lol-méméméoo--a'
-r = slugify(txt, max_length=20, word_boundary=True, separator=".")
-self.assertEqual(r, "jaja.lol.mememeoo.a")
-
-txt = 'one two three four'
-r = slugify(txt, max_length=12, word_boundary=True, save_order=False)
-self.assertEqual(r, "one-two-four")
-
-txt = 'one two three four'
-r = slugify(txt, max_length=12, word_boundary=True, save_order=True)
-self.assertEqual(r, "one-two")
-
-txt = 'the quick brown fox jumps over the lazy dog'
-r = slugify(txt, stopwords=['the'])
-self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
-
-txt = 'the quick brown fox jumps over the lazy dog in a hurry'
-r = slugify(txt, stopwords=['the', 'in', 'a', 'hurry'])
-self.assertEqual(r, 'quick-brown-fox-jumps-over-lazy-dog')
-
-txt = 'thIs Has a stopword Stopword'
-r = slugify(txt, stopwords=['Stopword'], lowercase=False)
-self.assertEqual(r, 'thIs-Has-a-stopword')
-
-txt = "___This is a test___"
-regex_pattern = r'[^-a-z0-9_]+'
-r = slugify(txt, regex_pattern=regex_pattern)
-self.assertEqual(r, "___this-is-a-test___")
-
-txt = "___This is a test___"
-regex_pattern = r'[^-a-z0-9_]+'
-r = slugify(txt, separator='_', regex_pattern=regex_pattern)
-self.assertNotEqual(r, "_this_is_a_test_")
-
-txt = '10 | 20 %'
-r = slugify(txt, replacements=[['|', 'or'], ['%', 'percent']])
-self.assertEqual(r, "10-or-20-percent")
-
-txt = 'ÜBER Über German Umlaut'
-r = slugify(txt, replacements=[['Ü', 'UE'], ['ü', 'ue']])
-self.assertEqual(r, "ueber-ueber-german-umlaut")
-
-txt = 'i love 🦄'
-r = slugify(txt, allow_unicode=True)
-self.assertEqual(r, "i-love")
-
-txt = 'i love 🦄'
-r = slugify(txt, allow_unicode=True, regex_pattern=r'[^🦄]+')
-self.assertEqual(r, "🦄")
-
+assert slugify("C'est déjà l'été.") == 'c-est-deja-l-ete'
+assert slugify('影師嗎', backend='text-unidecode') == 'ying-shi-ma'
+assert slugify('影師嗎', allow_unicode=True) == '影師嗎'
 ```
 
-For more examples, have a look at the [test.py](test.py) file.
-
-# Command Line Options
-
-With the package, a command line tool called `slugify` is also installed.
-
-It allows convenient command line access to all the features the `slugify` function supports. Call it with `-h` for help.
-
-The command can take its input directly on the command line or from STDIN (when the `--stdin` flag is passed):
-
-```
-$ echo "Taking input from STDIN" | slugify --stdin
-taking-input-from-stdin
+```sh
+slugify "Hello, world!"
+# hello-world
+printf 'Café' | python -m slugify --stdin
+# cafe
+slugify --regex-pattern '[^-a-z0-9_]+' '___This is a test___'
+# ___this-is-a-test___
 ```
 
+The ordinary `python -m pip install python-slugify` command installs the published release,
+which does not yet include the new candidate APIs.
+
+## Python support
+
+| Python | Release family |
+| --- | --- |
+| 2.7–3.5 | below 5 |
+| 3.6 | 5–6 |
+| 3.7–3.9 | 7–8 (check each release's Requires-Python) |
+| 3.10+ | 9 development series |
+
+The configured release-9 test matrix covers CPython 3.10–3.14 and PyPy 3.11.
+Configuration is not proof of a successful run; see [local verification](docs/release-9/verification.md).
+Older applications can stay on a pinned 8.x release rather than upgrading Python or regenerating slugs immediately.
+
+## Backends and installation
+
+| `backend` | Runtime selection | Installation |
+| --- | --- | --- |
+| `auto` (default) | Installed Unidecode first, otherwise text-unidecode | Base install includes text-unidecode |
+| `text-unidecode` | Only text-unidecode | Included in base install |
+| `unidecode` | Only Unidecode | `python -m pip install -e '.[unidecode]'` |
+| `anyascii` | Only AnyASCII | `python -m pip install -e '.[anyascii]'` |
+
+Explicit selection never silently falls back. A missing selected module raises `ModuleNotFoundError`.
+Backend imports are lazy; `allow_unicode=True` bypasses transliteration entirely.
+**Extras add dependencies; they do not remove text-unidecode.** The AnyASCII extra does not change the default backend.
+There is no dependency-free installation extra in this release.
+
+Transliteration is not translation, language detection, or context-sensitive pronunciation.
+Backends produce different slugs: for example `影師嗎` becomes `ying-shi-ma` with text-unidecode/Unidecode,
+but `yingshima` with AnyASCII. Pin both this package and your explicitly chosen backend for stable persisted identifiers.
+
+## API options
+
+The original positional parameters remain in their original order. New options are keyword-only.
+
+```python
+slugify(
+    text, entities=True, decimal=True, hexadecimal=True,
+    max_length=0, word_boundary=False, separator='-', save_order=False,
+    stopwords=(), regex_pattern=None, lowercase=True, replacements=(),
+    allow_unicode=False, *, replacement_stage='both', backend='auto',
+    algorithm='legacy',
+)
 ```
-$ slugify taking input from the command line
-taking-input-from-the-command-line
+
+- `algorithm`: `'legacy'` is the permanent default, preserving the historical output pipeline. `'modern'` explicitly opts into the changes below. Unknown values raise `ValueError`.
+- `text`: `str`, or UTF-8 `bytes`/`bytearray` (invalid bytes ignored). Other objects raise `TypeError`.
+- `entities`, `decimal`, `hexadecimal`: independently decode named HTML entities, decimal references, and lowercase-`x` hexadecimal references. Legacy decodes after transliteration and numeric substitutions are all-or-nothing per reference kind. Modern decodes before transliteration and handles invalid references independently.
+- `max_length`: legacy budgets internal dashes before separator mapping, so wide separators can exceed the limit. Modern budgets final Python characters, including emitted delimiters. Nonpositive means unlimited for slugify; this is not a byte or grapheme limit.
+- `word_boundary`: prefer whole words; shorter later words can fill the budget. If none fit, use a hard cut.
+- `save_order`: with word boundaries, stop at the first oversized word instead of skipping it.
+- `separator`: literal emitted delimiter; may be empty or multiple characters. Existing dashes also map to this delimiter for compatibility. Modern truncation preserves word characters even when they match the output delimiter.
+- `stopwords`: iterable of whole normalized, internal dash-separated tokens. Matching is case-insensitive when `lowercase=True`; stopwords themselves are not transliterated. Legacy case-sensitive membership consumes iterators; modern snapshots them once.
+- `regex_pattern`: string or compiled regular expression matching **disallowed** characters, not allowed ones. It overrides default filtering. Empty strings retain historical default-pattern behavior.
+- `lowercase`: apply `str.lower()`; false preserves case.
+- `replacements`: ordered iterable of `(old, new)` literal string rules. Legacy preserves iterator consumption across passes. Modern materializes outer and inner iterables once so generators behave like lists.
+- `replacement_stage`: `both` preserves two passes; `pre` runs only before normalization; `post` runs after cleanup and stopword removal, before separator mapping and truncation. Post replacements are **not** re-sanitized. Replacements need not be idempotent.
+- `allow_unicode`: retain Unicode word characters after NFKC normalization, not exact original code points; default ASCII mode uses NFKD plus transliteration.
+- `backend`: select a backend from the table above. Ignored for transliteration in Unicode mode, but still validated.
+
+`smart_truncate(string, max_length=0, word_boundary=False, separator=' ', save_order=False)`
+is also public and retains legacy behavior: `str.strip(separator)` strips a character set, empty separators raise `ValueError`, zero is unlimited, and negative limits retain slicing semantics. Modern slugify uses a separate private token-budget helper; it does not change this public function.
+
+```python
+from slugify import slugify
+
+assert slugify('a&#39;b') == 'ab'  # unchanged default
+assert slugify('a&#39;b', algorithm='modern') == 'a-b'
+assert slugify('xylophone x', separator='x', max_length=100, algorithm='modern') == 'xylophonexx'
 ```
 
-Please note that when a multi-valued option such as `--stopwords` or `--replacements` is passed, you need to use `--` as separator before you start with the input:
+## Recipes and boundaries
 
+```python
+from slugify import slugify, GERMAN
+
+assert slugify('ÜBER', replacements=GERMAN, replacement_stage='pre') == 'ueber'
+assert slugify('a', replacements=[('a', 'aa')]) == 'aaaa'  # legacy two passes
+assert slugify('a', replacements=[('a', 'aa')], replacement_stage='pre') == 'aa'
+assert slugify('one two three four', max_length=12, word_boundary=True) == 'one-two-four'
+assert slugify('one two three four', max_length=12, word_boundary=True, save_order=True) == 'one-two'
+assert slugify('a b c', separator='---', max_length=5, algorithm='modern') == 'a---b'
+assert slugify('Baby’s shoes', replacements=[('’', '-')], replacement_stage='pre') == 'baby-s-shoes'
 ```
-$ slugify --stopwords the in a hurry -- the quick brown fox jumps over the lazy dog in a hurry
-quick-brown-fox-jumps-over-lazy-dog
+
+`CYRILLIC`, `GERMAN`, `GREEK`, and their combined `PRE_TRANSLATIONS` are optional substitution lists,
+not automatically applied locale rules. `allow_unicode=True` can normalize compatibility jamo, and does not preserve emoji by default.
+Disable all three entity flags if encoded markup should not be decoded.
+Empty input, whitespace, or entirely filtered content can yield an empty string; callers choose an appropriate fallback.
+
+Slugs are not guaranteed unique, filesystem-safe on every OS, XML-name-safe, or safe as an entire URL.
+Choose escaping, reserved-name handling, path validation, and transactional uniqueness for your destination.
+Custom regexes and post replacements can intentionally introduce punctuation; do not treat this package as a security sanitizer.
+
+## Command line
+
+`slugify --help` and `python -m slugify --help` describe all options, including `--algorithm` (default `legacy`), `--backend` and `--replacement-stage`.
+Use `--` before text when supplying multi-valued options:
+
+```sh
+slugify --stopwords the in a hurry -- the quick brown fox jumps over the lazy dog in a hurry
+slugify --replacement-stage pre --replacements 'a->aa' -- a
 ```
 
-# Running the tests
+## Development and local release checks
 
-To run the tests against the current environment:
+```sh
+python -m pip install -r dev.requirements.txt
+python -m pip install -e '.[unidecode,anyascii]'
+python -m pytest
+python -m mypy
+python tools/check_dist.py
+# Full declared interpreter/backend matrix (requires those interpreters):
+tox
+```
 
-    python test.py
+The artifact check builds and installs both wheel and source archive in temporary environments outside the checkout.
+It never uploads or tags. Publishing requires a separate maintainer decision; there is no `setup.py publish` shortcut.
+See [migration and release notes](docs/release-9/migration.md), [review and draft replies](docs/release-9/recent-review.md),
+and the [historical review](docs/release-9/historical-review.md). Please consult the
+[contribution wiki](https://github.com/un33k/python-slugify/wiki/Python-Slugify-Wiki) before proposing changes.
 
-# Contribution
+## Licensing
 
-Please read the ([wiki](https://github.com/un33k/python-slugify/wiki/Python-Slugify-Wiki)) page prior to raising any PRs.
+python-slugify's own code is [MIT licensed](LICENSE). Dependency licenses are separate:
 
-# License
+- [text-unidecode](https://github.com/kmike/text-unidecode): upstream offers the Artistic License or GPL; review the license files for the version you distribute.
+- [Unidecode](https://github.com/avian2/unidecode): GPL-licensed; review its upstream license text and version.
+- [AnyASCII](https://github.com/anyascii/anyascii): ISC-licensed; review its upstream license text and any bundled notices.
 
-Released under a ([MIT](LICENSE)) license.
+The installed package set and the backend used at runtime are different questions. Selecting AnyASCII does not remove
+text-unidecode from a normal installation. This is factual dependency guidance, not legal advice or a blanket assurance
+about your application's obligations. Evaluate the actual versions, distribution method, and applicable license terms.
 
-### Notes on GPL dependencies
-Though the dependencies may be GPL licensed, `python-slugify` itself is not considered a derivative work and will remain under the MIT license.  
-If you wish to avoid installation of any GPL licensed packages, please note that the default dependency `text-unidecode` explicitly lets you choose to use the [Artistic License](https://opensource.org/license/artistic-perl-1-0-2/) instead. Use without concern.
+## Sponsors
 
-# Version
-
-X.Y.Z Version
-
-    `MAJOR` version -- when you make incompatible API changes,
-    `MINOR` version -- when you add functionality in a backwards-compatible manner, and
-    `PATCH` version -- when you make backwards-compatible bug fixes.
-
-[status-image]: https://github.com/un33k/python-slugify/actions/workflows/main.yml/badge.svg
-[status-link]: https://github.com/un33k/python-slugify/actions/workflows/ci.yml
-[version-image]: https://img.shields.io/pypi/v/python-slugify.svg
-[version-link]: https://pypi.python.org/pypi/python-slugify
-[coverage-image]: https://coveralls.io/repos/un33k/python-slugify/badge.svg
-[coverage-link]: https://coveralls.io/r/un33k/python-slugify
-[download-image]: https://img.shields.io/pypi/dm/python-slugify.svg
-[download-link]: https://pypi.python.org/pypi/python-slugify
-
-# Sponsors
-
-[Neekware Inc.](http://neekware.com)
+[Neekware Inc.](https://neekware.com)

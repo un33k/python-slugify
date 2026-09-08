@@ -41,6 +41,13 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--allow-unicode", action='store_true', default=False,
                         help="Allow unicode characters")
 
+    parser.add_argument('--algorithm', choices=('legacy', 'modern'), default=argparse.SUPPRESS,
+                        help='Slug algorithm (legacy default; modern explicitly opts into changed output)')
+    parser.add_argument('--backend', choices=('auto', 'text-unidecode', 'unidecode', 'anyascii'),
+                        default=argparse.SUPPRESS, help='Transliteration backend (auto preserves legacy preference)')
+    parser.add_argument('--replacement-stage', choices=('both', 'pre', 'post'), default=argparse.SUPPRESS,
+                        help='Apply replacement rules before, after, or both sides of cleanup')
+
     args = parser.parse_args(argv[1:])
 
     if args.input_string and args.stdin:
@@ -66,7 +73,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 
 def slugify_params(args: argparse.Namespace) -> dict[str, Any]:
-    return dict(
+    params = dict(
         text=args.input_string,
         entities=args.entities,
         decimal=args.decimal,
@@ -80,6 +87,13 @@ def slugify_params(args: argparse.Namespace) -> dict[str, Any]:
         replacements=args.replacements,
         allow_unicode=args.allow_unicode
     )
+    # Preserve historical parameter shape; omitted options use the API defaults.
+    for option in ('algorithm', 'backend', 'replacement_stage'):
+        if hasattr(args, option):
+            params[option] = getattr(args, option)
+    if args.regex_pattern is not None:
+        params['regex_pattern'] = args.regex_pattern
+    return params
 
 
 def main(argv: list[str] | None = None) -> None:
