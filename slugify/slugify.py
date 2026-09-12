@@ -119,6 +119,9 @@ def _modern_truncate(text: str, max_length: int, word_boundary: bool, separator:
     """
     if max_length <= 0:
         return text.replace(DEFAULT_SEPARATOR, separator)
+    output_length = len(text) + text.count(DEFAULT_SEPARATOR) * (len(separator) - 1)
+    if output_length <= max_length:
+        return text.replace(DEFAULT_SEPARATOR, separator)
     tokens = text.split(DEFAULT_SEPARATOR)
     if word_boundary:
         words: list[str] = []
