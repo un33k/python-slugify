@@ -83,7 +83,7 @@ slugify(
 
 - `algorithm`: `'legacy'` is the permanent default, preserving the historical output pipeline. `'modern'` explicitly opts into the changes below. Unknown values raise `ValueError`.
 - `text`: `str`, or UTF-8 `bytes`/`bytearray` (invalid bytes ignored). Other objects raise `TypeError`.
-- `entities`, `decimal`, `hexadecimal`: independently decode named HTML entities, decimal references, and lowercase-`x` hexadecimal references. Legacy decodes after transliteration and numeric substitutions are all-or-nothing per reference kind. Modern decodes before transliteration and handles invalid references independently.
+- `entities`, `decimal`, `hexadecimal`: independently decode named HTML entities, decimal references, and hexadecimal references. Legacy accepts lowercase `x`; modern accepts both `x` and `X` as specified by HTML. Legacy decodes after transliteration and numeric substitutions are all-or-nothing per reference kind. Modern decodes before transliteration and handles invalid references independently.
 - `max_length`: legacy budgets internal dashes before separator mapping, so wide separators can exceed the limit. Modern budgets final Python characters, including emitted delimiters. Nonpositive means unlimited for slugify; this is not a byte or grapheme limit.
 - `word_boundary`: prefer whole words; shorter later words can fill the budget. If none fit, use a hard cut.
 - `save_order`: with word boundaries, stop at the first oversized word instead of skipping it.
