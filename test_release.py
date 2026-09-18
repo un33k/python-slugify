@@ -40,6 +40,19 @@ class ReleaseRegressionTests(unittest.TestCase):
         self.assertEqual(slugify('xy xy', separator='xy', max_length=5), 'xyxyx')
         self.assertEqual(slugify('a b c', separator='::', max_length=3), 'a')
 
+    def test_modern_fitting_post_replacements_preserve_delimiters(self):
+        for replacement in ('one--two', '-one-two-', 'one---two'):
+            for separator in ('-', '::', ''):
+                expected = replacement.replace('-', separator)
+                for boundary, order, limit in itertools.product(
+                        (False, True), (False, True), (len(expected), len(expected) + 10)):
+                    with self.subTest(replacement=replacement, separator=separator,
+                                      boundary=boundary, order=order, limit=limit):
+                        self.assertEqual(slugify('x', replacements=[('x', replacement)],
+                                                 replacement_stage='post', allow_unicode=True,
+                                                 separator=separator, max_length=limit,
+                                                 word_boundary=boundary, save_order=order), expected)
+
     def test_cli_preserves_legacy_default_shape(self):
         expected = dict(text='', entities=True, decimal=True, hexadecimal=True,
                         max_length=0, word_boundary=False, save_order=False, separator='-',
