@@ -1,4 +1,4 @@
-## 9.1.0 — unreleased
+## 9.1.0
 
 - Modern mode only: decode uppercase `&#X..;` hexadecimal references as HTML allows, in addition to lowercase `&#x..;`. Legacy output is unchanged (Rupayon Haldar, #195).
 - Modern mode only: preserve post-replacement output when the whole slug already fits `max_length`, so intentional repeated/trailing delimiters are not collapsed at the length limit. Public `smart_truncate` is unchanged (emme1t, #193).
