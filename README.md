@@ -82,6 +82,9 @@ slugify(
 ```
 
 - `algorithm`: `'legacy'` is the permanent default, preserving the historical output pipeline. `'modern'` explicitly opts into the changes below. Unknown values raise `ValueError`.
+
+  > **Note for contributors:** the legacy algorithm is frozen. Its behavior and output are intentionally kept as-is for backward compatibility, and we do **not** accept changes that alter legacy output — please do not open PRs to "fix" or "improve" legacy. All improvements target `algorithm='modern'`.
+
 - `text`: `str`, or UTF-8 `bytes`/`bytearray` (invalid bytes ignored). Other objects raise `TypeError`.
 - `entities`, `decimal`, `hexadecimal`: independently decode named HTML entities, decimal references, and hexadecimal references. Legacy accepts lowercase `x`; modern accepts both `x` and `X` as specified by HTML. Legacy decodes after transliteration and numeric substitutions are all-or-nothing per reference kind. Modern decodes before transliteration and handles invalid references independently.
 - `max_length`: legacy budgets internal dashes before separator mapping, so wide separators can exceed the limit. Modern budgets final Python characters, including emitted delimiters. Nonpositive means unlimited for slugify; this is not a byte or grapheme limit.
@@ -173,3 +176,5 @@ about your application's obligations. Evaluate the actual versions, distribution
 ## Sponsors
 
 [Neekware Inc.](https://neekware.com) — creator of [Dojo Workspace](https://heydojo.ai), your AI workspace for building, learning, and getting things done.
+
+🚀 Created with [Dojo](https://heydojo.ai) ⛩️
