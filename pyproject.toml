@@ -84,7 +84,7 @@ sqlite_cache = true
 # ------
 
 [tool.pytest.ini_options]
-testpaths = ["test.py", "test_release.py"]
+testpaths = ["tests"]
 addopts = "--color=yes"
 filterwarnings = [
     "error",

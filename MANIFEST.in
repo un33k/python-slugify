@@ -1,5 +1,6 @@
 include LICENSE README.md CHANGELOG.md
-include test.py test_release.py tox.ini dev.requirements.txt
+include tox.ini dev.requirements.txt
+recursive-include tests *.py
 recursive-include docs *.md
 recursive-include tools *.py
 recursive-include slugify *.py py.typed

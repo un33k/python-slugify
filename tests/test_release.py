@@ -104,7 +104,7 @@ class ReleaseRegressionTests(unittest.TestCase):
                     self.assertEqual(slugify(text, allow_unicode=unicode), '')
 
     def test_readme_examples(self):
-        readme = Path(__file__).with_name('README.md').read_text(encoding='utf-8')
+        readme = (Path(__file__).resolve().parent.parent / 'README.md').read_text(encoding='utf-8')
         for block in re.findall(r'```python\n(.*?)```', readme, flags=re.DOTALL):
             if block.startswith('slugify('):
                 continue  # This block documents the signature, not an invocation.
@@ -308,3 +308,24 @@ class UppercaseHexReferenceTests(unittest.TestCase):
         output = subprocess.check_output(
             [sys.executable, '-m', 'slugify', '--algorithm', 'modern', '&#X41;'], text=True)
         self.assertEqual(output, 'a\n')
+
+
+class ModernArgumentValidationTests(unittest.TestCase):
+    def test_modern_rejects_bool_and_non_int_max_length(self):
+        with self.assertRaises(TypeError):
+            slugify('Hello World', max_length=True)
+        with self.assertRaises(TypeError):
+            slugify('Hello World', max_length=1.5)
+
+    def test_modern_rejects_non_str_separator(self):
+        with self.assertRaises(TypeError):
+            slugify('Hello World', separator=None)
+
+    def test_modern_accepts_valid_int_max_length(self):
+        self.assertEqual(slugify('Hello World', max_length=5), 'hello')
+
+    def test_legacy_argument_behavior_is_frozen(self):
+        # Legacy must not gain the modern validation: bool max_length is an int
+        # subclass and historically truncates to one character.
+        self.assertEqual(public_slugify('Hello World', max_length=True), 'h')
+        self.assertEqual(public_slugify('Hello World', algorithm='legacy', max_length=True), 'h')
