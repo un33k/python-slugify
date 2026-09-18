@@ -7,12 +7,13 @@ from html.entities import name2codepoint
 from importlib import import_module
 from typing import Literal
 
+from ._legacy import slugify as _legacy_slugify, smart_truncate
+
 __all__ = ['slugify', 'smart_truncate', 'Backend', 'ReplacementStage', 'Algorithm']
 
 
 CHAR_ENTITY_PATTERN = re.compile(r'&(%s);' % '|'.join(name2codepoint))
 DECIMAL_PATTERN = re.compile(r'&#(\d+);')
-HEX_PATTERN = re.compile(r'&#x([\da-fA-F]+);')
 MODERN_HEX_PATTERN = re.compile(r'&#[xX]([\da-fA-F]+);')
 QUOTE_PATTERN = re.compile(r"[']+")
 DISALLOWED_CHARS_PATTERN = re.compile(r'[^-a-zA-Z0-9]+')
@@ -37,26 +38,13 @@ def _numeric_reference(match: re.Match[str], base: int) -> str:
         return match.group(0)
 
 
-def _decode_entities(text: str, entities: bool, decimal: bool, hexadecimal: bool, algorithm: Algorithm) -> str:
+def _decode_entities(text: str, entities: bool, decimal: bool, hexadecimal: bool) -> str:
     if entities:
         text = CHAR_ENTITY_PATTERN.sub(lambda m: chr(name2codepoint[m.group(1)]), text)
     if decimal:
-        if algorithm == 'modern':
-            text = DECIMAL_PATTERN.sub(lambda m: _numeric_reference(m, 10), text)
-        else:
-            # Legacy substitution is all-or-nothing for each numeric reference kind.
-            try:
-                text = DECIMAL_PATTERN.sub(lambda m: chr(int(m.group(1))), text)
-            except (ValueError, OverflowError):
-                pass
+        text = DECIMAL_PATTERN.sub(lambda m: _numeric_reference(m, 10), text)
     if hexadecimal:
-        if algorithm == 'modern':
-            text = MODERN_HEX_PATTERN.sub(lambda m: _numeric_reference(m, 16), text)
-        else:
-            try:
-                text = HEX_PATTERN.sub(lambda m: chr(int(m.group(1), 16)), text)
-            except (ValueError, OverflowError):
-                pass
+        text = MODERN_HEX_PATTERN.sub(lambda m: _numeric_reference(m, 16), text)
     return text
 
 
@@ -73,43 +61,6 @@ def _transliterate(text: str, backend: Backend) -> str:
     # These third-party modules share a string-to-string API; some are untyped.
     result: str = getattr(module, 'anyascii' if backend == 'anyascii' else 'unidecode')(text)
     return result
-
-
-def smart_truncate(
-    string: str,
-    max_length: int = 0,
-    word_boundary: bool = False,
-    separator: str = " ",
-    save_order: bool = False,
-) -> str:
-    """Historical public truncation behavior, including character-set stripping.
-
-    Zero means unlimited; negative limits retain Python slicing semantics.
-    An empty separator raises ValueError, as in the legacy implementation.
-    """
-    string = string.strip(separator)
-    if not max_length:
-        return string
-    if len(string) < max_length:
-        return string
-    if not word_boundary:
-        return string[:max_length].strip(separator)
-    if separator not in string:
-        return string[:max_length]
-    truncated = ''
-    for word in string.split(separator):
-        if word:
-            next_len = len(truncated) + len(word)
-            if next_len < max_length:
-                truncated += '{}{}'.format(word, separator)
-            elif next_len == max_length:
-                truncated += '{}'.format(word)
-                break
-            elif save_order:
-                break
-    if not truncated:
-        truncated = string[:max_length]
-    return truncated.strip(separator)
 
 
 def _modern_truncate(text: str, max_length: int, word_boundary: bool, separator: str, save_order: bool) -> str:
@@ -153,6 +104,69 @@ def _modern_truncate(text: str, max_length: int, word_boundary: bool, separator:
     return ''.join(parts)
 
 
+def _modern_slugify(
+    text: str | bytes | bytearray,
+    entities: bool,
+    decimal: bool,
+    hexadecimal: bool,
+    max_length: int,
+    word_boundary: bool,
+    separator: str,
+    save_order: bool,
+    stopwords: Iterable[str],
+    regex_pattern: re.Pattern[str] | str | None,
+    lowercase: bool,
+    replacements: Iterable[Iterable[str]],
+    allow_unicode: bool,
+    replacement_stage: ReplacementStage,
+    backend: Backend,
+) -> str:
+    # bool is an int subclass: legacy silently treats max_length=True as 1.
+    # Modern rejects it, and a non-str separator, up front.
+    if isinstance(max_length, bool) or not isinstance(max_length, int):
+        raise TypeError(f"max_length must be an int, not {type(max_length).__name__}")
+    if not isinstance(separator, str):
+        raise TypeError(f"separator must be str, not {type(separator).__name__}")
+    if not isinstance(text, str):
+        if not isinstance(text, (bytes, bytearray)):
+            raise TypeError(f'text must be str, bytes or bytearray, not {type(text).__name__}')
+        text = text.decode('utf-8', 'ignore')
+    if replacement_stage not in ('both', 'pre', 'post'):
+        raise ValueError("replacement_stage must be 'both', 'pre' or 'post'")
+    if backend not in ('auto', 'text-unidecode', 'unidecode', 'anyascii'):
+        raise ValueError("backend must be 'auto', 'text-unidecode', 'unidecode' or 'anyascii'")
+
+    # Materialize rules once: consumption of an iterator would affect output.
+    rules = tuple((old, new) for old, new in replacements) if replacements else ()
+    if rules and replacement_stage in ('both', 'pre'):
+        for old, new in rules:
+            text = text.replace(old, new)
+
+    text = _decode_entities(text, entities, decimal, hexadecimal)
+    text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
+    if allow_unicode:
+        text = unicodedata.normalize('NFKC', text)
+    else:
+        text = _transliterate(unicodedata.normalize('NFKD', text), backend)
+    text = unicodedata.normalize('NFKC' if allow_unicode else 'NFKD', text)
+    if lowercase:
+        text = text.lower()
+    text = QUOTE_PATTERN.sub('', text)
+    text = NUMBERS_PATTERN.sub('', text)
+    pattern = regex_pattern or (DISALLOWED_UNICODE_CHARS_PATTERN if allow_unicode else DISALLOWED_CHARS_PATTERN)
+    text = re.sub(pattern, DEFAULT_SEPARATOR, text)
+    text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
+
+    if stopwords:
+        excluded = {word.lower() if lowercase else word for word in stopwords}
+        text = DEFAULT_SEPARATOR.join(word for word in text.split(DEFAULT_SEPARATOR) if word not in excluded)
+    if rules and replacement_stage in ('both', 'post'):
+        for old, new in rules:
+            text = text.replace(old, new)
+
+    return _modern_truncate(text, max_length, word_boundary, separator, save_order)
+
+
 def slugify(
     text: str | bytes | bytearray,
     entities: bool = True,
@@ -174,9 +188,10 @@ def slugify(
 ) -> str:
     """Make a slug with the legacy output pipeline by default, permanently.
 
-    algorithm='modern' opts into early entity decoding, reusable iterator rules,
-    stable stopword membership and a final emitted-character length budget.
-    Legacy limits apply before separator mapping and may exceed max_length.
+    algorithm='legacy' (the default) dispatches to the frozen legacy pipeline in
+    slugify._legacy, which must never change. algorithm='modern' opts into early
+    entity decoding, reusable iterator rules, stable stopword membership, a final
+    emitted-character length budget, and up-front argument type validation.
     Bytes and bytearray are decoded as UTF-8, ignoring invalid bytes.
     replacements are ordered literal rules, before and after cleanup by default;
     replacement_stage selects 'pre', 'post' or 'both'. Post rules are unfiltered.
@@ -187,61 +202,13 @@ def slugify(
     """
     if algorithm not in ('legacy', 'modern'):
         raise ValueError("algorithm must be 'legacy' or 'modern'")
-    # bool is an int subclass: max_length=True previously truncated to 1 char.
-    if isinstance(max_length, bool) or not isinstance(max_length, int):
-        raise TypeError(
-            f"max_length must be an int, not {type(max_length).__name__}"
-        )
-    if not isinstance(separator, str):
-        raise TypeError(
-            f"separator must be str, not {type(separator).__name__}"
-        )
-    if not isinstance(text, str):
-        if not isinstance(text, (bytes, bytearray)):
-            raise TypeError(f'text must be str, bytes or bytearray, not {type(text).__name__}')
-        text = text.decode('utf-8', 'ignore')
-    if replacement_stage not in ('both', 'pre', 'post'):
-        raise ValueError("replacement_stage must be 'both', 'pre' or 'post'")
-    if backend not in ('auto', 'text-unidecode', 'unidecode', 'anyascii'):
-        raise ValueError("backend must be 'auto', 'text-unidecode', 'unidecode' or 'anyascii'")
-
-    # Legacy iterators are deliberately not replayed: consumption affects output.
-    rules = (tuple((old, new) for old, new in replacements)
-             if algorithm == 'modern' and replacements else replacements)
-    if rules and replacement_stage in ('both', 'pre'):
-        for old, new in rules:
-            text = text.replace(old, new)
-
-    if algorithm == 'modern':
-        text = _decode_entities(text, entities, decimal, hexadecimal, algorithm)
-    text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
-    if allow_unicode:
-        text = unicodedata.normalize('NFKC', text)
-    else:
-        text = _transliterate(unicodedata.normalize('NFKD', text), backend)
     if algorithm == 'legacy':
-        text = _decode_entities(text, entities, decimal, hexadecimal, algorithm)
-    text = unicodedata.normalize('NFKC' if allow_unicode else 'NFKD', text)
-    if lowercase:
-        text = text.lower()
-    text = QUOTE_PATTERN.sub('', text)
-    text = NUMBERS_PATTERN.sub('', text)
-    pattern = regex_pattern or (DISALLOWED_UNICODE_CHARS_PATTERN if allow_unicode else DISALLOWED_CHARS_PATTERN)
-    text = re.sub(pattern, DEFAULT_SEPARATOR, text)
-    text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
-
-    if stopwords:
-        if algorithm == 'modern':
-            excluded: Iterable[str] = {word.lower() if lowercase else word for word in stopwords}
-        else:
-            excluded = [word.lower() for word in stopwords] if lowercase else stopwords
-        text = DEFAULT_SEPARATOR.join(word for word in text.split(DEFAULT_SEPARATOR) if word not in excluded)
-    if rules and replacement_stage in ('both', 'post'):
-        for old, new in rules:
-            text = text.replace(old, new)
-
-    if algorithm == 'modern':
-        return _modern_truncate(text, max_length, word_boundary, separator, save_order)
-    if max_length > 0:
-        text = smart_truncate(text, max_length, word_boundary, DEFAULT_SEPARATOR, save_order)
-    return text.replace(DEFAULT_SEPARATOR, separator) if separator != DEFAULT_SEPARATOR else text
+        return _legacy_slugify(
+            text, entities, decimal, hexadecimal, max_length, word_boundary,
+            separator, save_order, stopwords, regex_pattern, lowercase,
+            replacements, allow_unicode,
+            replacement_stage=replacement_stage, backend=backend)
+    return _modern_slugify(
+        text, entities, decimal, hexadecimal, max_length, word_boundary,
+        separator, save_order, stopwords, regex_pattern, lowercase,
+        replacements, allow_unicode, replacement_stage, backend)
