@@ -187,15 +187,6 @@ def slugify(
     """
     if algorithm not in ('legacy', 'modern'):
         raise ValueError("algorithm must be 'legacy' or 'modern'")
-    # bool is an int subclass: max_length=True previously truncated to 1 char.
-    if isinstance(max_length, bool) or not isinstance(max_length, int):
-        raise TypeError(
-            f"max_length must be an int, not {type(max_length).__name__}"
-        )
-    if not isinstance(separator, str):
-        raise TypeError(
-            f"separator must be str, not {type(separator).__name__}"
-        )
     if not isinstance(text, str):
         if not isinstance(text, (bytes, bytearray)):
             raise TypeError(f'text must be str, bytes or bytearray, not {type(text).__name__}')

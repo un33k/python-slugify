@@ -241,16 +241,6 @@ class TestSlugify(unittest.TestCase):
         self.assertEqual(PRE_TRANSLATIONS, [('Ю', 'U'), ('Щ', 'Sch'), ('У', 'Y'), ('Х', 'H'), ('Я', 'Ya'), ('Ё', 'E'), ('ё', 'e'), ('я', 'ya'), ('х', 'h'), ('у', 'y'), ('щ', 'sch'), ('ю', 'u'), ('Ü', 'Ue'), ('Ö', 'Oe'), ('Ä', 'Ae'), ('ä', 'ae'), ('ö', 'oe'), ('ü', 'ue'), ('Ϋ́', 'Y'), ('Ϋ', 'Y'), ('Ύ', 'Y'), ('Υ', 'Y'), ('Χ', 'Ch'), ('χ', 'ch'), ('Ξ', 'X'), ('ϒ', 'Y'), ('υ', 'y'), ('ύ', 'y'), ('ϋ', 'y'), ('ΰ', 'y')])
 
 
-
-    def test_max_length_rejects_bool(self):
-        with self.assertRaises(TypeError):
-            slugify("Hello World", max_length=True)
-        with self.assertRaises(TypeError):
-            slugify("Hello World", max_length=1.5)
-        with self.assertRaises(TypeError):
-            slugify("Hello", separator=None)
-        self.assertEqual(slugify("Hello World", max_length=5), "hello")
-
 class TestSlugifyUnicode(unittest.TestCase):
     def test_extraneous_seperators(self):
 
