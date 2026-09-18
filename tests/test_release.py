@@ -329,3 +329,40 @@ class ModernArgumentValidationTests(unittest.TestCase):
         # subclass and historically truncates to one character.
         self.assertEqual(public_slugify('Hello World', max_length=True), 'h')
         self.assertEqual(public_slugify('Hello World', algorithm='legacy', max_length=True), 'h')
+
+
+class SplitCoverageTests(unittest.TestCase):
+    """Exercise reachable branches in both split modules via the public API.
+
+    These assert existing behavior only; they do not change legacy output.
+    """
+
+    def test_legacy_bytes_and_bytearray_input(self):
+        self.assertEqual(public_slugify(b'Hello World'), 'hello-world')
+        self.assertEqual(public_slugify(bytearray(b'Caf\xc3\xa9')), 'cafe')
+
+    def test_legacy_rejects_invalid_replacement_stage_and_backend(self):
+        with self.assertRaises(ValueError):
+            public_slugify('x', replacement_stage='nope')  # type: ignore[arg-type]
+        with self.assertRaises(ValueError):
+            public_slugify('x', backend='nope')  # type: ignore[arg-type]
+
+    def test_legacy_word_boundary_hard_cut_without_separator(self):
+        # No separator present forces the string[:max_length] branch.
+        self.assertEqual(public_slugify('abcdef', max_length=3, word_boundary=True), 'abc')
+
+    def test_legacy_auto_backend_matches_default(self):
+        self.assertEqual(public_slugify('影師嗎', backend='auto'),
+                         public_slugify('影師嗎'))
+
+    def test_modern_auto_backend_and_truncation_branches(self):
+        self.assertEqual(slugify('影師嗎', backend='auto'), 'ying-shi-ma')
+        # Hard-cut branch: a single long token trimmed below its length.
+        self.assertEqual(slugify('abcdef', max_length=3), 'abc')
+        # Empty leading token path with an explicit separator.
+        self.assertEqual(slugify('a b', separator='_', max_length=3), 'a_b')
+
+    def test_modern_word_boundary_empty_token(self):
+        # word_boundary truncation over tokens that include an empty segment.
+        self.assertEqual(
+            slugify('a--b c', word_boundary=True, max_length=3), 'a-b')

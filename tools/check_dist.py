@@ -21,7 +21,7 @@ def run(*args, cwd=ROOT):
 def check_metadata(raw):
     metadata = email.message_from_bytes(raw)
     assert metadata['Name'] == 'python-slugify'
-    assert metadata['Version'] == '9.0.0'
+    assert metadata['Version'] == '9.1.0'
     assert metadata['Requires-Python'] == '>=3.10'
     assert metadata['License-Expression'] == 'MIT'
     assert set(metadata.get_all('Provides-Extra')) == {'unidecode', 'anyascii'}
@@ -59,7 +59,8 @@ def main():
             else:
                 with tarfile.open(artifact) as archive:
                     names = archive.getnames()
-                    for required in ('LICENSE', 'test.py', 'test_release.py', 'pyproject.toml', 'slugify/py.typed',
+                    for required in ('LICENSE', 'tests/test_legacy.py', 'tests/test_release.py',
+                                     'pyproject.toml', 'slugify/py.typed',
                                      'docs/release-9/migration.md', 'tools/check_dist.py',
                                      'tools/check_algorithms.py', 'tools/legacy_reference.py'):
                         assert any(name.endswith('/' + required) for name in names), required
@@ -76,7 +77,7 @@ def main():
             run(python, '-m', 'pip', 'install', '--disable-pip-version-check', artifact, cwd=scratch)
             run(python, '-m', 'pip', 'check', cwd=scratch)
             run(python, '-c', "import slugify; from importlib.metadata import version; "
-                "assert version('python-slugify') == slugify.__version__ == '9.0.0'; "
+                "assert version('python-slugify') == slugify.__version__ == '9.1.0'; "
                 "assert slugify.slugify('影師嗎', backend='text-unidecode') == 'ying-shi-ma'; "
                 "print(slugify.__file__)", cwd=scratch)
             # Execute copied API checks outside the checkout, importing only installed code.
