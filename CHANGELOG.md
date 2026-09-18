@@ -1,3 +1,10 @@
+## 9.1.0 — unreleased
+
+- Modern mode only: decode uppercase `&#X..;` hexadecimal references as HTML allows, in addition to lowercase `&#x..;`. Legacy output is unchanged (Rupayon Haldar, #195).
+- Modern mode only: preserve post-replacement output when the whole slug already fits `max_length`, so intentional repeated/trailing delimiters are not collapsed at the length limit. Public `smart_truncate` is unchanged (emme1t, #193).
+- Fix `add_uppercase_char` to apply insertions atomically, leaving the input list unchanged if iteration fails. Built-in transliteration tables are unaffected (Cristian Ramirez, #194).
+- Modern mode only: validate argument types up front, raising `TypeError` for a `bool`/non-int `max_length` (`bool` is an `int` subclass) or a non-str `separator`. Legacy behavior is unchanged and still treats `max_length=True` as its historical single-character truncation (Jon Bailey, #196).
+
 ## 9.0.0 — unreleased
 
 - Add keyword-only `algorithm='legacy'` (permanent default) and explicit `algorithm='modern'` opt-in, plus CLI `--algorithm`. Preserve historical default entity ordering, numeric handling, iterator consumption, separator truncation, and public `smart_truncate` behavior.
