@@ -271,3 +271,27 @@ class ReleaseRegressionTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class UppercaseHexReferenceTests(unittest.TestCase):
+    def test_modern_accepts_both_hexadecimal_prefixes(self):
+        for prefix in ('x', 'X'):
+            with self.subTest(prefix=prefix):
+                self.assertEqual(slugify(f'&#{prefix}41; &#{prefix}e9;', allow_unicode=True), 'a-é')
+                self.assertEqual(slugify(f'&#{prefix}41;', lowercase=False), 'A')
+
+    def test_hexadecimal_opt_out_preserves_reference_filtering(self):
+        self.assertEqual(slugify('&#X41;', hexadecimal=False), 'x41')
+
+    def test_legacy_uppercase_reference_output_is_unchanged(self):
+        self.assertEqual(public_slugify('&#X41;'), 'x41')
+        self.assertEqual(public_slugify('&#X41;', algorithm='legacy'), 'x41')
+
+    def test_invalid_uppercase_reference_does_not_block_valid_neighbor(self):
+        self.assertEqual(slugify('&#X110000; &#X41;'), 'x110000-a')
+        self.assertEqual(slugify('&#XD800; &#X41;'), 'xd800-a')
+
+    def test_uppercase_reference_through_cli(self):
+        output = subprocess.check_output(
+            [sys.executable, '-m', 'slugify', '--algorithm', 'modern', '&#X41;'], text=True)
+        self.assertEqual(output, 'a\n')

@@ -13,6 +13,7 @@ __all__ = ['slugify', 'smart_truncate', 'Backend', 'ReplacementStage', 'Algorith
 CHAR_ENTITY_PATTERN = re.compile(r'&(%s);' % '|'.join(name2codepoint))
 DECIMAL_PATTERN = re.compile(r'&#(\d+);')
 HEX_PATTERN = re.compile(r'&#x([\da-fA-F]+);')
+MODERN_HEX_PATTERN = re.compile(r'&#[xX]([\da-fA-F]+);')
 QUOTE_PATTERN = re.compile(r"[']+")
 DISALLOWED_CHARS_PATTERN = re.compile(r'[^-a-zA-Z0-9]+')
 DISALLOWED_UNICODE_CHARS_PATTERN = re.compile(r'[\W_]+')
@@ -50,7 +51,7 @@ def _decode_entities(text: str, entities: bool, decimal: bool, hexadecimal: bool
                 pass
     if hexadecimal:
         if algorithm == 'modern':
-            text = HEX_PATTERN.sub(lambda m: _numeric_reference(m, 16), text)
+            text = MODERN_HEX_PATTERN.sub(lambda m: _numeric_reference(m, 16), text)
         else:
             try:
                 text = HEX_PATTERN.sub(lambda m: chr(int(m.group(1), 16)), text)
