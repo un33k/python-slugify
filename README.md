@@ -20,9 +20,14 @@ python -m pip install --upgrade python-slugify
 ```python
 from slugify import slugify
 
+# Use the modern algorithm for the latest rules.
+assert slugify("C'est déjà l'été.", algorithm='modern') == 'c-est-deja-l-ete'
+assert slugify('影師嗎', backend='text-unidecode', algorithm='modern') == 'ying-shi-ma'
+assert slugify('影師嗎', allow_unicode=True, algorithm='modern') == '影師嗎'
+
+# Calling slugify() without algorithm uses the legacy pipeline (the old default),
+# kept unchanged for backward compatibility.
 assert slugify("C'est déjà l'été.") == 'c-est-deja-l-ete'
-assert slugify('影師嗎', backend='text-unidecode') == 'ying-shi-ma'
-assert slugify('影師嗎', allow_unicode=True) == '影師嗎'
 ```
 
 ```sh
