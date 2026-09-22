@@ -1,3 +1,7 @@
+## 9.1.1
+
+- Modern mode only: avoid emitting a trailing separator when a hard cut truncates through repeated post-replacement delimiters, keeping the delimiter run with the next word that fits. Legacy output and public `smart_truncate` are unchanged (曾楚笑, #200).
+
 ## 9.1.0
 
 - Modern mode only: decode uppercase `&#X..;` hexadecimal references as HTML allows, in addition to lowercase `&#x..;`. Legacy output is unchanged (Rupayon Haldar, #195).

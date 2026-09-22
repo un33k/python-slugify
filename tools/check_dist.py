@@ -21,7 +21,7 @@ def run(*args, cwd=ROOT):
 def check_metadata(raw):
     metadata = email.message_from_bytes(raw)
     assert metadata['Name'] == 'python-slugify'
-    assert metadata['Version'] == '9.1.0'
+    assert metadata['Version'] == '9.1.1'
     assert metadata['Requires-Python'] == '>=3.10'
     assert metadata['License-Expression'] == 'MIT'
     assert set(metadata.get_all('Provides-Extra')) == {'unidecode', 'anyascii'}
@@ -77,7 +77,7 @@ def main():
             run(python, '-m', 'pip', 'install', '--disable-pip-version-check', artifact, cwd=scratch)
             run(python, '-m', 'pip', 'check', cwd=scratch)
             run(python, '-c', "import slugify; from importlib.metadata import version; "
-                "assert version('python-slugify') == slugify.__version__ == '9.1.0'; "
+                "assert version('python-slugify') == slugify.__version__ == '9.1.1'; "
                 "assert slugify.slugify('影師嗎', backend='text-unidecode') == 'ying-shi-ma'; "
                 "print(slugify.__file__)", cwd=scratch)
             # Execute copied API checks outside the checkout, importing only installed code.
