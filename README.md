@@ -7,8 +7,8 @@ Unicode-aware slug generation for Python, with explicit transliteration choices.
 
 ## Quickstart
 
-**The latest 9.x release is available on [PyPI](https://pypi.org/project/python-slugify/).**
-Legacy behavior remains the default; improved rules require `algorithm='modern'`.
+**[9+ releases](https://github.com/un33k/python-slugify/releases) ship the modern algorithm.**
+Legacy behavior remains the default; use `algorithm='modern'` for the latest rules.
 See the [migration guide](docs/release-9/migration.md) before changing persisted URLs or keys.
 
 Install **python-slugify**, import **slugify**. Other similarly named distributions are not this package.
@@ -34,7 +34,7 @@ slugify --regex-pattern '[^-a-z0-9_]+' '___This is a test___'
 # ___this-is-a-test___
 ```
 
-The examples above work with the published 9.x release. Python 3.10 or newer is required.
+The examples above work with 9+ releases. Python 3.10 or newer is required.
 
 ## Python support
 
