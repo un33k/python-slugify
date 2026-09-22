@@ -4,7 +4,7 @@ Unicode-aware slug generation for Python, with explicit transliteration choices.
 
 [![CI](https://github.com/un33k/python-slugify/actions/workflows/main.yml/badge.svg)](https://github.com/un33k/python-slugify/actions/workflows/main.yml)
 [![PyPI](https://img.shields.io/pypi/v/python-slugify.svg)](https://pypi.org/project/python-slugify/)
-[![Built with Dojo](https://img.shields.io/badge/built%20with-Dojo%20%E2%9B%A9%EF%B8%8F-e11d48)](https://heydojo.ai)
+[![Built with Dojo](https://img.shields.io/badge/built%20with-Dojo%20%E2%9B%A9%EF%B8%8F-1f2937)](https://heydojo.ai)
 
 ## Quickstart
 
