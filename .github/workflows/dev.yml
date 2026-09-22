@@ -40,10 +40,10 @@ jobs:
       - name: Run pycodestyle
         run: |
           pip install pycodestyle --upgrade
-          pycodestyle --ignore=E128,E261,E225,E501,W605 slugify test.py setup.py
+          pycodestyle --ignore=E128,E261,E225,E501,W605 slugify tests setup.py
       - name: Run test
         run: |
-          coverage run --source=slugify -m pytest test.py test_release.py
+          coverage run --source=slugify -m pytest tests
       - name: Coveralls
         run: coveralls --service=github
         env:
