@@ -92,13 +92,18 @@ def _modern_truncate(text: str, max_length: int, word_boundary: bool, separator:
     # A hard cut may shorten a word but must not emit a partial/trailing delimiter.
     parts: list[str] = []
     length = 0
+    previous_index = 0
     for index, word in enumerate(tokens):
-        delimiter = separator if index else ''
+        if not word:
+            continue
+        # Keep repeated delimiters with the next nonempty word until it fits.
+        delimiter = separator * (index - previous_index)
         remaining = max_length - length - len(delimiter)
         if remaining <= 0:
             break
         parts.append(delimiter + word[:remaining])
         length += len(delimiter) + min(len(word), remaining)
+        previous_index = index
         if len(word) > remaining:
             break
     return ''.join(parts)

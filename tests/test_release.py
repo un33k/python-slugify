@@ -53,6 +53,32 @@ class ReleaseRegressionTests(unittest.TestCase):
                                                  separator=separator, max_length=limit,
                                                  word_boundary=boundary, save_order=order), expected)
 
+    def test_modern_hard_cut_does_not_end_in_post_replacement_delimiters(self):
+        cases = (
+            ('one--two', '-', 4, 'one'),
+            ('one--two', '-', 5, 'one'),
+            ('one--two', '-', 6, 'one--t'),
+            ('one--two', '::', 6, 'one'),
+            ('one--two', '::', 7, 'one'),
+            ('one--two', '::', 8, 'one::::t'),
+            ('--one', '-', 2, ''),
+            ('--one', '-', 3, '--o'),
+            ('---', '-', 2, ''),
+            ('x--two', 'x', 3, 'x'),
+            ('one--two', '', 4, 'onet'),
+        )
+        for replacement, separator, limit, expected in cases:
+            with self.subTest(replacement=replacement, separator=separator, limit=limit):
+                self.assertEqual(slugify('value', replacements=[('value', replacement)],
+                                         replacement_stage='post', allow_unicode=True,
+                                         separator=separator, max_length=limit), expected)
+
+    def test_modern_word_boundary_hard_cut_keeps_delimiters_with_the_next_word(self):
+        for order in (False, True):
+            self.assertEqual(slugify('value', replacements=[('value', '--longword')],
+                                     replacement_stage='post', allow_unicode=True,
+                                     max_length=2, word_boundary=True, save_order=order), '')
+
     def test_cli_preserves_legacy_default_shape(self):
         expected = dict(text='', entities=True, decimal=True, hexadecimal=True,
                         max_length=0, word_boundary=False, save_order=False, separator='-',
