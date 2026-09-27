@@ -241,19 +241,26 @@ class ReleaseRegressionTests(unittest.TestCase):
     def test_backend_selection_and_no_fallback_on_broken_install(self):
         with patch.object(core, 'import_module') as load:
             load.return_value.unidecode.return_value = 'chosen'
-            self.assertEqual(slugify('x'), 'chosen')
+            self.assertEqual(slugify('é'), 'chosen')
             load.assert_called_once_with('unidecode')
         with patch.object(core, 'import_module', side_effect=ModuleNotFoundError(name='dependency')):
             with self.assertRaises(ModuleNotFoundError) as error:
-                slugify('x')
+                slugify('é')
             self.assertEqual(error.exception.name, 'dependency')
         with patch.object(core, 'import_module', side_effect=ModuleNotFoundError(name='anyascii')):
             with self.assertRaises(ModuleNotFoundError):
-                slugify('x', backend='anyascii')
+                slugify('é', backend='anyascii')
         with patch.object(core, 'import_module', side_effect=AssertionError('must not import')):
             self.assertEqual(slugify('影師嗎', allow_unicode=True, backend='anyascii'), '影師嗎')
         with self.assertRaisesRegex(ValueError, 'backend'):
             slugify('x', backend='invalid')
+
+    def test_ascii_input_skips_backend_import(self):
+        legacy = importlib.import_module('slugify._legacy')
+        for module, call in ((core, slugify), (legacy, public_slugify)):
+            with self.subTest(module=module.__name__):
+                with patch.object(module, 'import_module', side_effect=AssertionError('must not import')):
+                    self.assertEqual(call('Living Room &amp; Kitchen 2'), 'living-room-kitchen-2')
 
     def test_auto_falls_back_only_when_unidecode_missing(self):
         original = core.import_module

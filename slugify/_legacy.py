@@ -48,6 +48,9 @@ def _decode_entities(text: str, entities: bool, decimal: bool, hexadecimal: bool
 
 
 def _transliterate(text: str, backend: Backend) -> str:
+    # Non-behavioral: every backend maps 7-bit ASCII to itself, so skip importing one.
+    if text.isascii():
+        return text
     if backend == 'auto':
         try:
             module = import_module('unidecode')
