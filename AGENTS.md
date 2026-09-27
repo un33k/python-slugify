@@ -1,6 +1,11 @@
-# DOJO.md
+# AGENTS.md
 
-The source repository is `python-slugify/`. This is the single, top-level guidance file; there is no per-repo `DOJO.md` inside `python-slugify/`.
+This is the single, top-level agent guidance file for this repository.
+
+## Workflow
+
+- Default upstream branch is `master`. Never commit or push directly to it: all changes land via pull request to `master`, including release/version-bump commits.
+- Publishing, pushing, PR creation/closure, merges and tags require applicable explicit user authorization.
 
 ## Compatibility comes first
 
@@ -27,7 +32,7 @@ The source repository is `python-slugify/`. This is the single, top-level guidan
 - Run the unchanged legacy suite, separate release/differential checks, supported interpreter/backend tox matrix, typing/style checks, and wheel/sdist artifact validation before releases. Record actual platform and dependency coverage; never infer untested results.
 - Use `tools/check_dist.py` for isolated build/artifact checks. Use build/Twine, not a `setup.py publish` shortcut.
 - User prefers plain release versions (for example `9.0.0`), not an unsolicited `.dev0` suffix. A version string is not evidence of publication.
-- Publishing, pushing, PR creation/closure, merges and tags require applicable explicit user authorization. Publishing to PyPI does not authorize a GitHub release or tag.
+- Publishing, pushing, PR creation/closure, merges and tags require applicable explicit user authorization. Publishing to PyPI does not authorize a GitHub release or tag. A user authorization to push a branch is not authorization to merge it.
 - Never put tokens in source, logs, chat or command arguments. Use securely configured credentials only with the authorized official destination. Do not record credential backup paths here.
 - Verify published artifact hashes against validated local builds. After publication, update current README/install/migration guidance; preserve historical verification notes as dated evidence.
 
