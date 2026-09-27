@@ -1,3 +1,7 @@
+## 9.1.2
+
+- Skip the transliteration backend for ASCII-only input under both algorithms, avoiding the ~3 MB text-unidecode table import for the common ASCII case. Output is unchanged, including the frozen legacy differential (Rafael Borja, #201).
+
 ## 9.1.1
 
 - Modern mode only: avoid emitting a trailing separator when a hard cut truncates through repeated post-replacement delimiters, keeping the delimiter run with the next word that fits. Legacy output and public `smart_truncate` are unchanged (曾楚笑, #200).
