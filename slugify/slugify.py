@@ -81,17 +81,24 @@ def _modern_truncate(text: str, max_length: int, word_boundary: bool, separator:
     if word_boundary:
         words: list[str] = []
         length = 0
-        for word in tokens:
+        previous_index = 0
+        first_word = True
+        for index, word in enumerate(tokens):
             if not word:
                 continue
-            next_length = length + len(word) + (len(separator) if words else 0)
+            # Keep the full delimiter run attached to each retained word.
+            # Skipping an oversized first word must not add a leading delimiter.
+            delimiter = separator * (index - previous_index) if words or first_word else ''
+            previous_index = index
+            first_word = False
+            next_length = length + len(delimiter) + len(word)
             if next_length <= max_length:
-                words.append(word)
+                words.append(delimiter + word)
                 length = next_length
             elif save_order:
                 break
         if words:
-            return separator.join(words)
+            return ''.join(words)
     # A hard cut may shorten a word but must not emit a partial/trailing delimiter.
     parts: list[str] = []
     length = 0
