@@ -6,10 +6,12 @@ import pytest
 
 cli = importlib.import_module('slugify.__main__')
 
+
 def test_main_uses_process_arguments_when_omitted(capsys):
     with patch.object(sys, 'argv', ['slugify', 'Hello', 'World']):
         cli.main()
     assert capsys.readouterr().out == 'hello-world\n'
+
 
 def test_keyboard_interrupt_exits_without_traceback(capsys):
     with patch.object(cli, 'slugify', side_effect=KeyboardInterrupt):

@@ -6,9 +6,11 @@ from slugify import slugify
 
 legacy = importlib.import_module('slugify._legacy')
 
+
 def test_legacy_rejects_non_text_input():
     with pytest.raises(TypeError, match='text must be str, bytes or bytearray'):
         slugify(123)
+
 
 def test_auto_propagates_missing_transitive_dependency():
     error = ModuleNotFoundError("No module named 'internal_dependency'", name='internal_dependency')
@@ -16,6 +18,7 @@ def test_auto_propagates_missing_transitive_dependency():
         with pytest.raises(ModuleNotFoundError) as raised:
             slugify('café', backend='auto')
     assert raised.value is error
+
 
 def test_explicit_backend_is_imported_without_fallback():
     class Backend:
