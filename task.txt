@@ -1,0 +1,5 @@
+Add a new public function `is_slug(text, separator='-')` to the slugify package
+(in slugify/slugify.py, exported in slugify/__init__.py and __all__).
+It returns True if the text is already a valid slug, meaning slugify(text,
+separator=separator) == text, and False otherwise. Empty string returns False.
+Add tests for it in the tests folder. Run the full test suite before finishing.

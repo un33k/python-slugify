@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "PreToolCall": [
+      {
+        "matcher": "Edit",
+        "command": "python3 .claude/hooks/block_tests.py"
+      }
+    ]
+  }
+}

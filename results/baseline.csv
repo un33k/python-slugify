@@ -1,0 +1,3 @@
+run,pass,turns,cost_usd,reason
+1,fail,1,0,"FAIL: behaviour: ImportError: cannot import name 'is_slug' from 'slugify' (/Users/apple/slugify-experiment/python-slugify/slugify/__init__.py)"
+1,fail,1,0,"FAIL: behaviour: ImportError: cannot import name 'is_slug' from 'slugify' (/Users/apple/slugify-experiment/python-slugify/slugify/__init__.py)"
