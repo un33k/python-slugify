@@ -1,3 +1,8 @@
+## 9.1.3
+
+- Modern mode only: preserve repeated and leading post-replacement delimiters during word-boundary truncation, instead of collapsing them to a single separator. Legacy output and public `smart_truncate` are unchanged (aarush, #204).
+- Add tests for CLI interruption and legacy backend error contracts. No output change (dyda5505-cloud, #203).
+
 ## 9.1.2
 
 - Skip the transliteration backend for ASCII-only input under both algorithms, avoiding the ~3 MB text-unidecode table import for the common ASCII case. Output is unchanged, including the frozen legacy differential (Rafael Borja, #201).
