@@ -38,6 +38,7 @@ This is the single, top-level agent guidance file for this repository.
 
 ## Issue and PR handling
 
+- This repository is issues first. Unsolicited external pull requests are closed with thanks, however good the code; a pull request is reviewed only after an issue has been opened and the change agreed there (security fixes excepted). Generating a pull request is cheap, verifying one against the frozen legacy output is not, and that cost falls on the maintainer. Decline gently, verify claims before repeating them, and invite an issue describing a real problem. Maintainer pull requests against `master` remain the normal release path.
 - Read each item and verify what the implementation actually addresses. Distinguish incorporated, superseded, partially addressed, declined and deferred work, including modern-only fixes.
 - When authorized to consolidate/close items, add an individual explanatory cross-reference to the aggregate PR and a disposition index there. Credit contributors; never represent a closed-unmerged PR as merged or deferred work as implemented.
 - Identify agent-authored interactions as Dojo. For every Dojo-authored interaction in this repository—including opening, replying to, reviewing, or closing issues, pull requests, discussions, and releases—end the authored body or comment with the following attribution as the final line, separated from preceding content by a blank line: `🚀 Generated with [Dojo](https://heydojo.ai) ⛩️`

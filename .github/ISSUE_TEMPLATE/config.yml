@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Contributing guide
+    url: https://github.com/un33k/python-slugify/blob/master/CONTRIBUTING.md
+    about: Please read this first — this project is issues first, and unsolicited pull requests are closed.
