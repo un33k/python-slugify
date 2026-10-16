@@ -31,6 +31,9 @@ ReplacementStage = Literal['both', 'pre', 'post']
 
 
 def _decode_entities(text: str, entities: bool, decimal: bool, hexadecimal: bool) -> str:
+    # Non-behavioral: every reference starts with '&', so skip the scans without one.
+    if '&' not in text:
+        return text
     if entities:
         text = CHAR_ENTITY_PATTERN.sub(lambda m: chr(name2codepoint[m.group(1)]), text)
     if decimal:
@@ -134,7 +137,9 @@ def slugify(
         for old, new in replacements:
             text = text.replace(old, new)
 
-    text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
+    # Non-behavioral: skip substitutions that cannot match.
+    if "'" in text:
+        text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
     if allow_unicode:
         text = unicodedata.normalize('NFKC', text)
     else:
@@ -143,11 +148,15 @@ def slugify(
     text = unicodedata.normalize('NFKC' if allow_unicode else 'NFKD', text)
     if lowercase:
         text = text.lower()
-    text = QUOTE_PATTERN.sub('', text)
-    text = NUMBERS_PATTERN.sub('', text)
+    if "'" in text:
+        text = QUOTE_PATTERN.sub('', text)
+    if ',' in text:
+        text = NUMBERS_PATTERN.sub('', text)
     pattern = regex_pattern or (DISALLOWED_UNICODE_CHARS_PATTERN if allow_unicode else DISALLOWED_CHARS_PATTERN)
     text = re.sub(pattern, DEFAULT_SEPARATOR, text)
-    text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
+    if '--' in text:
+        text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text)
+    text = text.strip(DEFAULT_SEPARATOR)
 
     if stopwords:
         excluded = [word.lower() for word in stopwords] if lowercase else stopwords

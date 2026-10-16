@@ -39,6 +39,9 @@ def _numeric_reference(match: re.Match[str], base: int) -> str:
 
 
 def _decode_entities(text: str, entities: bool, decimal: bool, hexadecimal: bool) -> str:
+    # Every reference starts with '&', so skip the scans without one.
+    if '&' not in text:
+        return text
     if entities:
         text = CHAR_ENTITY_PATTERN.sub(lambda m: chr(name2codepoint[m.group(1)]), text)
     if decimal:
@@ -158,7 +161,9 @@ def _modern_slugify(
             text = text.replace(old, new)
 
     text = _decode_entities(text, entities, decimal, hexadecimal)
-    text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
+    # Skip substitutions that cannot match.
+    if "'" in text:
+        text = QUOTE_PATTERN.sub(DEFAULT_SEPARATOR, text)
     if allow_unicode:
         text = unicodedata.normalize('NFKC', text)
     else:
@@ -166,11 +171,15 @@ def _modern_slugify(
     text = unicodedata.normalize('NFKC' if allow_unicode else 'NFKD', text)
     if lowercase:
         text = text.lower()
-    text = QUOTE_PATTERN.sub('', text)
-    text = NUMBERS_PATTERN.sub('', text)
+    if "'" in text:
+        text = QUOTE_PATTERN.sub('', text)
+    if ',' in text:
+        text = NUMBERS_PATTERN.sub('', text)
     pattern = regex_pattern or (DISALLOWED_UNICODE_CHARS_PATTERN if allow_unicode else DISALLOWED_CHARS_PATTERN)
     text = re.sub(pattern, DEFAULT_SEPARATOR, text)
-    text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
+    if '--' in text:
+        text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text)
+    text = text.strip(DEFAULT_SEPARATOR)
 
     if stopwords:
         excluded = {word.lower() if lowercase else word for word in stopwords}
