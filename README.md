@@ -179,6 +179,15 @@ The installed package set and the backend used at runtime are different question
 text-unidecode from a normal installation. This is factual dependency guidance, not legal advice or a blanket assurance
 about your application's obligations. Evaluate the actual versions, distribution method, and applicable license terms.
 
+## Bugs and ideas
+
+Open an [issue](https://github.com/un33k/python-slugify/issues) with a concrete
+input and expected result. This project is issues first: we don't review
+unsolicited pull requests, because verifying a change against the frozen legacy
+output is the expensive part and it lands on the maintainer. If an issue is
+accepted, we'll fix it or welcome a pull request for it. See
+[CONTRIBUTING](CONTRIBUTING.md).
+
 ## Sponsors
 
 [Neekware Inc.](https://neekware.com) — creator of [Dojo Workspace](https://heydojo.ai), your AI workspace for building, learning, and getting things done.
