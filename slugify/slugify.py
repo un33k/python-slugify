@@ -86,6 +86,8 @@ def _replace_disallowed_unicode(text: str) -> str:
     is kept only between word parts. Identical to the plain [\\W_]+ filter
     for text without combining marks or joiners.
     """
+    if text.isascii():  # No marks or joiners possible: keep the fast C regex path.
+        return DISALLOWED_UNICODE_CHARS_PATTERN.sub(DEFAULT_SEPARATOR, text)
     chars: list[str] = []
     in_word = False
     last = len(text) - 1
