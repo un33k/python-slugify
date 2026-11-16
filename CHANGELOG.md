@@ -1,4 +1,4 @@
-## Unreleased
+## 9.2.0
 
 - Modern mode only: with `allow_unicode=True`, keep combining marks (Unicode Mn/Mc, e.g. vowel signs, viramas, Arabic harakat, Hebrew niqqud) and in-word ZWNJ/ZWJ as part of words instead of splitting at them, fixing slugs for Hindi, Tamil, Bengali, Sinhala, Thai, Khmer, Myanmar, Arabic, Hebrew and other scripts. Output is unchanged for text without combining marks or joiners. Legacy output is unchanged (Nipuna-Lakruwan, #214).
 
