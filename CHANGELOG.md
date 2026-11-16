@@ -1,3 +1,7 @@
+## Unreleased
+
+- Modern mode only: with `allow_unicode=True`, keep combining marks (Unicode Mn/Mc, e.g. vowel signs, viramas, Arabic harakat, Hebrew niqqud) and in-word ZWNJ/ZWJ as part of words instead of splitting at them, fixing slugs for Hindi, Tamil, Bengali, Sinhala, Thai, Khmer, Myanmar, Arabic, Hebrew and other scripts. Output is unchanged for text without combining marks or joiners. Legacy output is unchanged (Nipuna-Lakruwan, #214).
+
 ## 9.1.3
 
 - Modern mode only: preserve repeated and leading post-replacement delimiters during word-boundary truncation, instead of collapsing them to a single separator. Legacy output and public `smart_truncate` are unchanged (aarush, #204).

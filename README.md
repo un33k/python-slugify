@@ -102,7 +102,7 @@ slugify(
 - `lowercase`: apply `str.lower()`; false preserves case.
 - `replacements`: ordered iterable of `(old, new)` literal string rules. Legacy preserves iterator consumption across passes. Modern materializes outer and inner iterables once so generators behave like lists.
 - `replacement_stage`: `both` preserves two passes; `pre` runs only before normalization; `post` runs after cleanup and stopword removal, before separator mapping and truncation. Post replacements are **not** re-sanitized. Replacements need not be idempotent.
-- `allow_unicode`: retain Unicode word characters after NFKC normalization, not exact original code points; default ASCII mode uses NFKD plus transliteration.
+- `allow_unicode`: retain Unicode word characters after NFKC normalization, not exact original code points; default ASCII mode uses NFKD plus transliteration. Modern mode also keeps combining marks (vowel signs, viramas, harakat, niqqud) and in-word ZWNJ/ZWJ inside words, so `'नमस्ते दुनिया'` becomes `'नमस्ते-दुनिया'`; legacy splits words at those marks.
 - `backend`: select a backend from the table above. Ignored for transliteration in Unicode mode, but still validated.
 
 `smart_truncate(string, max_length=0, word_boundary=False, separator=' ', save_order=False)`
