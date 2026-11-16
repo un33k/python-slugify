@@ -21,6 +21,12 @@ DISALLOWED_UNICODE_CHARS_PATTERN = re.compile(r'[\W_]+')
 DUPLICATE_DASH_PATTERN = re.compile(r'-{2,}')
 NUMBERS_PATTERN = re.compile(r'(?<=\d),(?=\d)')
 DEFAULT_SEPARATOR = '-'
+# Zero-width non-joiner/joiner: spelling-significant inside words in Indic,
+# Sinhala and Persian text (e.g. Sinhala "ශ්‍රී"), invisible noise elsewhere.
+WORD_JOINERS = frozenset('\u200c\u200d')
+# Python's \w excludes nonspacing/spacing combining marks (Mn/Mc), which split
+# Devanagari, Tamil, Bengali, Thai, Arabic, Hebrew, etc. words apart.
+COMBINING_MARK_CATEGORIES = frozenset(('Mn', 'Mc'))
 
 Backend = Literal['auto', 'text-unidecode', 'unidecode', 'anyascii']
 ReplacementStage = Literal['both', 'pre', 'post']
@@ -64,6 +70,40 @@ def _transliterate(text: str, backend: Backend) -> str:
     # These third-party modules share a string-to-string API; some are untyped.
     result: str = getattr(module, 'anyascii' if backend == 'anyascii' else 'unidecode')(text)
     return result
+
+
+def _is_combining_mark(char: str) -> bool:
+    # Variation selectors are Mn but select emoji/glyph styles, not spelling.
+    if '\ufe00' <= char <= '\ufe0f' or '\U000e0100' <= char <= '\U000e01ef':
+        return False
+    return unicodedata.category(char) in COMBINING_MARK_CATEGORIES
+
+
+def _replace_disallowed_unicode(text: str) -> str:
+    """Modern Unicode-mode filter: [\\W_]+ -> '-', but keep words whole.
+
+    A combining mark is a word character when it continues a word; a ZWNJ/ZWJ
+    is kept only between word parts. Identical to the plain [\\W_]+ filter
+    for text without combining marks or joiners.
+    """
+    if text.isascii():  # No marks or joiners possible: keep the fast C regex path.
+        return DISALLOWED_UNICODE_CHARS_PATTERN.sub(DEFAULT_SEPARATOR, text)
+    chars: list[str] = []
+    in_word = False
+    last = len(text) - 1
+    for index, char in enumerate(text):
+        if char.isalnum():  # Same definition as str-pattern \w, minus '_'.
+            in_word = True
+        elif in_word and _is_combining_mark(char):
+            pass
+        elif in_word and char in WORD_JOINERS and index < last and (
+                text[index + 1].isalnum() or _is_combining_mark(text[index + 1])):
+            pass
+        else:
+            in_word = False
+            char = DEFAULT_SEPARATOR
+        chars.append(char)
+    return ''.join(chars)
 
 
 def _modern_truncate(text: str, max_length: int, word_boundary: bool, separator: str, save_order: bool) -> str:
@@ -111,7 +151,8 @@ def _modern_truncate(text: str, max_length: int, word_boundary: bool, separator:
         remaining = max_length - length - len(delimiter)
         if remaining <= 0:
             break
-        parts.append(delimiter + word[:remaining])
+        # A cut must not leave an invisible joiner dangling at the end.
+        parts.append(delimiter + word[:remaining].rstrip(''.join(WORD_JOINERS)))
         length += len(delimiter) + min(len(word), remaining)
         previous_index = index
         if len(word) > remaining:
@@ -168,8 +209,12 @@ def _modern_slugify(
         text = text.lower()
     text = QUOTE_PATTERN.sub('', text)
     text = NUMBERS_PATTERN.sub('', text)
-    pattern = regex_pattern or (DISALLOWED_UNICODE_CHARS_PATTERN if allow_unicode else DISALLOWED_CHARS_PATTERN)
-    text = re.sub(pattern, DEFAULT_SEPARATOR, text)
+    if regex_pattern:
+        text = re.sub(regex_pattern, DEFAULT_SEPARATOR, text)
+    elif allow_unicode:
+        text = _replace_disallowed_unicode(text)
+    else:
+        text = DISALLOWED_CHARS_PATTERN.sub(DEFAULT_SEPARATOR, text)
     text = DUPLICATE_DASH_PATTERN.sub(DEFAULT_SEPARATOR, text).strip(DEFAULT_SEPARATOR)
 
     if stopwords:
